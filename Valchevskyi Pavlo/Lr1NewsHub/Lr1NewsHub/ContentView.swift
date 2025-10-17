@@ -26,18 +26,30 @@ struct ContentView: View {
     let categories = ["All", "Category 1", "Category 2"]
 
     var body: some View {
-        HStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("News Hub")
-                .font(.title)
-                .bold()
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
+        VStack {
+            HStack {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text("News Hub")
+                    .font(.title)
+                    .bold()
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+            }
+            .padding()
+            
+            HStack {
+                Text("Choose category:")
+                Picker("Category", selection: $selectedCategory) {
+                    ForEach(categories, id: \.self) {
+                        category in Text(category)
+                    }
+                }
+                
+            }
         }
-        .padding()
     }
 }
 
