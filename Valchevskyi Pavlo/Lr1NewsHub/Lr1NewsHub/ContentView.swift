@@ -47,7 +47,57 @@ struct ContentView: View {
                         category in Text(category)
                     }
                 }
-                
+            }
+            
+            List {
+                HStack {
+                        Text("Article")
+                            .bold()
+                        Spacer()
+                        Text("Save\noffline")
+                            .multilineTextAlignment(.center)
+                            .bold()
+                    }
+                    ForEach($news) { $article in
+                        if selectedCategory == "All" || article.category == selectedCategory {
+                            ArticleRow(article: $article).padding(2)
+                        }
+                    }
+            }
+
+            Spacer()
+               
+            HStack {
+                Text("(c) News Hub")
+                    .italic()
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+            }
+        }
+    }
+}
+
+struct ArticleRow: View {
+    @Binding var article: Article
+    
+    @State var isExpanded: Bool = false
+    
+    var body: some View {
+        VStack {
+            Toggle(article.title, isOn: $article.isSaveOffline)
+            
+            if isExpanded {
+                Text(article.text)
+                    
+            }
+            
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                Text(isExpanded ? "View less" : "View more")
             }
         }
     }
