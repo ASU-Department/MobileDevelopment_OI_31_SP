@@ -22,6 +22,9 @@ struct ContentView: View {
                     Text(book)
                 }
             }
+            Button("Add sample book") {
+                books.append("Sample book")
+            }
         }
         .padding()
     }
