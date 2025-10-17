@@ -7,8 +7,17 @@
 
 import SwiftUI
 
+struct Book: Hashable, Identifiable {
+    let id = UUID()
+    let title: String
+    var isRead: Bool = false
+}
+
 struct ContentView: View {
-    @State var books: [String] = ["Book 1", "Book 2"]
+    @State var books: [Book] = [
+        Book(title: "book 1"),
+        Book(title: "book 2")
+    ]
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -18,15 +27,24 @@ struct ContentView: View {
                 .bold()
                 .font(.system(size: 36))
             List {
-                ForEach(books, id: \.self) { book in
-                    Text(book)
+                ForEach($books) { $book in
+                    BookRow(book: $book)
                 }
             }
             Button("Add sample book") {
-                books.append("Sample book")
+                books.append(Book(title: "Sample"))
             }
         }
         .padding()
+    }
+}
+
+struct BookRow: View {
+    @Binding var book: Book
+    
+    var body: some View {
+        Toggle(book.title, isOn: $book.isRead)
+        
     }
 }
 
