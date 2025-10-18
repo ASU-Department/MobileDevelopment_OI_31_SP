@@ -25,9 +25,31 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        Text("Hello, world!")
+        // Text field for entering the workout name
+        VStack(alignment: .leading, spacing: 20){
+        TextField("Enter workout name",text:$workoutName)
+            .textFieldStyle(.roundedBorder) // Style the text field
             .padding()
+            
+            // List of display exercise
+            List{
+                ForEach(exrcise){ exrcise in
+                    HStack{
+                        Text(exrcise.name) // Display exercise name
+                        Spacer()
+                        Text("\(exrcise.sets) sets x\(exrcise.reps)")
+                            .font(.subheadline)
+                            .foregroundColor(.green)
+                    }
+                    
+                }
+                
+            }
+            
+        }
     }
+    
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
