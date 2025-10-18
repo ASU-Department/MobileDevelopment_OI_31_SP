@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B19EE5C92E9C33250090F6E3 /* lab1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5C82E9C33250090F6E3 /* lab1App.swift */; };
-		B19EE5CB2E9C33250090F6E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5CA2E9C33250090F6E3 /* ContentView.swift */; };
+		B19EE5CB2E9C33250090F6E3 /* FitTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5CA2E9C33250090F6E3 /* FitTrackerView.swift */; };
 		B19EE5CD2E9C332C0090F6E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */; };
 		B19EE5D02E9C332C0090F6E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */; };
 		B19EE5DA2E9C332D0090F6E3 /* lab1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */; };
@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		B19EE5C52E9C33250090F6E3 /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19EE5C82E9C33250090F6E3 /* lab1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lab1App.swift; sourceTree = "<group>"; };
-		B19EE5CA2E9C33250090F6E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B19EE5CA2E9C33250090F6E3 /* FitTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitTrackerView.swift; sourceTree = "<group>"; };
 		B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B19EE5D52E9C332D0090F6E3 /* lab1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lab1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				B19EE5C82E9C33250090F6E3 /* lab1App.swift */,
-				B19EE5CA2E9C33250090F6E3 /* ContentView.swift */,
+				B19EE5CA2E9C33250090F6E3 /* FitTrackerView.swift */,
 				B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */,
 				B19EE5CE2E9C332C0090F6E3 /* Preview Content */,
 			);
@@ -257,7 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19EE5CB2E9C33250090F6E3 /* ContentView.swift in Sources */,
+				B19EE5CB2E9C33250090F6E3 /* FitTrackerView.swift in Sources */,
 				B19EE5C92E9C33250090F6E3 /* lab1App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
