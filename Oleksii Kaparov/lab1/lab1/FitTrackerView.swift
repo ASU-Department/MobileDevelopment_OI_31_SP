@@ -7,15 +7,13 @@
 
 import SwiftUI
 
-// Model for an exercise item
 struct ExerciseItem: Identifiable {
-    let id = UUID() // unique identifier for each exrcise
-    var name: String // Name of the exercise
-    var sets: Int // Number of sets
-    var reps: Int // Number of repetition per set
+    let id = UUID()
+    var name: String
+    var sets: Int
+    var reps: Int
 }
 
-// Header subview demonstrating @Binding
 // This view allows editing the workout name while syncing directly with the parent ContentView's @State variable.
 struct WorkoutHeader: View {
     @Binding var workoutName: String
@@ -27,16 +25,13 @@ struct WorkoutHeader: View {
     }
 }
 
-// Row subview demonstrating @Binding to an item
 // Each row allows editing of an ExerciseItem through a binding to the parent exercises array.
 struct ExerciseRow: View {
-    @Binding var exercise: ExerciseItem // Bound to a single exercise item
+    @Binding var exercise: ExerciseItem
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
-            // Editable name field for the exercise
             TextField("Exercise name", text: $exercise.name)
                 .font(.headline)
-            // Stepper controls for adjusting sets and reps dynamically
             HStack{
                 Stepper("Sets: \(exercise.sets)", value: $exercise.sets, in: 1...10)
                 Spacer()
@@ -46,10 +41,8 @@ struct ExerciseRow: View {
     }
 }
 
-// Main content view of the app
 struct ContentView: View {
-    // State variables for managing data
-    @State private var workoutName: String = "" // Store the workout name
+    @State private var workoutName: String = ""
     @State private var exercises: [ExerciseItem] = [
         ExerciseItem(name: "Push up", sets: 3, reps: 15),
         ExerciseItem(name: "Squat", sets: 3, reps: 20)
@@ -58,18 +51,15 @@ struct ContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            // Mark: -Header section
             WorkoutHeader(workoutName: $workoutName)
             
-            // Mark: -Exercises List
             List {
                 ForEach($exercises) { $exercise in
-                    ExerciseRow(exercise: $exercise) // Each row edits directly
+                    ExerciseRow(exercise: $exercise)
                 }
                 .onDelete(perform: deleteExercise)  // Enable swipe-to-delete
             }
-            
-            // Button to add a new exercise
+        
             Button(action: addExercise) {
                 Text("Add Exercise")
                     .fontWeight(.semibold)
@@ -79,20 +69,19 @@ struct ContentView: View {
                     .cornerRadius(8)
             }
             .padding(.horizontal)
-            
-            // Button to save the workout
+        
             Button(action: saveWorkout) {
                 Text("Save Workout")
                     .fontWeight(.semibold)
                     .padding()
-                    .background(workoutName.isEmpty ? Color.gray : Color.green)  // Button is green if workout name is provided
+                    .background(workoutName.isEmpty ? Color.gray : Color.green)
                     .foregroundColor(.white)
                     .cornerRadius(7)
             }
-            .disabled(workoutName.isEmpty)  // Disable save button if no name is entered
+            .disabled(workoutName.isEmpty)
             .padding(.horizontal)
         }
-        .padding(.top)// Add padding around the entire layout
+        .padding(.top)
         .alert(isPresented: $showingAlert){
             Alert(
                 title: Text("Work"), message: Text("Workout '\(workoutName)'saved with \(exercises.count) exercise "), dismissButton: .default(Text("OK"))
@@ -100,17 +89,14 @@ struct ContentView: View {
         }
     }
     
-    // Method to add a new exercise to the list
     func addExercise(){
         exercises.append(ExerciseItem(name: "\(workoutName)", sets: 3, reps: 10))
     }
     
-    // Method to delete an exercise from the list
     func deleteExercise(at offsets: IndexSet){
         exercises.remove(atOffsets: offsets)
     }
     
-    // Method to save the workout
     func saveWorkout(){
         showingAlert = true
     }
