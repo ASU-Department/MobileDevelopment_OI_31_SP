@@ -1,0 +1,19 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+*.xcworkspace
+xcuserdata/
+*.xcuserdatad
+*.xcuserstate
+
+# Swift Package Manager
+/.build/
+/Packages/
+/Package.resolved
+
+# Carthage
+Carthage/Build/
+
+# Assets
+*.xcassets/*.xcuserstate
