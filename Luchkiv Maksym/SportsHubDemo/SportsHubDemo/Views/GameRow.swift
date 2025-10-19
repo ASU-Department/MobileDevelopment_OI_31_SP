@@ -25,7 +25,8 @@ struct GameRow: View {
                 .fontWeight(game.isLive ? .bold : .regular)
         }
         .padding(.vertical, 6)
-        .background(highlight ? .yellow.opacity(0.15) : .clear)
+        .padding(.horizontal, 6)
+        .background(highlight ? AppColor.accent.opacity(0.25) : .clear)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
