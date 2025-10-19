@@ -1,79 +1,99 @@
-//
-//  ContentView.swift
-//  SportsHubDemo
-//
-//  Created by Maksym on 19.10.2025.
-//
-
 import SwiftUI
 
-struct Game {
-    var team1: String
-    var team2: String
-    var score1: Int
-    var score2: Int
-    var isLive: Bool
-}
-
 struct ContentView: View {
-    
-    let games = [
-        Game(team1: "Lakers", team2: "Warriors", score1: 102, score2: 98, isLive: true),
-        Game(team1: "Nets", team2: "Celtics", score1: 102, score2: 98, isLive: false)
-    ]
-    
-    var body: some View {
-        NavigationView {
-            VStack {
-                Text("SportsHub - Basketball Live Scores")
-                    .font(.title)
-                    .padding(.top, 20)
-                
-                VStack(alignment: .leading) {
-                    Text("Live Scores")
-                        .font(.headline)
-                    List(games, id: \.team1) { game in
-                        HStack {
-                            Text("\(game.team1) vs \(game.team2)")
-                            Spacer()
-                            Text("\(game.score1) - \(game.score2)")
-                                .fontWeight(game.isLive ? .bold : .regular)
-                                .foregroundColor(game.isLive ? .green : .black)
-                        }
-                        
-                    }
-                }
-                .padding()
-                
-                VStack(alignment: .leading) {
-                    Text("Recent Results")
-                        .font(.headline)
-                    List(games, id: \.team1) { game in
-                        HStack {
-                            Text("\(game.team1) vs \(game.team2)")
-                            Spacer()
-                            Text("\(game.score1) - \(game.score2)")
-                        }
-                    }
-                }
-                .padding()
-                
-                VStack(alignment: .leading) {
-                    Text("Player & Team Stats")
-                        .font(.headline)
-                    Text("Stats will be shown here...")
-                        .foregroundColor(.gray)
-                }
-                .padding()
-            }
-            .navigationTitle("SportsHub")
+    // MARK: - Application State
+    @State private var favoriteTeams: Set<Team> = []
+    @State private var showLiveOnly: Bool = true
+    @State private var query: String = ""
+    @State private var showFavoritesManager: Bool = false
+
+    // TODO: change to API calls
+    @State private var games: [Game] = SampleData.games
+    private let allTeams: [Team] = SampleData.allTeams
+
+    // MARK: - Filtered games
+    private var filteredGames: [Game] {
+        games.filter { g in
+            let passesLive = showLiveOnly ? g.isLive : true
+            let passesQuery =
+                query.isEmpty ||
+                g.home.name.localizedCaseInsensitiveContains(query) ||
+                g.home.city.localizedCaseInsensitiveContains(query) ||
+                g.away.name.localizedCaseInsensitiveContains(query) ||
+                g.away.city.localizedCaseInsensitiveContains(query)
+            return passesLive && passesQuery
         }
     }
-}
+    
+    private var sectionTitle: String {
+        showLiveOnly ? "Live Games" : "Games"
+    }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 12) {
+                HStack {
+                    Toggle(isOn: $showLiveOnly) {
+                        Text("Live only")
+                    }
+                    .toggleStyle(SwitchToggleStyle())
+                }
+                .padding(.horizontal)
+                
+                TextField("Search teams or cities", text: $query)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(Array(favoriteTeams), id: \.self) { team in
+                            Label("\(team.short)", systemImage: "star.fill")
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(.yellow.opacity(0.2))
+                                .clipShape(Capsule())
+                        }
+                        if favoriteTeams.isEmpty {
+                            Text("No favorites yet. Tap the star to add.")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                List {
+                    Section(header: Text(sectionTitle)) {
+                        ForEach(filteredGames) { game in
+                            GameRow(
+                                game: game,
+                                highlight: favoriteTeams.contains(game.home) ||
+                                favoriteTeams.contains(game.away)
+                            )
+                        }
+                    }
+                }
+                .listStyle(.insetGrouped)
+            }
+            .navigationTitle("SportsHub")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showFavoritesManager = true
+                    } label: {
+                        Image(systemName: "star")
+                    }
+                    .accessibilityLabel("Manage favorites")
+                }
+            }
+            .sheet(isPresented: $showFavoritesManager) {
+                NavigationStack {
+                    FavoritesPicker(
+                        favoriteTeams: $favoriteTeams,
+                        allTeams: allTeams
+                    )
+                }
+            }
+        }
     }
 }
 

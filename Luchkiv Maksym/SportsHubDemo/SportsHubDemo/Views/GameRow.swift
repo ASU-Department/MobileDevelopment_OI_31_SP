@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct GameRow: View {
-    let game: Gamee
+    let game: Game
     let highlight: Bool
     
     var body: some View {
