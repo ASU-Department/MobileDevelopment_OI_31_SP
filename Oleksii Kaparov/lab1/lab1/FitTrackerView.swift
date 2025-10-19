@@ -13,8 +13,45 @@ struct ExerciseItem: Identifiable {
     let id = UUID() // unique identifier for each exrcise
     var name: String // Name of the exercise
     var sets: Int // Number of sets
-    var reps: Int // Number of repetitions per set
+    var reps: Int // Number of repetition per set
 }
+
+// Header subview demonstrating @Binding
+// This view allows editing the workout name while syncing directly with the parent ContentView's @State variable.
+struct WorkoutHeader: View {
+    @Binding var workoutName: String
+    
+    var body: some View {
+        TextField("Enter workout name or exercise", text:$workoutName)
+            .textFieldStyle(.roundedBorder)
+            .padding(.horizontal)
+        }
+        
+    }
+
+// Row subview demonstrating @Binding to an item
+// Each row allows editing of an ExerciseItem through a binding to the parent exercises array.
+struct ExerciseRow: View {
+    @Binding var exercise: ExerciseItem // Bound to a single exercise item
+   var body: some View {
+       VStack(alignment: .leading, spacing: 10){
+           // Editable name field for the exercise
+           TextField("Exercise name", text: $exercise.name)
+               .font(.headline)
+           // Stepper controls for adjusting sets and reps dynamically
+           HStack{
+               Stepper("Sets: \(exercise.sets)", value: $exercise.sets, in: 1...10)
+               Spacer()
+               Stepper("Reps: \(exercise.reps)", value: $exercise.reps, in: 1...50)
+           }
+       }
+       
+    
+}
+    
+}
+
+
 // Main content view of the app
 struct ContentView: View {
     // State variables for managing data
@@ -28,23 +65,15 @@ struct ContentView: View {
    
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
-                // Text field for entering the workout name
-                TextField("Enter workout name", text: $workoutName)
-                    .textFieldStyle(.roundedBorder)  // Style the text field
-                    .padding()
+                // Mark: -Header section
+                WorkoutHeader(workoutName: $workoutName)
 
-                // List to display exercises
+                // Mark: -Exercises List
                 List {
-                    ForEach(exercises) { exercise in
-                        HStack {
-                            Text(exercise.name)  // Display exercise name
-                            Spacer()
-                            Text("\(exercise.sets) sets x \(exercise.reps) reps")  // Display sets and reps
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
+                    ForEach($exercises) { $exercise in
+                        ExerciseRow(exercise: $exercise) // Each row edits directly
                     }
-                    .onDelete(perform: deleteExercise)  // Delete exercise from the list
+                    .onDelete(perform: deleteExercise)  // Enable swipe-to-delete
                 }
 
                 // Button to add a new exercise
@@ -56,7 +85,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                .padding()
+                .padding(.horizontal)
 
                 // Button to save the workout
                 Button(action: saveWorkout) {
@@ -68,9 +97,9 @@ struct ContentView: View {
                         .cornerRadius(7)
                 }
                 .disabled(workoutName.isEmpty)  // Disable save button if no name is entered
-                .padding()
+                .padding(.horizontal)
             }
-            .padding()// Add padding around the entire layout
+            .padding(.top)// Add padding around the entire layout
             .alert(isPresented: $showingAlert){
                 Alert(
                     title: Text("Work"), message: Text("Workout '\(workoutName)'saved with \(exercises.count) exercise "), dismissButton: .default(Text("OK"))
@@ -100,4 +129,5 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+
 }
