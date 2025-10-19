@@ -1,19 +1,22 @@
 # Xcode
-.DS_Store
-build/
 DerivedData/
-*.xcworkspace
+build/
+*.xcuserstate
 xcuserdata/
 *.xcuserdatad
-*.xcuserstate
 
 # Swift Package Manager
-/.build/
-/Packages/
-/Package.resolved
+.build/
+Packages/
+Package.pins
+Package.resolved
 
-# Carthage
-Carthage/Build/
+# macOS
+.DS_Store
 
-# Assets
-*.xcassets/*.xcuserstate
+# Logs
+*.log
+
+# User-specific settings
+*.xcworkspace
+
