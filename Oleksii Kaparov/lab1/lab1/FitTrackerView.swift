@@ -120,7 +120,6 @@ struct ContentView: View {
         showingAlert = true
     }
     
-    
 }
 
 
