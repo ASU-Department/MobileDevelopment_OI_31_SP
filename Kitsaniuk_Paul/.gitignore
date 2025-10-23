@@ -1,0 +1,8 @@
+.DS_Store
+
+Xcuserdata/
+DerivedData/
+Build/
+
+Packages/
+Package.resolver
