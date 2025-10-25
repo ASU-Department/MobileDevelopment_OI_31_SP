@@ -1,0 +1,10 @@
+# macOS system files
+.DS_Store
+
+# Xcode
+DerivedData/
+xcuserdata/
+
+# Test folders
+Lr1NewsHubTests/
+Lr1NewsHubUITests/
