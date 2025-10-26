@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E0150232EAD783100735379 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0150222EAD783100735379 /* ArticleDetailView.swift */; };
 		3E96A7782EAD5B3A005F0DE2 /* Lr2NewsHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96A7772EAD5B3A005F0DE2 /* Lr2NewsHubApp.swift */; };
 		3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */; };
 		3E96A77C2EAD5B3C005F0DE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E0150222EAD783100735379 /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
 		3E96A7742EAD5B3A005F0DE2 /* Lr2NewsHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lr2NewsHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E96A7772EAD5B3A005F0DE2 /* Lr2NewsHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lr2NewsHubApp.swift; sourceTree = "<group>"; };
 		3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */,
 				3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */,
 				3E96A77D2EAD5B3C005F0DE2 /* Preview Content */,
+				3E0150222EAD783100735379 /* ArticleDetailView.swift */,
 			);
 			path = Lr2NewsHub;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E0150232EAD783100735379 /* ArticleDetailView.swift in Sources */,
 				3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */,
 				3E96A7782EAD5B3A005F0DE2 /* Lr2NewsHubApp.swift in Sources */,
 			);

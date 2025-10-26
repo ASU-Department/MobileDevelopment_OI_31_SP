@@ -26,31 +26,32 @@ struct ContentView: View {
     let categories = ["All", "Category 1", "Category 2"]
 
     var body: some View {
-        VStack {
-            HStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("News Hub")
-                    .font(.title)
-                    .bold()
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-            }
-            .padding()
-            
-            HStack {
-                Text("Choose category:")
-                Picker("Category", selection: $selectedCategory) {
-                    ForEach(categories, id: \.self) {
-                        category in Text(category)
+        NavigationStack {
+            VStack {
+                HStack {
+                    Image(systemName: "globe")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                    Text("News Hub")
+                        .font(.title)
+                        .bold()
+                    Image(systemName: "globe")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                }
+                .padding()
+                
+                HStack {
+                    Text("Choose category:")
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(categories, id: \.self) {
+                            category in Text(category)
+                        }
                     }
                 }
-            }
-            
-            List {
-                HStack {
+                
+                List {
+                    HStack {
                         Text("Article")
                             .bold()
                         Spacer()
@@ -60,19 +61,22 @@ struct ContentView: View {
                     }
                     ForEach($news) { $article in
                         if selectedCategory == "All" || article.category == selectedCategory {
-                            ArticleRow(article: $article).padding(2)
+                            NavigationLink(destination: ArticleDetailView(article: $article)) {
+                                ArticleRow(article: $article).padding(2)
+                            }
                         }
                     }
-            }
-
-            Spacer()
-               
-            HStack {
-                Text("(c) News Hub")
-                    .italic()
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    Text("(c) News Hub")
+                        .italic()
+                    Image(systemName: "globe")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                }
             }
         }
     }
