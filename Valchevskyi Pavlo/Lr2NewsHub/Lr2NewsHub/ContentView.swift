@@ -19,13 +19,9 @@ struct Article: Identifiable {
 struct ContentView: View {
     @State var selectedCategory: String = "All"
     @State private var showingSuggestArticle = false
-    
-    @State var news: [Article] = [
-        Article(title: "Tittle article 1", text: "Text article 1", category: "Category 1"),
-        Article(title: "Tittle article 2", text: "Text article 2", category: "Category 2")
-    ]
-    
-    let categories = ["All", "Category 1", "Category 2", "My suggest news"]
+  
+    @State var news: [Article]
+    let categories: [String]
 
     var body: some View {
         NavigationStack {
@@ -107,5 +103,11 @@ struct ArticleRow: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(
+        news: [
+            Article(title: "Title 1", text: "Text 1", category: "Category 1"),
+            Article(title: "Title 2", text: "Text 2", category: "Category 2")
+        ],
+        categories: ["All", "Category 1", "Category 2", "My suggest news"]
+    )
 }
