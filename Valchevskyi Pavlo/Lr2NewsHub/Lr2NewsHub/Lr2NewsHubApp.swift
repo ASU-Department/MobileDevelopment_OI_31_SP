@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Lr2NewsHubApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegateMockData.self) var appDelegateMockData
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(news: appDelegateMockData.news, categories: appDelegateMockData.categories)
         }
     }
 }
