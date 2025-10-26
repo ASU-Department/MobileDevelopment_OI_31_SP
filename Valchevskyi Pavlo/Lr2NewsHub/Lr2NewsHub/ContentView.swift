@@ -17,13 +17,14 @@ struct Article: Identifiable {
 
 struct ContentView: View {
     @State var selectedCategory: String = "All"
+    @State private var showingSuggestArticle = false
     
     @State var news: [Article] = [
         Article(title: "Tittle article 1", text: "Text article 1", category: "Category 1"),
         Article(title: "Tittle article 2", text: "Text article 2", category: "Category 2")
     ]
     
-    let categories = ["All", "Category 1", "Category 2"]
+    let categories = ["All", "Category 1", "Category 2", "My suggest news"]
 
     var body: some View {
         NavigationStack {
@@ -70,12 +71,24 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Text("(c) News Hub")
-                        .italic()
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
+                VStack {
+                    Button("Suggest article") {
+                        showingSuggestArticle = true
+                    }
+                    HStack {
+                        Text("(c) News Hub")
+                            .italic()
+                        Image(systemName: "globe")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                    }
+                    .padding(.top)
+                }
+            }
+            .sheet(isPresented: $showingSuggestArticle) {
+                CreateMySuggestArticle { newArticle in
+                    news.append(newArticle)
+                    showingSuggestArticle = false
                 }
             }
         }
@@ -85,24 +98,9 @@ struct ContentView: View {
 struct ArticleRow: View {
     @Binding var article: Article
     
-    @State var isExpanded: Bool = false
-    
     var body: some View {
         VStack {
             Toggle(article.title, isOn: $article.isSaveOffline)
-            
-            if isExpanded {
-                Text(article.text)
-                    
-            }
-            
-            Button(action: {
-                withAnimation {
-                    isExpanded.toggle()
-                }
-            }) {
-                Text(isExpanded ? "View less" : "View more")
-            }
         }
     }
 }
