@@ -13,6 +13,7 @@ struct Article: Identifiable {
     let text: String
     let category: String
     var isSaveOffline: Bool = false
+    var userPoint: Int = 0
 }
 
 struct ContentView: View {
