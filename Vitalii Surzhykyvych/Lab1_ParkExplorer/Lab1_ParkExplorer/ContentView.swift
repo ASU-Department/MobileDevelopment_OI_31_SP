@@ -14,6 +14,7 @@ struct Park: Identifiable {
     let state: String
     let description: String
     let coordinate: CLLocationCoordinate2D
+    var isFavorite: Bool = false
 }
 
 struct FavoriteButton: View {
@@ -30,8 +31,7 @@ struct FavoriteButton: View {
 }
 
 struct ParkRowView: View {
-    let park: Park
-    @State private var isFavorite = false
+    @Binding var park: Park
 
     var body: some View {
         HStack {
@@ -43,15 +43,14 @@ struct ParkRowView: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            FavoriteButton(isFavorite: $isFavorite)
+            FavoriteButton(isFavorite: $park.isFavorite)
         }
         .padding(.vertical, 6)
     }
 }
 
 struct ParkDetailView: View {
-    let park: Park
-    @State private var isFavorite = false
+    @Binding var park: Park
 
     var body: some View {
         ScrollView {
@@ -62,7 +61,7 @@ struct ParkDetailView: View {
                         .font(.largeTitle)
                         .bold()
                     Spacer()
-                    FavoriteButton(isFavorite: $isFavorite)
+                    FavoriteButton(isFavorite: $park.isFavorite)
                 }
 
                 Text(park.description)
@@ -93,7 +92,7 @@ struct ParkDetailView: View {
 struct ContentView: View {
     @State private var searchText = ""
 
-    let parks = [
+    @State private var parks: [Park] = [
         Park(
             name: "Yellowstone",
             state: "Wyoming",
@@ -114,19 +113,19 @@ struct ContentView: View {
         )
     ]
 
-    var filteredParks: [Park] {
-        if searchText.isEmpty { return parks }
-        return parks.filter {
-            $0.name.lowercased().contains(searchText.lowercased()) ||
-            $0.state.lowercased().contains(searchText.lowercased())
+    var filteredParks: [Binding<Park>] {
+        $parks.filter { park in
+            searchText.isEmpty ||
+            park.wrappedValue.name.lowercased().contains(searchText.lowercased()) ||
+            park.wrappedValue.state.lowercased().contains(searchText.lowercased())
         }
     }
 
     var body: some View {
         NavigationView {
-            List(filteredParks) { park in
-                NavigationLink(destination: ParkDetailView(park: park)) {
-                    ParkRowView(park: park)
+            List(filteredParks) { $park in
+                NavigationLink(destination: ParkDetailView(park: $park)) {
+                    ParkRowView(park: $park)
                 }
             }
             .navigationTitle("National Parks")
@@ -140,6 +139,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 #Preview {
     ContentView()
