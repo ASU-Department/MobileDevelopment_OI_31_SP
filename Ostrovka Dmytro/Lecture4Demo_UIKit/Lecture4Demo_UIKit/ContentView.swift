@@ -25,7 +25,7 @@ struct MainView: View {
             Tab("Third", systemImage: "person.crop.circle.fill") {
                 ContentView()
             }
-            .badge("!")
+//            .badge("!")
         }
     }
 }
