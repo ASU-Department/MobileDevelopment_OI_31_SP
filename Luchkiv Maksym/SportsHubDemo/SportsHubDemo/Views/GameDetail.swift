@@ -58,7 +58,11 @@ struct GameDetailView: View {
                     Text("Home margin: \(Int(predictedHomeMargin))")
                         .font(.headline)
                     
-                    // TODO: Implement UIKit slider here
+                    UISliderRepresentable(
+                        value: $predictedHomeMargin,
+                        range: -20...20,
+                        step: 1
+                    )
                     
                     Text("Negative = away edge; positive = home edge.")
                         .font(.footnote)
@@ -78,7 +82,10 @@ struct GameDetailView: View {
         .navigationTitle("\(game.away.short) @ \(game.home.short)")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showShareSheet) {
-            // TODO: add ActivityViewControllerRepresentable here
+            ActivityViewControllerRepresentable(
+                activityItems: [shareText],
+                applicationActivities: nil
+            )
         }
     }
     
