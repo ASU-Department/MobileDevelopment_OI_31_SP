@@ -1,8 +1,9 @@
 import SwiftUI
+import Combine
 
 struct ContentView: View {
     // MARK: - Application State
-    @State private var favoriteTeams: Set<Team> = []
+    @State private var favoriteTeams: Set<Team> = FavoriteStore.shared.load()
     @State private var showLiveOnly: Bool = true
     @State private var query: String = ""
     @State private var showFavoritesManager: Bool = false
@@ -10,6 +11,8 @@ struct ContentView: View {
     // TODO: change to API calls later
     @State private var games: [Game] = SampleData.games
     private let allTeams: [Team] = SampleData.allTeams
+    
+    @State private var timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     // MARK: - Filtered games
     private var filteredGames: [Game] {
@@ -76,23 +79,49 @@ struct ContentView: View {
                     // Games Section
                     Section(header: Text(sectionTitle)) {
                         ForEach(filteredGames) { game in
-                            GameRow(
-                                game: game,
-                                highlight: favoriteTeams.contains(game.home) ||
-                                           favoriteTeams.contains(game.away)
-                            )
+                            NavigationLink {
+                                GameDetailView(
+                                    game: game,
+                                    isFavoriteHome: favoriteTeams.contains(game.home),
+                                    isFavoriteAway: favoriteTeams.contains(game.away)
+                                )
+                            } label: {
+                                GameRow(
+                                    game: game,
+                                    highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
+                                )
+                            }
+                            .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
             }
             .navigationTitle("SportsHub")
+            .toolbar {
+                NavigationLink {
+                    TeamsDirectoryView(allTeams: allTeams)
+                } label: {
+                    Label("Teams", systemImage: "list.bullet.rectangle")
+                }
+            }
             .sheet(isPresented: $showFavoritesManager) {
                 NavigationStack {
                     FavoritesPicker(
                         favoriteTeams: $favoriteTeams,
                         allTeams: allTeams
                     )
+                }
+            }
+        }
+        .onChange(of: favoriteTeams) {
+            FavoriteStore.shared.save($0)
+        }
+        .onReceive(timer) { _ in
+            for i in games.indices {
+                if games[i].isLive {
+                    games[i].homeScore += Int.random(in: 0...1)
+                    games[i].awayScore += Int.random(in: 0...1)
                 }
             }
         }
