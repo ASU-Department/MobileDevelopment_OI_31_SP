@@ -41,6 +41,37 @@ struct Game: Identifiable, Hashable, Codable {
     }
 }
 
+enum StatScope: String, CaseIterable, Identifiable {
+    case last10 = "Last 10"
+    case season = "Season Avg"
+    var id: String { rawValue }
+}
+
+// MARK: - Players & Stats (mock)
+struct Player: Identifiable, Hashable, Codable {
+    let id = UUID()
+    let name: String
+    let teamShort: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case name, teamShort
+    }
+}
+
+struct PlayerStats: Identifiable, Hashable, Codable {
+    let id = UUID()
+    let player: Player
+    let season: String   // e.g. "2024-25"
+    let gp: Int
+    let pts: Double
+    let reb: Double
+    let ast: Double
+    
+    private enum CodingKeys: String, CodingKey {
+        case player, season, gp, pts, reb, ast
+    }
+}
+
 enum SampleData {
     // MARK: - Teams
     static let lakers = Team(name: "Lakers", city: "Los Angeles", short: "LAL")
@@ -60,6 +91,22 @@ enum SampleData {
         lakers, warriors, celtics, nets, bulls, heat,
         knicks, mavs, suns, nuggets, bucks, spurs
     ]
+    
+    static let players: [Player] = [
+        Player(name: "Stephen Curry", teamShort: "GSW"),
+        Player(name: "LeBron James", teamShort: "LAL"),
+        Player(name: "Jayson Tatum", teamShort: "BOS")
+    ]
+    
+    static let playerStats: [PlayerStats] = [
+        PlayerStats(player: players[0], season: "2024-25", gp: 10, pts: 29.8, reb: 4.7, ast: 6.1),
+        PlayerStats(player: players[1], season: "2024-25", gp: 10, pts: 27.2, reb: 8.0, ast: 7.1),
+        PlayerStats(player: players[2], season: "2024-25", gp: 10, pts: 26.4, reb: 8.6, ast: 4.0)
+    ]
+    
+    static func statsForTeam(short: String, scope: StatScope) -> [PlayerStats] {
+        playerStats.filter { $0.player.teamShort == short }
+    }
 
     // MARK: - Games
     static let games: [Game] = [
