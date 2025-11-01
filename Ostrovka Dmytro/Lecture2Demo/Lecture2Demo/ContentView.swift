@@ -18,6 +18,9 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
+            Image(.vector)
+              .frame(width: 40, height: 26.64)
+              .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 1)
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
@@ -38,6 +41,7 @@ struct ContentView: View {
             MyToggleView(isOn: $isOn)
         }
         .padding()
+        .background(.black)
     }
 }
 
