@@ -40,7 +40,8 @@ struct GameDetailView: View {
                     Text("Score").foregroundStyle(.secondary)
                     Spacer()
                     Text("\(game.awayScore) - \(game.homeScore)")
-                        .font(.title3).bold(game.isLive)
+                        .font(.title3)
+                        .fontWeight(game.isLive ? .bold : .regular)
                         .accessibilityLabel("Score \(game.awayScore) to \(game.homeScore)")
                 }
                 
