@@ -10,7 +10,7 @@ import SwiftUI
 enum AppColor {
     static let accent = Color(red: 0.82, green: 0.65, blue: 0.98)
     static let secondary = Color(red: 0.94, green: 0.93, blue: 0.98)
-    static let favorite = Color(red: 0.95, green: 0.90, blue: 0.45)
+    static let favorite = Color(red: 0.82, green: 0.65, blue: 0.98)
 }
 
 struct Team: Identifiable, Hashable, Codable {
