@@ -1,27 +1,32 @@
-//
-//  ContentView.swift
-//  lab1
-//
-//  Created by A-Z pack group on 12.10.2025.
-//
-
 import SwiftUI
 
 public struct ContentView: View {
     @StateObject private var viewModel = WorkoutViewModel()
 
-   public var body: some View {
+    public var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 16) {
-
                 WorkoutHeader(workoutName: $viewModel.workoutName)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Intensity").font(.headline).padding(.horizontal)
+                    HStack {
+                        IntensitySliderRepresentable(value: $viewModel.intensity)
+                            .frame(height: 40)
+                            .padding(.horizontal)
+                        Text("\(Int(viewModel.intensity * 100))%")
+                            .monospacedDigit()
+                            .frame(width: 60, alignment: .trailing)
+                            .padding(.trailing)
+                    }
+                }
 
                 Section(header: Text("Exercises").font(.headline).padding(.horizontal)) {
                     List {
                         ForEach($viewModel.exercises) { $exercise in
                             ExerciseRow(exercise: $exercise)
                         }
-                        .onDelete { indexSet in                  // ✅ call with label
+                        .onDelete { indexSet in
                             viewModel.deleteExercise(at: indexSet)
                         }
                     }
@@ -38,7 +43,6 @@ public struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
-
                     Button(action: viewModel.saveWorkout) {
                         Text("Save Workout")
                             .fontWeight(.semibold)
@@ -51,13 +55,20 @@ public struct ContentView: View {
                     .disabled(viewModel.workoutName.isEmpty)
                 }
                 .padding(.horizontal)
+
+                Spacer(minLength: 0)
             }
             .navigationTitle("Workout Builder")
             .padding(.top)
+            .toolbar {
+                NavigationLink(destination: SavedWorkoutsView().environmentObject(viewModel)) {
+                    Label("Saved", systemImage: "list.bullet.rectangle")
+                }
+            }
             .alert(isPresented: $viewModel.showingAlert) {
                 Alert(
                     title: Text("Workout"),
-                    message: Text(viewModel.lastSaveMessage),   // ✅ now exists
+                    message: Text(viewModel.lastSaveMessage),
                     dismissButton: .default(Text("OK"))
                 )
             }
@@ -66,7 +77,5 @@ public struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+    static var previews: some View { ContentView() }
 }
