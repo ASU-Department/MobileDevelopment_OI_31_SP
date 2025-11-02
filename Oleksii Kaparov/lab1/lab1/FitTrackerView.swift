@@ -8,6 +8,7 @@ public struct ContentView: View {
             VStack(alignment: .leading, spacing: 16) {
                 WorkoutHeader(workoutName: $viewModel.workoutName)
 
+                // Intensity row
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Intensity").font(.headline).padding(.horizontal)
                     HStack {
@@ -21,8 +22,8 @@ public struct ContentView: View {
                     }
                 }
 
-                Section(header: Text("Exercises").font(.headline).padding(.horizontal)) {
-                    List {
+                List {
+                    Section(header: Text("Exercises").font(.headline)) {
                         ForEach($viewModel.exercises) { $exercise in
                             ExerciseRow(exercise: $exercise)
                         }
@@ -30,9 +31,10 @@ public struct ContentView: View {
                             viewModel.deleteExercise(at: indexSet)
                         }
                     }
-                    .listStyle(.insetGrouped)
                 }
+                .listStyle(.insetGrouped)
 
+                // Actions
                 HStack(spacing: 12) {
                     Button(action: viewModel.addExercise) {
                         Text("Add Exercise")
@@ -61,6 +63,7 @@ public struct ContentView: View {
             .navigationTitle("Workout Builder")
             .padding(.top)
             .toolbar {
+                // Keep NavigationView + classic NavigationLink for iOS 15
                 NavigationLink(destination: SavedWorkoutsView().environmentObject(viewModel)) {
                     Label("Saved", systemImage: "list.bullet.rectangle")
                 }
@@ -74,8 +77,4 @@ public struct ContentView: View {
             }
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View { ContentView() }
 }

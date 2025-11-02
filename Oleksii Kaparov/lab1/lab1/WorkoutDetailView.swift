@@ -50,7 +50,9 @@ struct WorkoutDetailView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(.green)
                 .padding(.horizontal)
+                
             }
             .padding(.top)
         }
