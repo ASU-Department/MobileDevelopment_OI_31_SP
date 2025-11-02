@@ -8,7 +8,6 @@ public struct ContentView: View {
             VStack(alignment: .leading, spacing: 16) {
                 WorkoutHeader(workoutName: $viewModel.workoutName)
 
-                // Intensity row
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Intensity").font(.headline).padding(.horizontal)
                     HStack {
@@ -34,7 +33,6 @@ public struct ContentView: View {
                 }
                 .listStyle(.insetGrouped)
 
-                // Actions
                 HStack(spacing: 12) {
                     Button(action: viewModel.addExercise) {
                         Text("Add Exercise")
