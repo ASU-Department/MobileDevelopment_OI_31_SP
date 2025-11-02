@@ -2,21 +2,19 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
+    @EnvironmentObject private var data: AppDataStore
+    
     // MARK: - Application State
     @State private var favoriteTeams: Set<Team> = FavoriteStore.shared.load()
     @State private var showLiveOnly: Bool = true
     @State private var query: String = ""
     @State private var showFavoritesManager: Bool = false
-
-    // TODO: change to API calls later
-    @State private var games: [Game] = SampleData.games
-    private let allTeams: [Team] = SampleData.allTeams
     
     @State private var timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     // MARK: - Filtered games
     private var filteredGames: [Game] {
-        games.filter { g in
+        data.games.filter { g in
             let passesLive = showLiveOnly ? g.isLive : true
             let passesQuery =
                 query.isEmpty ||
@@ -100,7 +98,7 @@ struct ContentView: View {
             .navigationTitle("SportsHub")
             .toolbar {
                 NavigationLink {
-                    TeamsDirectoryView(allTeams: allTeams)
+                    TeamsDirectoryView(allTeams: data.allTeams)
                 } label: {
                     Label("Teams", systemImage: "list.bullet.rectangle")
                 }
@@ -109,25 +107,25 @@ struct ContentView: View {
                 NavigationStack {
                     FavoritesPicker(
                         favoriteTeams: $favoriteTeams,
-                        allTeams: allTeams
+                        allTeams: data.allTeams
                     )
                 }
             }
         }
-        .onChange(of: favoriteTeams) {
-            FavoriteStore.shared.save($0)
+        .onChange(of: favoriteTeams) { _, newValue in
+            FavoriteStore.shared.save(newValue)
         }
         .onReceive(timer) { _ in
-            for i in games.indices {
-                if games[i].isLive {
-                    games[i].homeScore += Int.random(in: 0...1)
-                    games[i].awayScore += Int.random(in: 0...1)
-                }
-            }
+            data.tickLiveScores()
         }
     }
 }
 
 #Preview {
-    ContentView()
+    // im using this to mock data load in preview,
+    // since i cannot build app on my machine
+    let store = AppDataStore()
+    store.loadMockData()
+    return ContentView()
+        .environmentObject(store)
 }
