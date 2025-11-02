@@ -12,4 +12,5 @@ struct Workout: Identifiable, Hashable{
     var name: String
     var exercises: [ExerciseItem]
     var date: Date = Date()
+    var intensity: Double = 0.5
 }
