@@ -14,6 +14,7 @@
 		B15322752EB64080004AF46E /* ExerciseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322742EB64080004AF46E /* ExerciseRow.swift */; };
 		B15322772EB64084004AF46E /* ExerciseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322762EB64084004AF46E /* ExerciseModel.swift */; };
 		B15322792EB64089004AF46E /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322782EB64089004AF46E /* Workout.swift */; };
+		B153227B2EB76BA8004AF46E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153227A2EB76BA7004AF46E /* AppDelegate.swift */; };
 		B19EE5CD2E9C332C0090F6E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */; };
 		B19EE5D02E9C332C0090F6E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */; };
 		B19EE5DA2E9C332D0090F6E3 /* lab1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */; };
@@ -46,6 +47,7 @@
 		B15322742EB64080004AF46E /* ExerciseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRow.swift; sourceTree = "<group>"; };
 		B15322762EB64084004AF46E /* ExerciseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModel.swift; sourceTree = "<group>"; };
 		B15322782EB64089004AF46E /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		B153227A2EB76BA7004AF46E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B19EE5C52E9C33250090F6E3 /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				B153226C2EB63DE2004AF46E /* lab1App.swift */,
 				B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */,
 				B19EE5CE2E9C332C0090F6E3 /* Preview Content */,
+				B153227A2EB76BA7004AF46E /* AppDelegate.swift */,
 			);
 			path = lab1;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B153227B2EB76BA8004AF46E /* AppDelegate.swift in Sources */,
 				B153226D2EB63DE2004AF46E /* lab1App.swift in Sources */,
 				B15322772EB64084004AF46E /* ExerciseModel.swift in Sources */,
 				B15322792EB64089004AF46E /* Workout.swift in Sources */,
