@@ -1,3 +1,9 @@
+//
+//  ExerciseItem.swift
+//  lab1
+//
+//  Created by A-Z pack group on 02.11.2025.
+//
 import Foundation
 
 struct ExerciseItem: Identifiable, Hashable {

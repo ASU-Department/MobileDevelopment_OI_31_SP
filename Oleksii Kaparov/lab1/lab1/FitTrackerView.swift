@@ -1,6 +1,12 @@
+//
+//  FitTrackerView.swift
+//  lab1
+//
+//  Created by A-Z pack group on 02.11.2025.
+//
 import SwiftUI
 
-public struct ContentView: View {
+public struct FitTrackerView: View {
     @StateObject private var viewModel = WorkoutViewModel()
 
     public var body: some View {

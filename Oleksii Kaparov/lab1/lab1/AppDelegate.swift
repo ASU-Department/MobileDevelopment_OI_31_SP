@@ -1,24 +1,30 @@
+//
+//  AppDelegate.swift
+//  lab1
+//
+//  Created by A-Z pack group on 02.11.2025.
+//
 import UIKit
 import UserNotifications
 
 final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-
+        
         configureNotifications()
         scheduleDemoReminderIfAuthorized()
         return true
     }
-
+    
     private func configureNotifications() {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         center.requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
-
+    
     private func scheduleDemoReminderIfAuthorized() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else { return }
