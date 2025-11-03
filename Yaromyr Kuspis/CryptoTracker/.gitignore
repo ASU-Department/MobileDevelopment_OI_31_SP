@@ -61,3 +61,7 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Custom ignored files
+# Ignore the file with secret API keys
+APIKeys.xcconfig
