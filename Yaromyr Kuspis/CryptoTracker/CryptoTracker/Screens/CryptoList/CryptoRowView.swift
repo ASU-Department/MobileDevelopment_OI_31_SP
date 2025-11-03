@@ -1,0 +1,46 @@
+//
+//  CryptoRowView.swift
+//  CryptoTracker
+//
+//  Created by Яромир-Олег Куспісь on 02.11.2025.
+//
+
+import SwiftUI
+import NukeUI
+
+struct CryptoRowView: View {
+    let coin: CoinEntity
+    
+    var body: some View {
+        HStack(spacing: 16) {
+            LazyImage(url: URL(string: coin.image ?? "")) { state in
+                if let image = state.image {
+                    image.resizable()
+                } else {
+                    Circle().foregroundColor(.gray.opacity(0.3))
+                }
+            }
+            .frame(width: 40, height: 40)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(coin.name ?? "N/A")
+                    .font(.headline)
+                Text((coin.symbol ?? "N/A").uppercased())
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+            
+            VStack(alignment: .trailing, spacing: 4) {
+                Text(coin.currentPrice, format: .currency(code: "USD"))
+                    .font(.headline)
+                
+                Text(String(format: "%.2f%%", coin.priceChangePercentage24h))
+                    .font(.caption)
+                    .foregroundColor(coin.priceChangePercentage24h >= 0 ? .green : .red)
+            }
+        }
+        .padding(.vertical, 8)
+    }
+}
