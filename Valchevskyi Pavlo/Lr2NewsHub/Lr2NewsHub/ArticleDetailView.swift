@@ -15,15 +15,12 @@ struct ArticleDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "globe")
+                Image(systemName: "newspaper")
                     .imageScale(.large)
                     .foregroundStyle(.tint)
-                Text("News Hub")
-                    .font(.title)
+                Text("About article")
+                    .font(.title2)
                     .bold()
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
             }
             .padding()
             
