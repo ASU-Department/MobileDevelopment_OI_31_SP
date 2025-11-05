@@ -52,10 +52,7 @@ class SuggestArticleViewController: UIViewController {
             stack.widthAnchor.constraint(equalToConstant: 300),
             titleField.heightAnchor.constraint(equalToConstant: 35),
             textField.heightAnchor.constraint(equalToConstant: 200)
-            
         ])
-        
-        suggestButton.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
     }
     
     override func viewDidLoad() {
