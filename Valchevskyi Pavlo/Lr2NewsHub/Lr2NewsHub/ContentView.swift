@@ -83,7 +83,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingSuggestArticle) {
-                CreateMySuggestArticle { newArticle in
+                SuggestArticleSwiftUIView { newArticle in
                     news.append(newArticle)
                     showingSuggestArticle = false
                 }
