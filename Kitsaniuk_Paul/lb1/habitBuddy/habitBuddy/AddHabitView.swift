@@ -6,7 +6,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - UIKit Controller
 class AddHabitViewController: UIViewController {
     var onSave: ((Habit) -> Void)?
     
@@ -51,7 +50,6 @@ class AddHabitViewController: UIViewController {
     }
 }
 
-// MARK: - SwiftUI Wrapper
 struct AddHabitView: UIViewControllerRepresentable {
     var onSave: (Habit) -> Void
     

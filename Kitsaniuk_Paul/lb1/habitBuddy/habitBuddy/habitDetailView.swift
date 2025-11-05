@@ -39,7 +39,7 @@ struct SliderView: UIViewRepresentable {
 
 struct HabitDetailView: View {
     @Binding var habit: Habit
-    @State private var motivation: Float = 50
+    @State private var importance: Float = 50
     
     var body: some View {
         Form {
@@ -53,8 +53,8 @@ struct HabitDetailView: View {
                 Stepper("Streak: \(habit.streak)", value: $habit.streak, in: 0...999)
                 
                 VStack(alignment: .leading) {
-                    Text("Importance: \(Int(motivation))%")
-                    SliderView(value: $motivation, min: 0, max: 100)
+                    Text("Importance: \(Int(importance))%")
+                    SliderView(value: $importance, min: 0, max: 100)
                         .frame(height: 40)
                 }
                 .padding(.vertical, 4)
