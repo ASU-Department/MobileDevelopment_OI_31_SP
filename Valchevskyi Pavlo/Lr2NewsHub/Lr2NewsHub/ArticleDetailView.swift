@@ -66,9 +66,9 @@ struct ArticleDetailView: View {
                 Button("Share Article") {
                     showingShare = true
                 }
-                    .sheet(isPresented: $showingShare) {
-                        ShareArticle(items: [article.title, article.text, article.category])
-                    }
+                .sheet(isPresented: $showingShare) {
+                    ShareArticle(items: [article.title, article.text, article.category])
+                }
             }
         }
         .navigationTitle("View details")
