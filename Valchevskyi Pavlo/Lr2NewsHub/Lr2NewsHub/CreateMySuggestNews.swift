@@ -18,8 +18,10 @@ class SuggestArticleViewController: UIViewController {
     let suggestButton = UIButton(type: .system)
 
     @objc private func clickButton() {
-        guard let title = titleField.text, !title.isEmpty else { return }
-        guard let text = textField.text, !text.isEmpty else { return }
+        guard let title = titleField.text, !title.isEmpty,
+              let text = textField.text, !text.isEmpty else {
+            return
+        }
         let newArticle = Article(title: title, text: text, category: "My suggest news")
         onClickButton?(newArticle)
     }
