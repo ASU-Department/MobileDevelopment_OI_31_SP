@@ -62,7 +62,7 @@ class SuggestArticleViewController: UIViewController {
     }
 }
 
-struct CreateMySuggestArticle: UIViewControllerRepresentable {
+struct SuggestArticleSwiftUIView: UIViewControllerRepresentable {
     var onClickButton: (Article) -> Void
     
     func makeUIViewController(context: Context) -> SuggestArticleViewController {
@@ -75,5 +75,5 @@ struct CreateMySuggestArticle: UIViewControllerRepresentable {
 }
 
 #Preview {
-    CreateMySuggestArticle { newArticle in }
+    SuggestArticleSwiftUIView { newArticle in }
 }
