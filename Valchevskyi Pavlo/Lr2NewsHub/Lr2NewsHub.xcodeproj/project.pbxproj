@@ -14,6 +14,7 @@
 		3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */; };
 		3E96A77C2EAD5B3C005F0DE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */; };
 		3E96A77F2EAD5B3C005F0DE2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E96A77E2EAD5B3C005F0DE2 /* Preview Assets.xcassets */; };
+		3EDB7F1B2EBBEEC700D95E73 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB7F1A2EBBEEC700D95E73 /* SliderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E96A77E2EAD5B3C005F0DE2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3EDB7F1A2EBBEEC700D95E73 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				3E0150222EAD783100735379 /* ArticleDetailView.swift */,
 				3E0150242EADA1D000735379 /* CreateMySuggestNews.swift */,
 				3E0150262EADD48C00735379 /* AppDelegateMockData.swift */,
+				3EDB7F1A2EBBEEC700D95E73 /* SliderView.swift */,
 			);
 			path = Lr2NewsHub;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 				3E0150232EAD783100735379 /* ArticleDetailView.swift in Sources */,
 				3E0150252EADA1D000735379 /* CreateMySuggestNews.swift in Sources */,
 				3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */,
+				3EDB7F1B2EBBEEC700D95E73 /* SliderView.swift in Sources */,
 				3E96A7782EAD5B3A005F0DE2 /* Lr2NewsHubApp.swift in Sources */,
 				3E0150272EADD48C00735379 /* AppDelegateMockData.swift in Sources */,
 			);
