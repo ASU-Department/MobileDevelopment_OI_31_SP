@@ -1,41 +1,176 @@
+// !$*UTF8*$!
+{
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 77;
+    objects = {
+
 /* Begin PBXBuildFile section */
-EA91BA9B2EBDE9700085019F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EA91BA9A2EBDE9660085019F /* .gitignore */; };
+        EA91BA9B2EBDE9700085019F /* .gitignore in Resources */ = {
+            isa = PBXBuildFile;
+            fileRef = EA91BA9A2EBDE9660085019F /* .gitignore */;
+        };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-EA91BA9A2EBDE9660085019F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFileReference section */
-EAA8576F2EBC9686003E11EA /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+        EA91BA9A2EBDE9660085019F /* .gitignore */ = {
+            isa = PBXFileReference;
+            lastKnownFileType = text;
+            path = .gitignore;
+            sourceTree = "<group>";
+        };
+        EAA8576F2EBC9686003E11EA /* lab1.app */ = {
+            isa = PBXFileReference;
+            explicitFileType = wrapper.application;
+            includeInIndex = 0;
+            path = lab1.app;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-EAA857712EBC9686003E11EA /* lab1 */ = {
-    isa = PBXFileSystemSynchronizedRootGroup;
-    path = lab1;
-    sourceTree = "<group>";
-};
+        EAA857712EBC9686003E11EA /* lab1 */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = lab1;
+            sourceTree = "<group>";
+        };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-EAA8576C2EBC9686003E11EA /* Frameworks */ = {
-    isa = PBXFrameworksBuildPhase;
-    buildActionMask = 2147483647;
-    files = (
-    );
-    runOnlyForDeploymentPostprocessing = 0;
-};
+        EAA8576C2EBC9686003E11EA /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-EAA857662EBC9686003E11EA = {
-    isa = PBXGroup;
-    children = (
-        EA91BA9A2EBDE9660085019F /* .gitignore */,
-        EAA857712EBC9686003E11EA /* lab1 */,
-        EAA857702EBC9686003E11EA /* Products */,
-    );
-    sourceTree = "<group>";
-};
+        EAA857662EBC9686003E11EA = {
+            isa = PBXGroup;
+            children = (
+                EA91BA9A2EBDE9660085019F /* .gitignore */,
+                EAA857712EBC9686003E11EA /* lab1 */,
+                EAA857702EBC9686003E11EA /* Products */,
+            );
+            sourceTree = "<group>";
+        };
+        EAA857702EBC9686003E11EA /* Products */ = {
+            isa = PBXGroup;
+            children = (
+                EAA8576F2EBC9686003E11EA /* lab1.app */,
+            );
+            name = Products;
+            sourceTree = "<group>";
+        };
 /* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+        EAA8576E2EBC9686003E11EA /* lab1 */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = EAA8577A2EBC968A003E11EA /* Build configuration list for PBXNativeTarget "lab1" */;
+            buildPhases = (
+                EAA8576B2EBC9686003E11EA /* Sources */,
+                EAA8576C2EBC9686003E11EA /* Frameworks */,
+                EAA8576D2EBC9686003E11EA /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+            );
+            fileSystemSynchronizedGroups = (
+                EAA857712EBC9686003E11EA /* lab1 */,
+            );
+            name = lab1;
+            productName = lab1;
+            productReference = EAA8576F2EBC9686003E11EA /* lab1.app */;
+            productType = "com.apple.product-type.application";
+        };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+        EAA857672EBC9686003E11EA /* Project object */ = {
+            isa = PBXProject;
+            attributes = {
+                BuildIndependentTargetsInParallel = 1;
+                LastSwiftUpdateCheck = 2620;
+                LastUpgradeCheck = 2620;
+            };
+            buildConfigurationList = EAA8576A2EBC9686003E11EA /* Build configuration list for PBXProject "lab1" */;
+            developmentRegion = en;
+            knownRegions = (
+                en,
+                Base,
+            );
+            mainGroup = EAA857662EBC9686003E11EA;
+            productRefGroup = EAA857702EBC9686003E11EA /* Products */;
+            targets = (
+                EAA8576E2EBC9686003E11EA /* lab1 */,
+            );
+        };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+        EAA8576D2EBC9686003E11EA /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                EA91BA9B2EBDE9700085019F /* .gitignore in Resources */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+        EAA8576B2EBC9686003E11EA /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+        EAA857782EBC968A003E11EA /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Debug;
+        };
+        EAA857792EBC968A003E11EA /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Release;
+        };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+        EAA8576A2EBC9686003E11EA /* Build configuration list for PBXProject "lab1" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                EAA857782EBC968A003E11EA /* Debug */,
+                EAA857792EBC968A003E11EA /* Release */,
+            );
+            defaultConfigurationName = Release;
+        };
+        EAA8577A2EBC968A003E11EA /* Build configuration list for PBXNativeTarget "lab1" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                EAA857782EBC968A003E11EA /* Debug */,
+                EAA857792EBC968A003E11EA /* Release */,
+            );
+            defaultConfigurationName = Release;
+        };
+/* End XCConfigurationList section */
+
+    };
+    rootObject = EAA857672EBC9686003E11EA /* Project object */;
+}
