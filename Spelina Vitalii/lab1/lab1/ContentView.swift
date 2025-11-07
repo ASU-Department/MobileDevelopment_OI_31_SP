@@ -7,19 +7,6 @@ struct City: Identifiable {
     var selected: Bool = false
 }
 
-func getColorByPollutionLvl(for level: Float) -> Color {
-    switch level {
-        case 0..<2:
-            return .green
-        case 2..<3:
-            return .yellow
-        case 3..<4:
-            return .orange
-        default:
-            return .red
-    }
-}
-
 struct ContentView: View {
     
     @State private var cities = [
@@ -43,20 +30,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach($cities) { $city in
-                    Toggle(isOn: $city.selected) {
-                        HStack(spacing: 15) {
-                            Circle()
-                                .fill(getColorByPollutionLvl(for: city.polLevel))
-                                .frame(width: 10, height: 10)
-                            VStack(alignment: .leading) {
-                                Text(city.name)
-                                    .font(.headline)
-                                Text("Pollution level: \(city.polLevel, specifier: "%.1f")")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
+                    CityItemView(city: $city)
                 }
             }
             .navigationTitle("Subscribe")
