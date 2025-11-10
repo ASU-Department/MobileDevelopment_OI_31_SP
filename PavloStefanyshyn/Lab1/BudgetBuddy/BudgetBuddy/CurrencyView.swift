@@ -33,7 +33,7 @@ struct CurrencyView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack { //Елемети підвантажуються лише тоді коли попадають у поле видимосиі екрану
+                LazyVStack {
                     ForEach(currencies) { currency in
                         HStack {
                             Text(currency.code)
@@ -47,7 +47,6 @@ struct CurrencyView: View {
                         .cornerRadius(8)
                         .padding(.horizontal)
                         .onAppear {
-                            // Ліниве завантаження
                             if currency.id == currencies.last?.id {
                                 loadMore()
                             }
@@ -57,14 +56,13 @@ struct CurrencyView: View {
                 .padding(.vertical)
             }
             .navigationTitle("Currencies")
-            .onAppear { // підвантаження наступних елементів
+            .onAppear {
                 loadMore()
             }
         }
     }
     
     private func loadMore() {
-        //Пропускає уже завантажені елементи і підвантажує наступні 3
         let nextBatch = allCurrencies.dropFirst(loadedCount).prefix(3)
         currencies.append(contentsOf: nextBatch)
         loadedCount += nextBatch.count

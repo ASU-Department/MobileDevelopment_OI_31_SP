@@ -10,59 +10,71 @@ import SwiftUI
 
 
 struct IndexView: View {
-    @State private var isShowingAddPayment = false
-    @State private var totalExpenses: Double = 324.75
+    @State private var expenses: [Expense] = []
+    private var totalAmount: Double {
+        expenses.reduce(0) { $0 + $1.amount }
+    }
     
     var body: some View {
-        NavigationView {
-                VStack(spacing: 20) {
-                    // інформація про тан курсу долаоа та євро
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("USD: 39.50 ₴")
-                            Text("EUR: 42.80 ₴")
-                        }
-                        .font(.headline)
-                        .padding()
-                        Spacer()
+        NavigationStack {
+            VStack(spacing: 20) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("USD: 39.50 ₴")
+                        Text("EUR: 42.80 ₴")
                     }
-                    
-                    // Загальна сума витрат
-                    VStack {
-                        Text("Total Expenses")
-                            .font(.subheadline)
-                        Text(String(format: "%.2f ₴", totalExpenses))
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundColor(.red)
-                    }
+                    .font(.headline)
                     .padding()
-                    
-                    Spacer()
-                    
-                    // Кнопка додавання витрати
-                    
-                    Button (action:{
-                        isShowingAddPayment.toggle()
-                        
-                    }){
-                        Label("Add Expense", systemImage: "plus.circle.fill")
-                            .font(.title2)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue.opacity(0.9))
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .padding(.horizontal)
-                    }
-                    .sheet(isPresented: $isShowingAddPayment){
-                        AddPaymetView()
-                    }
-                    
                     Spacer()
                 }
-                .navigationTitle("Payment")
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("💰 Total spent: \(totalAmount, specifier: "%.2f") ₴")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    if expenses.isEmpty {
+                        Text("No expenses yet.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        VStack(alignment: .leading) {
+                            Text("Recent expenses:")
+                                .font(.headline)
+                            
+                            ForEach(expenses.prefix(3)) { expense in
+                                NavigationLink(destination: ExpenseDetailView(expense: expense)) {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(expense.title)
+                                                .font(.body)
+                                            Text(expense.date, style: .date)
+                                                .font(.caption)
+                                                .foregroundColor(.gray)
+                                        }
+                                        Spacer()
+                                        Text(String(format: "%.2f ₴", expense.amount))
+                                    }
+                                }
+                                .padding(.vertical, 5)
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: AddPaymetView(expenses: $expenses)) {
+                        Text("➕ Add New Expense")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                }
+                .padding()
+                .navigationTitle("My Expenses")
             }
         }
     }
-
+}
