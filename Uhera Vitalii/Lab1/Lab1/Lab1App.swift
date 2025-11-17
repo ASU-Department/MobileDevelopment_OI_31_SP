@@ -11,7 +11,7 @@ import SwiftUI
 struct Lab1App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RepoHubSearchView()
         }
     }
 }
