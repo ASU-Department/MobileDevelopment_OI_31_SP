@@ -33,6 +33,25 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
+                
+                if data.isLoading {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        Text("Loading latest games...")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal)
+                }
+                
+                if let error = data.lastError {
+                    Text("Failed to refresh from network: \(error)")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.leading)
+                }
+                
                 HStack {
                     Toggle(isOn: $showLiveOnly) {
                         Text("Live only")
@@ -76,20 +95,25 @@ struct ContentView: View {
 
                     // Games Section
                     Section(header: Text(sectionTitle)) {
-                        ForEach(filteredGames) { game in
-                            NavigationLink {
-                                GameDetailView(
-                                    game: game,
-                                    isFavoriteHome: favoriteTeams.contains(game.home),
-                                    isFavoriteAway: favoriteTeams.contains(game.away)
-                                )
-                            } label: {
-                                GameRow(
-                                    game: game,
-                                    highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
-                                )
+                        if filteredGames.isEmpty {
+                            Text("No games match the current filters.")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(filteredGames) { game in
+                                NavigationLink {
+                                    GameDetailView(
+                                        game: game,
+                                        isFavoriteHome: favoriteTeams.contains(game.home),
+                                        isFavoriteAway: favoriteTeams.contains(game.away)
+                                    )
+                                } label: {
+                                    GameRow(
+                                        game: game,
+                                        highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
+                                    )
+                                }
+                                .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                             }
-                            .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                         }
                     }
                 }
@@ -117,6 +141,10 @@ struct ContentView: View {
         }
         .onReceive(timer) { _ in
             data.tickLiveScores()
+        }
+        // MARK: Trigger initial network fetch
+        .task {
+            await data.refreshFromNetwork()
         }
     }
 }
