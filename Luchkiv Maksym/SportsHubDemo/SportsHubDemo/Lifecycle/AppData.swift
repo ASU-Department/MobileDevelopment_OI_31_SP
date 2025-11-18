@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftData
 
 @MainActor
 final class AppDataStore: ObservableObject {
@@ -31,7 +32,46 @@ final class AppDataStore: ObservableObject {
         }
     }
     
-    func refreshFromNetwork() async {
+    func loadFromCache(using context: ModelContext) {
+        do {
+            let descriptor = FetchDescriptor<GameRecord>()
+            let records = try context.fetch(descriptor)
+            guard !records.isEmpty else { return }
+            
+            let loadedGames: [Game] = records.map { rec in
+                let home = Team(
+                    name: rec.homeName,
+                    city: rec.homeCity,
+                    short: rec.homeShort
+                )
+                let away = Team(
+                    name: rec.awayName,
+                    city: rec.awayCity,
+                    short: rec.awayShort
+                )
+                return Game(
+                    home: home,
+                    away: away,
+                    homeScore: rec.homeScore,
+                    awayScore: rec.awayScore,
+                    isLive: rec.isLive
+                )
+            }
+            
+            var teamSet = Set<Team>()
+            for g in loadedGames {
+                teamSet.insert(g.home)
+                teamSet.insert(g.away)
+            }
+            
+            self.games = loadedGames
+            self.allTeams = Array(teamSet).sorted { $0.short < $1.short }
+        } catch {
+            print("Failed to load cache: \(error)")
+        }
+    }
+    
+    func refreshFromNetwork(using context: ModelContext) async {
         guard !isLoading else { return }
         
         isLoading = true
@@ -43,7 +83,10 @@ final class AppDataStore: ObservableObject {
                 perPage: 25
             )
             
-            let mappedGames: [Game] = apiGames.map { dto in
+            var mappedGames: [Game] = []
+            var teamSet = Set<Team>()
+            
+            for dto in apiGames {
                 let home = Team(
                     name: dto.home_team.name,
                     city: dto.home_team.city,
@@ -58,23 +101,52 @@ final class AppDataStore: ObservableObject {
                 // Liveness check, BDL docs say that Final is for completed games
                 let isLive = dto.status != "Final"
                 
-                return Game(
+                let game = Game(
                     home: home,
                     away: away,
                     homeScore: dto.home_team_score,
                     awayScore: dto.visitor_team_score,
                     isLive: isLive
                 )
+                
+                mappedGames.append(game)
+                teamSet.insert(home)
+                teamSet.insert(away)
             }
             
-            var teamSet = Set<Team>()
-            for game in mappedGames {
-                teamSet.insert(game.home)
-                teamSet.insert(game.away)
-            }
-            
-            self.allTeams = Array(teamSet).sorted { $0.short < $1.short }
             self.games = mappedGames
+            self.allTeams = Array(teamSet).sorted { $0.short < $1.short }
+            
+            do {
+                let existing = try context.fetch(FetchDescriptor<GameRecord>())
+                for rec in existing {
+                    context.delete(rec)
+                }
+                
+                for dto in apiGames {
+                    let isLive = dto.status != "Final"
+                    
+                    let record = GameRecord(
+                        apiId: dto.id,
+                        season: dto.season,
+                        statusText: dto.status,
+                        homeShort: dto.home_team.abbreviation,
+                        homeName: dto.home_team.name,
+                        homeCity: dto.home_team.city,
+                        homeScore: dto.home_team_score,
+                        awayShort: dto.visitor_team.abbreviation,
+                        awayName: dto.visitor_team.name,
+                        awayCity: dto.visitor_team.city,
+                        awayScore: dto.visitor_team_score,
+                        isLive: isLive
+                    )
+                    
+                    context.insert(record)
+                }
+                try context.save()
+            } catch {
+                print("Failed to write SwiftData cache: \(error)")
+            }
         } catch let error as NetworkError {
             lastError = error.errorDescription
         } catch {
