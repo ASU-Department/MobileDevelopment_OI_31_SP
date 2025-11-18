@@ -29,7 +29,6 @@ struct ExerciseAPIModel: Identifiable, Codable, Hashable {
         case keywords
     }
     
-    // ⚙️ Безпечне декодування: якщо ключа немає → []
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -45,7 +44,6 @@ struct ExerciseAPIModel: Identifiable, Codable, Hashable {
         keywords = try c.decodeIfPresent([String].self, forKey: .keywords) ?? []
     }
     
-    // Зручно створювати вручну при потребі
     init(
         id: String,
         name: String,
@@ -72,7 +70,6 @@ struct ExerciseSearchResponse: Codable {
     let data: [ExerciseAPIModel]
 }
 
-// допоміжні computed-властивості
 extension ExerciseAPIModel {
     var primaryBodyPart: String {
         bodyParts.first ?? "N/A"
