@@ -12,6 +12,14 @@ struct ContentView: View {
     @State private var showFavoritesManager: Bool = false
     
     @State private var timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    
+    init() {
+        let settings = AppSettingsStore.shared
+        
+        _favoriteTeams = State(initialValue: FavoriteStore.shared.load())
+        _showLiveOnly = State(initialValue: settings.showLiveOnly)
+        _query = State(initialValue: settings.query)
+    }
 
     // MARK: - Filtered games
     private var filteredGames: [Game] {
@@ -151,6 +159,12 @@ struct ContentView: View {
         }
         .onChange(of: favoriteTeams) { _, newValue in
             FavoriteStore.shared.save(newValue)
+        }
+        .onChange(of: showLiveOnly) { _, newValue in
+            AppSettingsStore.shared.showLiveOnly = newValue
+        }
+        .onChange(of: query) { _, newValue in
+            AppSettingsStore.shared.query = newValue
         }
         .onReceive(timer) { _ in
             data.tickLiveScores()

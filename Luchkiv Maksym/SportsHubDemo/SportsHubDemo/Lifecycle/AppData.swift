@@ -16,6 +16,14 @@ final class AppDataStore: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var lastError: String?
+    
+    @Published var lastUpdateDate: Date? = nil
+    
+    init() {
+        if let savedDate = AppSettingsStore.shared.lastUpdateDate {
+            self.lastUpdateDate = savedDate
+        }
+    }
 
     func loadMockData() {
         // called once at startup by AppDelegate
@@ -144,6 +152,11 @@ final class AppDataStore: ObservableObject {
                     context.insert(record)
                 }
                 try context.save()
+                
+                let now = Date()
+                AppSettingsStore.shared.lastUpdateDate = now
+                self.lastUpdateDate = now
+                
             } catch {
                 print("Failed to write SwiftData cache: \(error)")
             }
