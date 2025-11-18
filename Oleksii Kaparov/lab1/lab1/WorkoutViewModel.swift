@@ -8,7 +8,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-@MainActor
+
 final class WorkoutViewModel: ObservableObject {
     // MARK: - UI State
     @Published var workoutName: String = ""
@@ -145,37 +145,65 @@ final class WorkoutViewModel: ObservableObject {
     // MARK: - ExerciseDB networking
     
     func fetchExercises() {
-        guard let url = URL(string: "https://exercisedb.p.rapidapi.com/exercises?limit=20") else {
+        guard let url = URL(string: "https://exercisedb-api1.p.rapidapi.com/api/v1/exercises?limit=10") else {
             return
         }
-        
+
         isLoadingRemote = true
         remoteErrorMessage = nil
         isOfflineFallback = false
-        
+
         Task {
             do {
                 var request = URLRequest(url: url)
-                request.setValue("53d448ddcamsh091e87c2b35cbf0p136a29jsn451249ed86da", forHTTPHeaderField:"X-RapidAPI-Key")
-                request.setValue("exercisedb.p.rapidapi.com", forHTTPHeaderField: "X-RapidAPI-Host")
-                
-                let (data, _) = try await URLSession.shared.data(for: request)
-                let decoded = try JSONDecoder().decode([ExerciseAPIModel].self, from: data)
-                
-                self.remoteExercises = decoded
-                self.isLoadingRemote = false
-                self.remoteErrorMessage = nil
-                self.isOfflineFallback = false
-                
-                self.saveRemoteExercisesToDisk(decoded)
-                
-                let now = Date()
-                UserDefaults.standard.set(now.timeIntervalSince1970, forKey: "lastExerciseSyncDate")
-                self.lastSyncText = Self.format(date: now)
+                request.httpMethod = "GET"
+
+                request.setValue("53d448ddcamsh091e87c2b35cbf0p136a29jsn451249ed86da",
+                                 forHTTPHeaderField: "X-RapidAPI-Key")
+                request.setValue("exercisedb-api1.p.rapidapi.com",
+                                 forHTTPHeaderField: "X-RapidAPI-Host")
+
+                let (data, response) = try await URLSession.shared.data(for: request)
+
+                if let http = response as? HTTPURLResponse,
+                   !(200...299).contains(http.statusCode) {
+                    let bodyString = String(data: data, encoding: .utf8) ?? "<no body>"
+                    print("❌ HTTP error:", http.statusCode)
+                    print("Body:", bodyString)
+
+                    await MainActor.run {
+                        self.isLoadingRemote = false
+                        self.remoteErrorMessage = "HTTP \(http.statusCode) from ExerciseDB"
+                        self.loadCachedRemoteExercisesFromDisk()
+                    }
+                    return
+                }
+
+                let wrapper = try JSONDecoder().decode(ExerciseSearchResponse.self, from: data)
+                let decoded = wrapper.data
+
+                await MainActor.run {
+                    self.remoteExercises = decoded
+                    self.isLoadingRemote = false
+                    self.remoteErrorMessage = nil
+                    self.isOfflineFallback = false
+
+                    self.saveRemoteExercisesToDisk(decoded)
+
+                    let now = Date()
+                    UserDefaults.standard.set(
+                        now.timeIntervalSince1970,
+                        forKey: "lastExerciseSyncDate"
+                    )
+                    self.lastSyncText = Self.format(date: now)
+                }
             } catch {
-                self.remoteErrorMessage = "Could not load exercises from network. Showing cached data if available."
-                self.isLoadingRemote = false
-                self.loadCachedRemoteExercisesFromDisk()
+                print("❌ Network/decoding error:", error)
+                await MainActor.run {
+                    self.isLoadingRemote = false
+                    self.remoteErrorMessage = "Network error: \(error.localizedDescription)"
+                    self.loadCachedRemoteExercisesFromDisk()
+                }
             }
         }
     }

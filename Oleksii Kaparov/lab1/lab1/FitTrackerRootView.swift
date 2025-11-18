@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 struct FitTrackerRootView: View {
-    @StateObject private var coordinator = AppCoordinator()
+    @StateObject private var viewModel = WorkoutViewModel()
     
     var body: some View {
         NavigationView {
-   
+            FitTrackerView(viewModel: viewModel)
         }
     }
 }
