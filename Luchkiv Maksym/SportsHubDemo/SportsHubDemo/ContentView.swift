@@ -34,15 +34,22 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
-                
                 // MARK: Loading state
                 if data.isLoading {
                     HStack(spacing: 8) {
                         ProgressView()
-                        Text("Loading latest games...")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Updating...")
+                                .font(.footnote)
+                            
+                            if let last = data.lastUpdateDate {
+                                Text("Last updated: \(last.formatted(date: .abbreviated, time: .shortened))")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 }
                 
@@ -55,19 +62,18 @@ struct ContentView: View {
                         .multilineTextAlignment(.leading)
                 }
                 
-                HStack {
-                    Toggle(isOn: $showLiveOnly) {
-                        Text("Live only")
-                    }
-                    .toggleStyle(SwitchToggleStyle())
-                }
-                .padding(.horizontal)
-                
-                TextField("Search teams or cities", text: $query)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
-                
                 List {
+                    Section(header: Text("Preferences")) {
+                        HStack {
+                            Toggle(isOn: $showLiveOnly) {
+                                Text("Live only")
+                            }
+                            .toggleStyle(SwitchToggleStyle())
+                        }
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    
                     Section(header: Text("Favorites")) {
                         if favoriteTeams.isEmpty {
                             Text("No favorites yet. Tap “Manage Favorites” to add.")
@@ -121,8 +127,12 @@ struct ContentView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+                .refreshable {
+                    await data.refreshFromNetwork(using: modelContext)
+                }
             }
             .navigationTitle("SportsHub")
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .automatic))
             .toolbar {
                 NavigationLink {
                     TeamsDirectoryView(allTeams: data.allTeams)
