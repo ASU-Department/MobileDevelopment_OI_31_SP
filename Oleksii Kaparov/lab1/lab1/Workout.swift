@@ -6,8 +6,8 @@
 //
 import Foundation
 
-struct Workout: Identifiable, Hashable{
-    let id = UUID()
+struct Workout: Identifiable, Hashable, Codable{
+    let id: UUID
     var name: String
     var exercises: [ExerciseItem]
     var date: Date = Date()
