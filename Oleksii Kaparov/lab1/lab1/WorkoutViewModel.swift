@@ -158,7 +158,7 @@ final class WorkoutViewModel: ObservableObject {
                 var request = URLRequest(url: url)
                 request.httpMethod = "GET"
 
-                request.setValue("53d448ddcamsh091e87c2b35cbf0p136a29jsn451249ed86da",
+                request.setValue("1",
                                  forHTTPHeaderField: "X-RapidAPI-Key")
                 request.setValue("exercisedb-api1.p.rapidapi.com",
                                  forHTTPHeaderField: "X-RapidAPI-Host")
