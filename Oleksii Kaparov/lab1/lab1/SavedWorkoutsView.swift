@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct SavedWorkoutsView: View {
-    @EnvironmentObject var viewModel: WorkoutViewModel
+    @ObservedObject var viewModel: WorkoutViewModel
     
     var body: some View {
         List {
