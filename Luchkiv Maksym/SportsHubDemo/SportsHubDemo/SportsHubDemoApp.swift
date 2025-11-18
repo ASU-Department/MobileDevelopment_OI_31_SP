@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SportsHubDemoApp: App {
@@ -21,5 +22,6 @@ struct SportsHubDemoApp: App {
             ContentView()
                 .environmentObject(dataStore)
         }
+        .modelContainer(for: GameRecord.self)
     }
 }
