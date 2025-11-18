@@ -10,6 +10,6 @@ struct Workout: Identifiable, Hashable, Codable{
     let id: UUID
     var name: String
     var exercises: [ExerciseItem]
-    var date: Date = Date()
-    var intensity: Double = 0.5
+    var date: Date
+    var intensity: Double
 }
