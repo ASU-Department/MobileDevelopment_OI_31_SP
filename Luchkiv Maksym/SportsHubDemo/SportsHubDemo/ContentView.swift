@@ -1,19 +1,20 @@
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    @EnvironmentObject private var data: AppDataStore
+    
     // MARK: - Application State
-    @State private var favoriteTeams: Set<Team> = []
+    @State private var favoriteTeams: Set<Team> = FavoriteStore.shared.load()
     @State private var showLiveOnly: Bool = true
     @State private var query: String = ""
     @State private var showFavoritesManager: Bool = false
-
-    // TODO: change to API calls later
-    @State private var games: [Game] = SampleData.games
-    private let allTeams: [Team] = SampleData.allTeams
+    
+    @State private var timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     // MARK: - Filtered games
     private var filteredGames: [Game] {
-        games.filter { g in
+        data.games.filter { g in
             let passesLive = showLiveOnly ? g.isLive : true
             let passesQuery =
                 query.isEmpty ||
@@ -76,29 +77,55 @@ struct ContentView: View {
                     // Games Section
                     Section(header: Text(sectionTitle)) {
                         ForEach(filteredGames) { game in
-                            GameRow(
-                                game: game,
-                                highlight: favoriteTeams.contains(game.home) ||
-                                           favoriteTeams.contains(game.away)
-                            )
+                            NavigationLink {
+                                GameDetailView(
+                                    game: game,
+                                    isFavoriteHome: favoriteTeams.contains(game.home),
+                                    isFavoriteAway: favoriteTeams.contains(game.away)
+                                )
+                            } label: {
+                                GameRow(
+                                    game: game,
+                                    highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
+                                )
+                            }
+                            .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
             }
             .navigationTitle("SportsHub")
+            .toolbar {
+                NavigationLink {
+                    TeamsDirectoryView(allTeams: data.allTeams)
+                } label: {
+                    Label("Teams", systemImage: "list.bullet.rectangle")
+                }
+            }
             .sheet(isPresented: $showFavoritesManager) {
                 NavigationStack {
                     FavoritesPicker(
                         favoriteTeams: $favoriteTeams,
-                        allTeams: allTeams
+                        allTeams: data.allTeams
                     )
                 }
             }
+        }
+        .onChange(of: favoriteTeams) { _, newValue in
+            FavoriteStore.shared.save(newValue)
+        }
+        .onReceive(timer) { _ in
+            data.tickLiveScores()
         }
     }
 }
 
 #Preview {
-    ContentView()
+    // im using this to mock data load in preview,
+    // since i cannot build app on my machine
+    let store = AppDataStore()
+    store.loadMockData()
+    return ContentView()
+        .environmentObject(store)
 }
