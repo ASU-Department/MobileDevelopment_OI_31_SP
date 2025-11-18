@@ -3,6 +3,7 @@ import Combine
 
 struct ContentView: View {
     @EnvironmentObject private var data: AppDataStore
+    @Environment(\.modelContext) private var modelContext
     
     // MARK: - Application State
     @State private var favoriteTeams: Set<Team> = FavoriteStore.shared.load()
@@ -34,6 +35,7 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 12) {
                 
+                // MARK: Loading state
                 if data.isLoading {
                     HStack(spacing: 8) {
                         ProgressView()
@@ -44,6 +46,7 @@ struct ContentView: View {
                     .padding(.horizontal)
                 }
                 
+                // MARK: Error state
                 if let error = data.lastError {
                     Text("Failed to refresh from network: \(error)")
                         .font(.footnote)
@@ -144,7 +147,8 @@ struct ContentView: View {
         }
         // MARK: Trigger initial network fetch
         .task {
-            await data.refreshFromNetwork()
+            data.loadFromCache(using: modelContext)
+            await data.refreshFromNetwork(using: modelContext)
         }
     }
 }
