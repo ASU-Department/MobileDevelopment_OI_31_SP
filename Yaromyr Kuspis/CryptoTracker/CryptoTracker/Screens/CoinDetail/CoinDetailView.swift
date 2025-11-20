@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CoinDetailView: View {
-    @ObservedObject var coin: CoinEntity
+    let coin: Coin
+    
     @State private var showingCoinGecko = false
     
     // Mock data for the price chart. To be replaced with real API data in a future update.
@@ -51,9 +53,21 @@ struct CoinDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(coin.name ?? "Details")
+        .navigationTitle(coin.name)
         .sheet(isPresented: $showingCoinGecko) {
-            SafariView(url: URL(string: "https://www.coingecko.com/en/coins/\(coin.id ?? "bitcoin")")!)
+            SafariView(url: URL(string: "https://www.coingecko.com/en/coins/\(coin.id)")!)
         }
     }
+}
+
+// A preview provider needs a sample model container to work with SwiftData.
+#Preview {
+    // This creates a temporary, in-memory database just for the preview.
+    let container = try! ModelContainer(for: Coin.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    
+    // Create a sample coin to display in the preview.
+    let sampleCoin = Coin(id: "bitcoin", symbol: "btc", name: "Bitcoin", image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png", currentPrice: 65000.0, priceChangePercentage24h: 1.23, isFavorite: true)
+    
+    return CoinDetailView(coin: sampleCoin)
+        .modelContainer(container)
 }

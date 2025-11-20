@@ -6,50 +6,39 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 struct CryptoListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CoinEntity.currentPrice, ascending: false)],
-        animation: .default)
-    private var allCoins: FetchedResults<CoinEntity>
-
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Coin.currentPrice, order: .reverse) private var allCoins: [Coin]
+    
     @State private var showPortfolioOnly = false
-    @State private var isLoading = false
     
     private let coinService = CoinGeckoService()
     
     private let lastFetchKey = "lastFetchTime"
     private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
 
-    private var filteredCoins: [CoinEntity] {
+    private var filteredCoins: [Coin] {
         if showPortfolioOnly {
             return allCoins.filter { $0.isFavorite }
         } else {
-            return Array(allCoins)
+            return allCoins
         }
     }
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                if isLoading && allCoins.isEmpty {
-                    ProgressView("Loading Coins...")
-                } else {
-                    List {
-                        ForEach(filteredCoins, id: \.self) { coin in
-                            NavigationLink(value: coin) {
-                                CryptoRowView(coin: coin) {
-                                    toggleFavorite(for: coin)
-                                }
-                            }
+            List {
+                ForEach(filteredCoins) { coin in
+                    NavigationLink(value: coin) {
+                        CryptoRowView(coin: coin) {
+                            toggleFavorite(for: coin)
                         }
                     }
-                    .listStyle(PlainListStyle())
                 }
             }
+            .listStyle(PlainListStyle())
             .navigationTitle("CryptoTracker")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -84,46 +73,55 @@ struct CryptoListView: View {
                 .padding(.bottom, 4)
             }
             .task {
-                await loadDataIfNeeded()
+                await updateDataIfNeeded()
             }
-            .navigationDestination(for: CoinEntity.self) { coin in
+            .navigationDestination(for: Coin.self) { coin in
                 CoinDetailView(coin: coin)
             }
         }
     }
     
-    private func toggleFavorite(for coin: CoinEntity) {
-        withAnimation(.interpolatingSpring(stiffness: 300, damping: 15)) {
+    private func toggleFavorite(for coin: Coin) {
+        withAnimation {
             coin.isFavorite.toggle()
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("Failed to save favorite status: \(error)")
         }
     }
     
-    private func loadDataIfNeeded() async {
-        guard !isLoading else { return }
-        
+    @MainActor
+    private func updateDataIfNeeded() async {
         let lastFetchTime = UserDefaults.standard.double(forKey: lastFetchKey)
         let now = Date().timeIntervalSince1970
         
-        let needsUpdate = (now - lastFetchTime > cacheInterval) || allCoins.isEmpty
-        
-        if needsUpdate {
-            self.isLoading = true
-            
+        if (now - lastFetchTime > cacheInterval) {
             do {
                 let cryptoModels = try await coinService.fetchCoins()
-                PersistenceController.shared.saveCoins(from: cryptoModels)
+                updateDatabase(with: cryptoModels)
                 UserDefaults.standard.set(now, forKey: lastFetchKey)
             } catch {
-                print("Failed to load coins: \(error.localizedDescription)")
+                print("Failed to perform timed update: \(error)")
             }
+        }
+    }
+    
+    private func updateDatabase(with cryptoModels: [Crypto]) {
+        for coinModel in cryptoModels {
+            let id = coinModel.id
+            let predicate = #Predicate<Coin> { $0.id == id }
+            let fetchDescriptor = FetchDescriptor(predicate: predicate)
             
-            self.isLoading = false
+            do {
+                if let existingCoin = try modelContext.fetch(fetchDescriptor).first {
+                    // Update existing coin
+                    existingCoin.currentPrice = coinModel.currentPrice
+                    existingCoin.priceChangePercentage24h = coinModel.priceChangePercentage24h ?? 0.0
+                } else {
+                    // Insert new coin if it somehow doesn't exist (should be rare)
+                    let newCoin = Coin(from: coinModel)
+                    modelContext.insert(newCoin)
+                }
+            } catch {
+                print("Failed to fetch or update coin: \(error)")
+            }
         }
     }
 }
