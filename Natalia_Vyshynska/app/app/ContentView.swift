@@ -2,19 +2,19 @@
 //  ContentView.swift
 //  app
 //
-//  Created by Наталія Вишинська on 01.11.2025.
+//  Created by Nataliia Vyshynska on 01.11.2025.
 //
 
 import SwiftUI
 
-// Модель фільму
+// model film
 struct Movie: Identifiable {
     let id = UUID()
     let title: String
     var rating: Int // 0..5
 }
 
-// Головний екран
+// main screen
 struct ContentView: View {
     @State private var movies = [
         Movie(title: "Оппенгеймер", rating: 4),
@@ -25,14 +25,13 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List($movies) { $movie in     MovieRow(movie: $movie)
-                }
+            List($movies) { $movie in MovieRow(movie: $movie)}
             .navigationTitle("CineGuide")
         }
     }
 }
 
-// Рядок фільму
+// film line
 struct MovieRow: View {
     @Binding var movie: Movie
     
@@ -49,7 +48,7 @@ struct MovieRow: View {
     }
 }
 
-// Клікабельні зірочки
+// Clickable starts
 struct ClickableStars: View {
     @Binding var rating: Int
     private let maxRating = 5
