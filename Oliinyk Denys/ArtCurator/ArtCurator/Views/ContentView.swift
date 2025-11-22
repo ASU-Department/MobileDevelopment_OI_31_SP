@@ -94,7 +94,24 @@ struct ContentView: View {
                                         ArtworkItem(artwork: $artworkService.artworks[index])
                                     }
                                     .buttonStyle(PlainButtonStyle())
+                                    .onAppear {
+                                        if artwork.id == filteredArtworks.last?.id && artworkService.hasMorePages {
+                                            Task {
+                                                await artworkService.loadMoreArtworks(modelContext: modelContext)
+                                            }
+                                        }
+                                    }
                                 }
+                            }
+                            
+                            if artworkService.isLoadingMore {
+                                HStack(spacing: 8) {
+                                    CustomIndicator(isAnimating: .constant(true), style: .medium)
+                                    Text("Loading more...")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .padding(.vertical, 16)
                             }
                         }
                         .padding(.horizontal)
