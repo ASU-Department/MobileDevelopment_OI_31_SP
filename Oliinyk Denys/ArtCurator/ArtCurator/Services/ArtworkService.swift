@@ -15,56 +15,62 @@ class ArtworkService: ObservableObject {
     
     @Published var artworks: [Artwork] = []
     @Published var isLoading = false
+    @Published var isLoadingMore = false
     @Published var errorMessage: String?
     @Published var isOffline = false
     
     private let baseApiURL = "https://collectionapi.metmuseum.org/public/collection/v1"
+    private var allObjectIDs: [Int] = []
+    private var currentOffset = 0
+    private let pageSize = 20
+    
+    var hasMorePages: Bool {
+        currentOffset < allObjectIDs.count
+    }
     
     func fetchArtworks(modelContext: ModelContext, query: String = "") async {
         isLoading = true
         errorMessage = nil
         isOffline = false
+        currentOffset = 0
         
         do {
             let searchQuery = query.isEmpty ? "painting" : query
-            let encodedQuery = searchQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? searchQuery
-            let searchURL = URL(string: "\(baseApiURL)/search?hasImages=true&q=\(encodedQuery)")!
-            let (searchData, _) = try await URLSession.shared.data(from: searchURL)
+            allObjectIDs = try await searchArtworks(query: searchQuery)
             
-            let searchResponse = try JSONDecoder().decode(ArtworkSearchResponse.self, from: searchData)
-            
-            guard let objectIDs = searchResponse.objectIDs, !objectIDs.isEmpty else {
+            guard !allObjectIDs.isEmpty else {
                 errorMessage = "No artworks found for '\(searchQuery)'. Try a different query."
                 isLoading = false
                 return
             }
             
-            let limitedIDs = Array(objectIDs.prefix(20))
-            var fetchedArtworks: [Artwork] = []
+            let firstBatch = Array(allObjectIDs.prefix(pageSize))
+            currentOffset = firstBatch.count
             
-            for objectID in limitedIDs {
-                if let artwork = try? await fetchArtworkDetail(objectID: objectID) {
-                    fetchedArtworks.append(artwork)
-                }
-            }
-            
-            try modelContext.delete(model: Artwork.self)
-            
-            for artwork in fetchedArtworks {
-                modelContext.insert(artwork)
-            }
-            try modelContext.save()
-            
+            let fetchedArtworks = await fetchAndSaveArtworks(objectIDs: firstBatch, modelContext: modelContext)
             self.artworks = fetchedArtworks
             
-            UserDefaults.standard.set(Date(), forKey: "lastFetchDate")
-            UserDefaults.standard.set(query, forKey: "lastSearchQuery")
+            saveSearchState(query: query)
         } catch {
             errorMessage = "Failed to fetch artworks: \(error.localizedDescription)"
             loadFromLocalStorage(modelContext: modelContext)
         }
         
         isLoading = false
+    }
+    
+    func loadMoreArtworks(modelContext: ModelContext) async {
+        guard !isLoading && !isLoadingMore && hasMorePages else { return }
+        
+        isLoadingMore = true
+        
+        let nextBatch = Array(allObjectIDs[currentOffset..<min(currentOffset + pageSize, allObjectIDs.count)])
+        currentOffset += nextBatch.count
+        
+        let fetchedArtworks = await fetchAndSaveArtworks(objectIDs: nextBatch, modelContext: modelContext)
+        self.artworks.append(contentsOf: fetchedArtworks)
+        
+        isLoadingMore = false
     }
     
     func loadFromLocalStorage(modelContext: ModelContext) {
@@ -88,7 +94,44 @@ class ArtworkService: ObservableObject {
         }
     }
     
-    private func fetchArtworkDetail(objectID: Int) async throws -> Artwork? {
+    private func searchArtworks(query: String) async throws -> [Int] {
+        let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+        let searchURL = URL(string: "\(baseApiURL)/search?hasImages=true&q=\(encodedQuery)")!
+        let (searchData, _) = try await URLSession.shared.data(from: searchURL)
+        let searchResponse = try JSONDecoder().decode(ArtworkSearchResponse.self, from: searchData)
+        return searchResponse.objectIDs ?? []
+    }
+    
+    private func fetchAndSaveArtworks(objectIDs: [Int], modelContext: ModelContext) async -> [Artwork] {
+        var fetchedArtworks: [Artwork] = []
+        
+        for objectID in objectIDs {
+            if let artwork = try? await fetchArtworkDetail(objectID: objectID, modelContext: modelContext) {
+                fetchedArtworks.append(artwork)
+            }
+        }
+        
+        for artwork in fetchedArtworks {
+            modelContext.insert(artwork)
+        }
+        try? modelContext.save()
+        
+        return fetchedArtworks
+    }
+    
+    private func saveSearchState(query: String) {
+        UserDefaults.standard.set(query, forKey: "searchQuery")
+    }
+    
+    private func fetchArtworkDetail(objectID: Int, modelContext: ModelContext) async throws -> Artwork? {
+        let descriptor = FetchDescriptor<Artwork>(
+            predicate: #Predicate { $0.id == objectID }
+        )
+        
+        if let existingArtwork = try? modelContext.fetch(descriptor).first {
+            return existingArtwork
+        }
+        
         let objectURL = URL(string: "\(baseApiURL)/objects/\(objectID)")!
         let (objectData, _) = try await URLSession.shared.data(from: objectURL)
         let objectResponse = try JSONDecoder().decode(ArtworkObjectResponse.self, from: objectData)
