@@ -51,10 +51,14 @@ struct CryptoRowView: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text(coin.currentPrice, format: .currency(code: "USD"))
                     .font(.headline)
+                    .contentTransition(.numericText(value: coin.currentPrice))
+                    .animation(.easeInOut, value: coin.currentPrice)
                 
                 Text(String(format: "%.2f%%", coin.priceChangePercentage24h))
                     .font(.caption)
                     .foregroundColor(coin.priceChangePercentage24h >= 0 ? .green : .red)
+                    .contentTransition(.numericText(value: coin.priceChangePercentage24h))
+                    .animation(.easeInOut, value: coin.priceChangePercentage24h)
             }
         }
         .padding(.vertical, 8)

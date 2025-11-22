@@ -13,11 +13,19 @@ struct CryptoListView: View {
     @Query(sort: \Coin.currentPrice, order: .reverse) private var allCoins: [Coin]
     
     @State private var showPortfolioOnly = false
+    @State private var isLoading = false
+    @State private var errorAlert: ErrorAlert?
     
+    @State private var showThrottledMessage = false
+    @State private var lastManualRefreshTime: Date? = nil
+    
+    @State private var lastUpdateTime: Date? = nil
+
     private let coinService = CoinGeckoService()
     
-    private let lastFetchKey = "lastFetchTime"
+    private let lastUpdateDateKey = "lastUpdateDate"
     private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
+    private let refreshCooldown: TimeInterval = 15 // 15 seconds
 
     private var filteredCoins: [Coin] {
         if showPortfolioOnly {
@@ -39,9 +47,22 @@ struct CryptoListView: View {
                 }
             }
             .listStyle(PlainListStyle())
-            .navigationTitle("CryptoTracker")
+            .refreshable {
+                await refreshData()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("CryptoTracker").font(.headline)
+                        if let lastUpdateTime {
+                            Text("Last Updated: \(lastUpdateTime.formatted(date: .omitted, time: .standard))")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         withAnimation(.spring()) {
@@ -73,10 +94,31 @@ struct CryptoListView: View {
                 .padding(.bottom, 4)
             }
             .task {
-                await updateDataIfNeeded()
+                if let storedDate = UserDefaults.standard.object(forKey: lastUpdateDateKey) as? Date {
+                    self.lastUpdateTime = storedDate
+                }
+                await loadData(force: false)
             }
             .navigationDestination(for: Coin.self) { coin in
                 CoinDetailView(coin: coin)
+            }
+            .alert(item: $errorAlert) { alert in
+                Alert(title: Text("Network Error"),
+                      message: Text(alert.message),
+                      dismissButton: .default(Text("OK")))
+            }
+            .overlay(alignment: .top) {
+                if showThrottledMessage {
+                    Text("Please wait a moment before refreshing again.")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(10)
+                        .background(.thinMaterial)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 4)
+                }
             }
         }
     }
@@ -88,18 +130,58 @@ struct CryptoListView: View {
     }
     
     @MainActor
-    private func updateDataIfNeeded() async {
-        let lastFetchTime = UserDefaults.standard.double(forKey: lastFetchKey)
-        let now = Date().timeIntervalSince1970
-        
-        if (now - lastFetchTime > cacheInterval) {
-            do {
-                let cryptoModels = try await coinService.fetchCoins()
-                updateDatabase(with: cryptoModels)
-                UserDefaults.standard.set(now, forKey: lastFetchKey)
-            } catch {
-                print("Failed to perform timed update: \(error)")
+    private func refreshData() async {
+        if let lastRefresh = lastManualRefreshTime, Date().timeIntervalSince(lastRefresh) < refreshCooldown {
+            print("Refresh throttled.")
+            
+            try? await Task.sleep(for: .seconds(0.75))
+            
+            withAnimation {
+                showThrottledMessage = true
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation {
+                    showThrottledMessage = false
+                }
+            }
+            return
+        }
+        
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await self.loadData(force: true)
+            }
+            group.addTask {
+                try? await Task.sleep(for: .seconds(0.75))
+            }
+        }
+        
+        lastManualRefreshTime = Date()
+    }
+    
+    @MainActor
+    private func loadData(force: Bool) async {
+        guard !isLoading else { return }
+        
+        let lastFetchTime = (UserDefaults.standard.object(forKey: lastUpdateDateKey) as? Date) ?? .distantPast
+        let now = Date()
+        
+        let needsUpdate = force || now.timeIntervalSince(lastFetchTime) > cacheInterval
+        guard needsUpdate else { return }
+        
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            let cryptoModels = try await coinService.fetchCoins()
+            updateDatabase(with: cryptoModels)
+            
+            let updateTime = Date()
+            self.lastUpdateTime = updateTime
+            UserDefaults.standard.set(updateTime, forKey: lastUpdateDateKey)
+            
+        } catch {
+            self.errorAlert = ErrorAlert(message: error.localizedDescription)
         }
     }
     
@@ -111,11 +193,9 @@ struct CryptoListView: View {
             
             do {
                 if let existingCoin = try modelContext.fetch(fetchDescriptor).first {
-                    // Update existing coin
                     existingCoin.currentPrice = coinModel.currentPrice
                     existingCoin.priceChangePercentage24h = coinModel.priceChangePercentage24h ?? 0.0
                 } else {
-                    // Insert new coin if it somehow doesn't exist (should be rare)
                     let newCoin = Coin(from: coinModel)
                     modelContext.insert(newCoin)
                 }
@@ -124,4 +204,10 @@ struct CryptoListView: View {
             }
         }
     }
+}
+
+
+struct ErrorAlert: Identifiable {
+    let id = UUID()
+    let message: String
 }
