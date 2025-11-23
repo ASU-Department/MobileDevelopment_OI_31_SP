@@ -40,6 +40,14 @@ struct ContentView: View {
                 
                 Divider()
                 
+                NavigationLink("Перейти до деталей погоди") {
+                                    WeatherDetailView(city: locationName)
+                                }
+                                .padding()
+                                .buttonStyle(.borderedProminent)
+                                
+                                Spacer()
+                
                 VStack(alignment: .leading) {
                     Text("Налаштування")
                         .font(.headline)
@@ -57,6 +65,35 @@ struct ContentView: View {
             .padding()
             .navigationTitle("Налаштування")
         }
+    }
+}
+
+struct WeatherDetailView: View {
+    
+    let city: String
+    @State private var mapScale: Double = 0.5
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            
+            Text("Місто: \(city)")
+                .font(.title2)
+            
+            MapViewRepresentable(cityName: city, scale: mapScale)
+                .frame(height: 250)
+                .cornerRadius(10)
+            
+            MapScaleController(scale: $mapScale)
+                .frame(height: 120)
+            
+            Text("Масштаб карти: \(String(format: "%.2f", mapScale))")
+                .foregroundColor(.gray)
+                .font(.caption)
+            
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Карта міста")
     }
 }
 
