@@ -2,7 +2,7 @@
 //  WeatherWiseApp.swift
 //  WeatherWise
 //
-//  Created by vburdyk on 19.10.2025.
+//  Created by vburdyk on 22.11.2025.
 //
 
 import SwiftUI
