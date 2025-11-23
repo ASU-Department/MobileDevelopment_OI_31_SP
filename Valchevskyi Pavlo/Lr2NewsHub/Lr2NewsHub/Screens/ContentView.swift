@@ -6,22 +6,22 @@
 //
 
 import SwiftUI
-
-struct Article: Identifiable {
-    let id = UUID()
-    let title: String
-    let text: String
-    let category: String
-    var isSaveOffline: Bool = false
-    var userPoint: Int = 0
-}
+import SwiftData
 
 struct ContentView: View {
-    @State var selectedCategory: String = "All"
-    @State private var showingSuggestArticle = false
-  
-    @State var news: [Article]
-    let categories: [String]
+    @Environment(\.modelContext) private var context
+    @StateObject var vm: NewsViewModel
+    @StateObject var settings = AppSettings()
+
+    init() {
+        let container = try! ModelContainer(for: ArticleModel.self)
+        _vm = StateObject(wrappedValue: NewsViewModel(context: container.mainContext))
+    }
+    
+    var categories: [String] {
+        let setCategories = Set(vm.articles.map { $0.category })
+        return ["All"] + setCategories.sorted()
+    }
 
     var body: some View {
         NavigationStack {
@@ -41,37 +41,55 @@ struct ContentView: View {
                 
                 HStack {
                     Text("Choose category:")
-                    Picker("Category", selection: $selectedCategory) {
+                        .italic()
+                    Picker("Category", selection: $settings.selectedCategory) {
                         ForEach(categories, id: \.self) {
                             category in Text(category)
                         }
                     }
                 }
                 
+                HStack() {
+                    Text("Show favorite:")
+                        .italic()
+                    Toggle("", isOn: $settings.filterFavorite)
+                        .labelsHidden()
+                }
+
+                
+                if vm.isLoading {
+                    ProgressView("Loading remote news...")
+                        .padding()
+                }
+
+                if let error = vm.errorMessage {
+                    Text(error)
+                        .foregroundStyle(.red)
+                }
+                
                 List {
-                    HStack {
-                        Text("Article")
-                            .bold()
-                        Spacer()
-                        Text("Save\noffline")
-                            .multilineTextAlignment(.center)
-                            .bold()
-                    }
-                    ForEach($news) { $article in
-                        if selectedCategory == "All" || article.category == selectedCategory {
-                            NavigationLink(destination: ArticleDetailView(article: $article)) {
-                                ArticleRow(article: $article).padding(2)
-                            }
+                    let filteredByCategory = vm.articles.filter { settings.selectedCategory == "All" || $0.category == settings.selectedCategory }
+                    
+                    let finalArticles = settings.filterFavorite ? filteredByCategory.filter { $0.isFavorite } : filteredByCategory
+
+                    ForEach(finalArticles) { article in
+                        NavigationLink(article.title) {
+                            ArticleDetailView(article: article)
                         }
                     }
+                    
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.blue, lineWidth: 2)
+                )
+                .refreshable {
+                    await vm.fetchRemoteNews()
                 }
                 
                 Spacer()
                 
                 VStack {
-                    Button("Suggest article") {
-                        showingSuggestArticle = true
-                    }
                     HStack {
                         Text("(c) News Hub")
                             .italic()
@@ -82,32 +100,20 @@ struct ContentView: View {
                     .padding(.top)
                 }
             }
-            .sheet(isPresented: $showingSuggestArticle) {
-                SuggestArticleSwiftUIView { newArticle in
-                    news.append(newArticle)
-                    showingSuggestArticle = false
-                }
+            .task {
+                await vm.fetchRemoteNews()
             }
         }
     }
 }
 
-struct ArticleRow: View {
-    @Binding var article: Article
-    
-    var body: some View {
-        VStack {
-            Toggle(article.title, isOn: $article.isSaveOffline)
-        }
-    }
-}
-
 #Preview {
-    ContentView(
-        news: [
-            Article(title: "Title 1", text: "Text 1", category: "Category 1"),
-            Article(title: "Title 2", text: "Text 2", category: "Category 2")
-        ],
-        categories: ["All", "Category 1", "Category 2", "My suggest news"]
-    )
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: ArticleModel.self, configurations: config)
+
+    
+    let context = container.mainContext
+    
+    return ContentView()
+        .modelContainer(container)
 }
