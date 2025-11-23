@@ -11,10 +11,6 @@ import SwiftUI
 struct AirAwareApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var cityStore = CityStore()
-
-    init() {
-        _cityStore = StateObject(wrappedValue: AppDelegate.cityStore ?? CityStore())
-    }
     
     var body: some Scene {
         WindowGroup {
