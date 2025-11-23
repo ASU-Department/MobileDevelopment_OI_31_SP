@@ -9,10 +9,26 @@ import SwiftUI
 import NukeUI
 
 struct CryptoRowView: View {
-    let coin: CoinEntity
+    @ObservedObject var coin: CoinEntity
+    var onFavoriteToggle: () -> Void
     
     var body: some View {
         HStack(spacing: 16) {
+            Button(action: onFavoriteToggle) {
+                // Using a ZStack for a more controlled and responsive animation.
+                ZStack {
+                    Image(systemName: "star")
+                        .foregroundColor(.gray)
+                    
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                        .opacity(coin.isFavorite ? 1.0 : 0.0)
+                        .scaleEffect(coin.isFavorite ? 1.0 : 0.5)
+                }
+                .font(.title3)
+            }
+            .buttonStyle(.plain)
+
             LazyImage(url: URL(string: coin.image ?? "")) { state in
                 if let image = state.image {
                     image.resizable()
