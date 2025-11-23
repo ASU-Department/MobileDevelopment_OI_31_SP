@@ -16,8 +16,8 @@ struct Book: Hashable, Identifiable {
 }
 
 struct ContentView: View {
-    @State var books: [Book] = [
-    ]
+    @State var books = BookStore.shared.books
+    
     @State private var path = NavigationPath()
     
     @State var motivation = "You have nothing"
