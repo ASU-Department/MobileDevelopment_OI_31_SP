@@ -44,30 +44,28 @@ struct ContentView: View {
                 Text("Last update: \(lastUpdate)")
                     .font(.footnote)
                     .foregroundColor(.secondary)
-                
-                Group {
-                    List(sortedCities, id: \.id) { city in
-                        NavigationLink(destination: CityDetailView(city: city)) {
-                            CityItemView(city: city)
-                        }
+            
+                List(sortedCities, id: \.id) { city in
+                    NavigationLink(destination: CityDetailView(city: city)) {
+                        CityItemView(city: city)
                     }
-                    .refreshable {
-                        await refreshCities()
+                }
+                .refreshable {
+                    await refreshCities()
+                }
+                .overlay {
+                    if isLoading {
+                        ProgressView("Loading...")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    .overlay {
-                        if isLoading {
-                            ProgressView("Loading...")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        }
-                    }
-                    .alert("Error occured while fetching data", isPresented: Binding(
-                        get: { errorMessage != nil },
-                        set: { if !$0 { errorMessage = nil } }
-                    )) {
-                        Button("OK", role: .cancel) { }
-                    } message: {
-                        Text(errorMessage ?? "")
-                    }
+                }
+                .alert("Error occured while fetching data", isPresented: Binding(
+                    get: { errorMessage != nil },
+                    set: { if !$0 { errorMessage = nil } }
+                )) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(errorMessage ?? "")
                 }
             }
             .navigationTitle("AirAware")
@@ -128,15 +126,8 @@ struct ContentView_Previews: PreviewProvider {
 
     struct PreviewWrapper: View {
         var body: some View {
-            let mockCities: [City] = [
-                City(name: "Kyiv", aqi: 82, pm25: 27.4, o3: 12.1, selected: true),
-                City(name: "Lviv", aqi: 42, pm25: 14.2, o3: 6.0),
-                City(name: "Odesa", aqi: 118, pm25: 35.1, o3: 17.3)
-            ]
-            
             let container: ModelContainer = try! ModelContainer(for: City.self)
             let context: ModelContext = container.mainContext
-            mockCities.forEach { context.insert($0) }
 
             return ContentView()
                 .environment(\.modelContext, context)
