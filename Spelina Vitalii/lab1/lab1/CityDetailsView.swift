@@ -10,7 +10,6 @@ import SwiftUI
 struct CityDetailView: View {
     @Binding var city: City
     @State private var isLoading = false
-    @State private var message = ""
 
     var body: some View {
         ScrollView {
