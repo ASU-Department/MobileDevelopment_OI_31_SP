@@ -9,8 +9,10 @@ import SwiftUI
 
 struct Book: Hashable, Identifiable {
     let id = UUID()
-    let title: String
+    var title: String
     var isRead: Bool = false
+    var notes: String = ""
+    var rating: Float = 0.0
 }
 
 struct ContentView: View {
@@ -31,7 +33,7 @@ struct ContentView: View {
             VStack {
                 if books.isEmpty {
                     SimpleText(text: motivation)
-                        .frame(height: 80)
+                        .frame(width: 40, height: 80)
                         .padding(.horizontal)
                     
                     Button("Get motivated") {
@@ -48,7 +50,9 @@ struct ContentView: View {
                     List {
                         ForEach($books) { $book in
                             NavigationLink(value: $book.id) {
-                                BookRow(book: $book)
+                                BookRow(book: $book) {
+                                    deleteBook(id: $book.id)
+                                }
                             }
                         }
                     }
@@ -76,22 +80,44 @@ struct ContentView: View {
         books.append(newBook)
         path.append(newBook.id)
     }
+    
+    func deleteBook(id: UUID) {
+        if let index = books.firstIndex(where: { $0.id == id }) {
+            books.remove(at: index)
+        }
+    }
 }
 
 struct BookRow: View {
     @Binding var book: Book
+    var onDelete: () -> Void
     
     var body: some View {
-        Toggle(book.title, isOn: $book.isRead)
-        
-    }
-}
-
-struct BookFormView: View {
-    @Binding var book: Book
-    var body: some View {
-        Text(book.title)
-    }
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(book.title)
+                        .font(.headline)
+                    Text(String(format: "Rating: %.1f", book.rating))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+                Toggle(isOn: $book.isRead) {
+                    Text("Read")
+                }
+                .labelsHidden()
+            }
+            .padding(.vertical, 4)
+            .contextMenu {
+                Button(role: .destructive) {
+                    onDelete()
+                } label: {
+                    Label("Delete Book", systemImage: "trash")
+                }
+            }
+        }
 }
 
 #Preview {
