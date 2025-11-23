@@ -6,16 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct AirAwareApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var cityStore = CityStore()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(cityStore)
         }
+        .modelContainer(for: City.self)
     }
 }
