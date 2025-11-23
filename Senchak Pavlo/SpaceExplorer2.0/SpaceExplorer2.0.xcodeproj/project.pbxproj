@@ -15,9 +15,22 @@
 		461F5D3E2EA58A00002A2A2A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		46BB063A2ECA34D300873D4C /* Exceptions for "SpaceExplorer2.0" folder in "SpaceExplorer2.0" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ViewController.swift,
+			);
+			target = 461F5D2F2EA58425002A2A2A /* SpaceExplorer2.0 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		461F5D322EA58425002A2A2A /* SpaceExplorer2.0 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				46BB063A2ECA34D300873D4C /* Exceptions for "SpaceExplorer2.0" folder in "SpaceExplorer2.0" target */,
+			);
 			path = SpaceExplorer2.0;
 			sourceTree = "<group>";
 		};
