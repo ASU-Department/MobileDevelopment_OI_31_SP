@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CityDetailView: View {
-    @Binding var city: City
+    @Bindable var city: City
+    @Environment(\.modelContext) private var modelContext
     @State private var isLoading = false
+    @State private var errorMessage: String?
 
     var body: some View {
         ScrollView {
@@ -55,49 +58,54 @@ struct CityDetailView: View {
 
                 Divider()
 
-                Toggle("Subscribed", isOn: $city.selected)
+                Toggle("Subscribe", isOn: $city.selected)
                     .padding(.horizontal)
+                    .onChange(of: city.selected) {
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Failed saving toggle: \(error)")
+                        }
+                    }
 
                 LoadingView(isLoading: $isLoading)
                     .frame(width: 50, height: 50)
                     .padding(.top, 20)
 
                 Button("Refresh Data") {
-                    isLoading = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        isLoading = false
+                    Task {
+                        await refreshCityData()
                     }
                 }
                 .padding(.top, 10)
-                
-                Divider()
-                
-                CityNoteController(note: $city.note)
-                            .frame(height: 60)
-                            .padding()
-                            .background(Color(.secondarySystemBackground))
-                            .cornerRadius(12)
 
             }
             .padding()
         }
         .navigationTitle(city.name)
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct CityDetailView_Previews: PreviewProvider {
-    @State static var mockCity = City(
-        name: "Kyiv",
-        aqi: 82,
-        pm25: 27.4,
-        o3: 12.1,
-        selected: true
-    )
-
-    static var previews: some View {
-        NavigationStack {
-            CityDetailView(city: $mockCity)
+        .alert("Error occurred while fetching data",
+               isPresented: Binding(
+                    get: { errorMessage != nil },
+                    set: { if !$0 { errorMessage = nil } }
+               )
+        ) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage ?? "")
         }
     }
+
+    func refreshCityData() async {
+        isLoading = true
+        do {
+            let service = CityService()
+            let apiData = try await service.fetchAQI(for: city.name)
+            city.updateFromAPI(apiData)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        isLoading = false
+    }
 }
+
