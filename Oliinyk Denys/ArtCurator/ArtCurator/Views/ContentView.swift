@@ -8,22 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var artworkService = ArtworkService.shared
     @State private var searchQuery = ""
     @State private var filterFavorites = false
-    @State private var artworks = [
-        Artwork(id: 1, title: "Some Artwork 1", artistDisplayName: "Some Artist 1"),
-        Artwork(id: 2, title: "Some Artwork 2", artistDisplayName: "Some Artist 2"),
-        Artwork(id: 3, title: "Some Artwork 3", artistDisplayName: "Some Artist 3"),
-        Artwork(id: 4, title: "Some Artwork 4", artistDisplayName: "Some Artist 4"),
-        Artwork(id: 5, title: "Some Artwork 5", artistDisplayName: "Some Artist 5"),
-        Artwork(id: 6, title: "Some Artwork 6", artistDisplayName: "Some Artist 6"),
-        Artwork(id: 7, title: "Some Artwork 7", artistDisplayName: "Some Artist 7")
-    ]
     
-    private var filteredArtworks: [Binding<Artwork>] {
-        $artworks.filter { $artwork in
-            let artwork = $artwork.wrappedValue
-            
+    private var filteredArtworks: [Artwork] {
+        artworkService.artworks.filter { artwork in
             if filterFavorites && !artwork.isFavorite {
                 return false
             }
@@ -40,20 +30,30 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 SearchBar(searchQuery: $searchQuery, filterFavorites: $filterFavorites)
                 
                 ScrollView {
-                    VStack(spacing: 16) {
+                    LazyVStack(spacing: 12) {
                         ForEach(filteredArtworks) { artwork in
-                            ArtworkItem(artwork: artwork)
+                            if let index = artworkService.artworks.firstIndex(where: {
+                                $0.id == artwork.id
+                            }) {
+                                NavigationLink(destination: ArtworkDetails(
+                                    artwork: $artworkService.artworks[index])
+                                ) {
+                                    ArtworkItem(artwork: $artworkService.artworks[index])
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top, 8)
                 }
             }
-            .navigationTitle("ArtCurator Gallery")
+            .navigationTitle("Art Gallery")
         }
     }
 }
