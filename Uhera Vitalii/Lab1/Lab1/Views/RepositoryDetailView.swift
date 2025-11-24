@@ -44,7 +44,14 @@ struct RepositoryDetailView: View {
                 Spacer()
             }
             .padding()
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .colorScheme(.dark)
         }
         .navigationTitle(repository.name)
+        .background(Color.black)
     }
+}
+
+#Preview {
+    RepositoryDetailView(repository: FakeRepositoryData.sample().first!)
 }

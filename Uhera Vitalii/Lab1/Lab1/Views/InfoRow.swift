@@ -22,3 +22,7 @@ struct InfoRow: View {
         }
     }
 }
+
+#Preview {
+    InfoRow(label: "Label", value: "Info")
+}
