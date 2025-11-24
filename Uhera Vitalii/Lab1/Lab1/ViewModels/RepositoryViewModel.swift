@@ -10,19 +10,15 @@ import Foundation
 import Combine
 
 final class RepositoryViewModel: ObservableObject {
-    // UI state — make them @Published so the view updates
     @Published var searchText: String = ""
     @Published var showStarredOnly: Bool = false
     @Published var minWatchers: Int = 0
     @Published var minIssues: Int = 0
 
-    // Data
     @Published var repositories: [Repository] = FakeRepositoryData.sample()
 
-    // store only the IDs of starred repos (local session favorites)
+    // storing only the IDs of starred repos (local session favorites)
     @Published private(set) var starredRepoIds: Set<Int> = []
-
-    // MARK: - Helpers
 
     func isStarred(_ repo: Repository) -> Bool {
         starredRepoIds.contains(repo.id)

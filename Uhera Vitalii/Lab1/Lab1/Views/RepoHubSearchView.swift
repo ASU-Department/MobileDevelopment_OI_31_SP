@@ -11,7 +11,7 @@ import SwiftUI
 struct RepoHubSearchView: View {
     @StateObject private var viewModel = RepositoryViewModel()
     @State private var selectedRepository: Repository?   // Needed for navigation
-    @State var val = 0
+    @State private var val: Double = 0.0
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
@@ -32,22 +32,16 @@ struct RepoHubSearchView: View {
                     SliderRow(
                         title: "Min Watchers",
                         value: $viewModel.minWatchers,
-                        range: 0...5000
+                        range: 0.0...5000.0
                     )
 
                     SliderRow(
                         title: "Min Issues",
                         value: $viewModel.minIssues,
-                        range: 0...2000
+                        range: 0.0...2000.0
                     )
                 }
                 .padding(.horizontal)
-
-                SliderRow(
-                    title: "Min Issues",
-                    value: $val,
-                    range: 0...2000
-                )
                 
                 // 📜 Repositories List
                 List(viewModel.filteredRepositories) { repo in
@@ -64,11 +58,15 @@ struct RepoHubSearchView: View {
                     )
                 }
                 .listStyle(.plain)
+                .colorScheme(.dark)
             }
             .navigationTitle("DevHub Search")
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .navigationDestination(item: $selectedRepository) { repo in
                 RepositoryDetailView(repository: repo)
             }
+            .background(Color(red: 13 / 255, green: 17 / 255, blue: 23 / 255).opacity(1))
+            .foregroundStyle(Color(red: 240 / 255, green: 246 / 255, blue: 252 / 255).opacity(1))
         }
     }
 }
