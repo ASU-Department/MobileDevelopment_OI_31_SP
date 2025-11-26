@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CategoryPicker: View {
-    @Binding var selectedCategory: String
-    let categories: [String]
+    @Binding var selectedCategory: Category
+    let categories: [Category]
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,8 +17,9 @@ struct CategoryPicker: View {
                 .font(.headline)
 
             Picker("Category", selection: $selectedCategory) {
-                ForEach(categories, id: \.self) { category in
-                    Text(category)
+                ForEach(categories) { category in
+                    Text(category.name)
+                        .tag(category)
                         .listRowBackground(Color(.systemBackground))
                 }
             }
