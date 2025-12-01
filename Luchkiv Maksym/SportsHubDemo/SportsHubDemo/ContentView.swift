@@ -3,6 +3,7 @@ import Combine
 
 struct ContentView: View {
     @EnvironmentObject private var data: AppDataStore
+    @Environment(\.modelContext) private var modelContext
     
     // MARK: - Application State
     @State private var favoriteTeams: Set<Team> = FavoriteStore.shared.load()
@@ -11,6 +12,14 @@ struct ContentView: View {
     @State private var showFavoritesManager: Bool = false
     
     @State private var timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    
+    init() {
+        let settings = AppSettingsStore.shared
+        
+        _favoriteTeams = State(initialValue: FavoriteStore.shared.load())
+        _showLiveOnly = State(initialValue: settings.showLiveOnly)
+        _query = State(initialValue: settings.query)
+    }
 
     // MARK: - Filtered games
     private var filteredGames: [Game] {
@@ -33,19 +42,46 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
-                HStack {
-                    Toggle(isOn: $showLiveOnly) {
-                        Text("Live only")
+                // MARK: Loading state
+                if data.isLoading {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Updating...")
+                                .font(.footnote)
+                            
+                            if let last = data.lastUpdateDate {
+                                Text("Last updated: \(last.formatted(date: .abbreviated, time: .shortened))")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
-                    .toggleStyle(SwitchToggleStyle())
-                }
-                .padding(.horizontal)
-                
-                TextField("Search teams or cities", text: $query)
-                    .textFieldStyle(.roundedBorder)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                }
+                
+                // MARK: Error state
+                if let error = data.lastError {
+                    Text("Failed to refresh from network: \(error)")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.leading)
+                }
                 
                 List {
+                    Section(header: Text("Preferences")) {
+                        HStack {
+                            Toggle(isOn: $showLiveOnly) {
+                                Text("Live only")
+                            }
+                            .toggleStyle(SwitchToggleStyle())
+                        }
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    
                     Section(header: Text("Favorites")) {
                         if favoriteTeams.isEmpty {
                             Text("No favorites yet. Tap “Manage Favorites” to add.")
@@ -76,26 +112,35 @@ struct ContentView: View {
 
                     // Games Section
                     Section(header: Text(sectionTitle)) {
-                        ForEach(filteredGames) { game in
-                            NavigationLink {
-                                GameDetailView(
-                                    game: game,
-                                    isFavoriteHome: favoriteTeams.contains(game.home),
-                                    isFavoriteAway: favoriteTeams.contains(game.away)
-                                )
-                            } label: {
-                                GameRow(
-                                    game: game,
-                                    highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
-                                )
+                        if filteredGames.isEmpty {
+                            Text("No games match the current filters.")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(filteredGames) { game in
+                                NavigationLink {
+                                    GameDetailView(
+                                        game: game,
+                                        isFavoriteHome: favoriteTeams.contains(game.home),
+                                        isFavoriteAway: favoriteTeams.contains(game.away)
+                                    )
+                                } label: {
+                                    GameRow(
+                                        game: game,
+                                        highlight: favoriteTeams.contains(game.home) || favoriteTeams.contains(game.away)
+                                    )
+                                }
+                                .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                             }
-                            .accessibilityIdentifier("gameRow_\(game.home.short)_\(game.away.short)")
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
+                .refreshable {
+                    await data.refreshFromNetwork(using: modelContext)
+                }
             }
             .navigationTitle("SportsHub")
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .automatic))
             .toolbar {
                 NavigationLink {
                     TeamsDirectoryView(allTeams: data.allTeams)
@@ -115,8 +160,19 @@ struct ContentView: View {
         .onChange(of: favoriteTeams) { _, newValue in
             FavoriteStore.shared.save(newValue)
         }
+        .onChange(of: showLiveOnly) { _, newValue in
+            AppSettingsStore.shared.showLiveOnly = newValue
+        }
+        .onChange(of: query) { _, newValue in
+            AppSettingsStore.shared.query = newValue
+        }
         .onReceive(timer) { _ in
             data.tickLiveScores()
+        }
+        // MARK: Trigger initial network fetch
+        .task {
+            data.loadFromCache(using: modelContext)
+            await data.refreshFromNetwork(using: modelContext)
         }
     }
 }
