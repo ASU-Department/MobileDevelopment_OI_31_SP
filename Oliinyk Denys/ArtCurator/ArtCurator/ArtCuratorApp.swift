@@ -1,18 +1,19 @@
 //
-//  lab1App.swift
-//  lab1
+//  ArtCuratorApp.swift
+//  ArtCurator
 //
-//  Created by A-Z pack group on 02.11.2025.
+//  Created by Denys Oliinyk on 05.11.2025.
 //
+
 import SwiftUI
 
 @main
-struct lab1App: App {
+struct ArtCuratorApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
-            FitTrackerView()
+            ContentView()
         }
     }
 }
