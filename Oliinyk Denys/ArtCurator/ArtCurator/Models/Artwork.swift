@@ -5,7 +5,7 @@
 //  Created by Denys Oliinyk on 05.11.2025.
 //
 
-import SwiftUI
+import Foundation
 
 struct Artwork: Identifiable {
     let id: Int
