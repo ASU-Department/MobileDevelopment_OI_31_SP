@@ -1,0 +1,112 @@
+import SwiftUI
+import MapKit
+
+struct ContentView: View {
+    @State private var searchText: String = ""
+    
+    @State private var isSearching: Bool = false
+
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                
+                Text("🎫 Eventive")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                HStack {
+                    TextField("Пошук за місцем / датою / ім'ям", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                    
+                    Button(action: {
+                        isSearching.toggle()
+                    }) {
+                        Text("Шукати")
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(red: 0.93, green: 0.79, blue: 0.16))
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
+                
+                SearchResultsView(isSearching: $isSearching)
+                
+                Spacer()
+            }
+            .padding()
+        }
+    }
+}
+
+struct SearchResultsView: View {
+    @Binding var isSearching: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if isSearching {
+                Text("Результати пошуку")
+                    .font(.headline)
+                
+                NavigationLink(destination: EventDetailView()) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Філіп К. Дік – «Чи мріють андроїди?» Читання та панельна дискусія")
+                            .font(.headline)
+                        Text("Львів, America House")
+                            .font(.subheadline)
+                        Text("17 листопада, 2025")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+            } else {
+                Text("Події не існує")
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding()
+    }
+}
+
+struct EventDetailView: View {
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 49.8397, longitude: 24.0297),
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Філіп К. Дік – «Чи мріють андроїди?»")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            Text("Читання та панельна дискусія про культову книгу письменника, що надихнула на створення не менш легендарного фільму 'Blade Runner'.")
+                .font(.body)
+            
+            Text("📍 Локація: Львів, America House")
+                .font(.subheadline)
+            
+            Text("📅 Дата: 17 листопада, 2025")
+                .font(.subheadline)
+            
+            Text("💸 Вхід вільний")
+                .font(.subheadline)
+
+            Map(coordinateRegion: $region)
+                .frame(height: 200)
+                .cornerRadius(10)
+            
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Деталі події")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
