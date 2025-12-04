@@ -1,38 +1,55 @@
 import SwiftUI
-import Combine
 
 struct ResultsListView: View {
     let songs: [Song]
-    @ObservedObject var favoritesVM: FavoritesViewModel
+    let isFavorite: (Song) -> Bool
+    let toggleFavorite: (Song) -> Void
+
     @ObservedObject var player: AudioPlayerManager
 
     var body: some View {
         List(songs) { song in
-
-            // Один і той самий Binding на фаворит,
-            // щоб працював і в рядку, і в деталях
+            // Binding, який вміє читати статус із SwiftData
+            // і при зміні викликати toggleFavorite(song)
             let favBinding = Binding<Bool>(
-                get: { favoritesVM.isFavorite(song) },
-                set: { _ in favoritesVM.toggle(song) }
+                get: { isFavorite(song) },
+                set: { newValue in
+                    if newValue != isFavorite(song) {
+                        toggleFavorite(song)
+                    }
+                }
             )
+
+            let isPlaying = player.currentlyPlayingId == song.id
 
             NavigationLink {
                 TrackDetailView(
                     song: song,
                     isFavorite: favBinding,
                     player: player,
-                    onPlayTap: { player.playPreview(for: song) }
+                    onPlayTap: {
+                        togglePlay(for: song)
+                    }
                 )
             } label: {
                 SongRowView(
                     song: song,
                     isFavorite: favBinding,
-                    isPlaying: player.currentlyPlayingId == song.id,
-                    onPlayTap: { player.playPreview(for: song) }
+                    isPlaying: isPlaying,
+                    onPlayTap: {
+                        togglePlay(for: song)
+                    }
                 )
             }
         }
         .listStyle(.plain)
     }
-}
 
+    private func togglePlay(for song: Song) {
+        if player.currentlyPlayingId == song.id {
+            player.stop()
+        } else {
+            player.playPreview(for: song)
+        }
+    }
+}

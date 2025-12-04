@@ -23,7 +23,7 @@ struct TrackDetailView: View {
             VStack(spacing: 16) {
 
                 // Artwork
-                ArtworkView(urlString: song.artworkUrl100)
+                ArtworkView(url: song.artworkUrl100)
                     .frame(width: 220, height: 220)
                     .padding(.top, 8)
 

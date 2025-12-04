@@ -1,31 +1,39 @@
 import SwiftUI
 
 struct ArtworkView: View {
-    let urlString: String?
-    
+    let url: URL?
+
     var body: some View {
-        AsyncImage(url: URL(string: urlString ?? "")) { phase in
-            switch phase {
-            case .success(let image):
-                image.resizable().scaledToFill()
-            case .failure(_):
-                placeholder
-            case .empty:
-                placeholder
-            @unknown default:
+        ZStack {
+            if let url {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        placeholder
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    case .failure:
+                        placeholder
+                    @unknown default:
+                        placeholder
+                    }
+                }
+            } else {
                 placeholder
             }
         }
-        .frame(width: 54, height: 54)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .frame(width: 60, height: 60)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
-    
+
     private var placeholder: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.gray.opacity(0.15))
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(.gray.opacity(0.2))
             Image(systemName: "music.note")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
         }
     }
 }
