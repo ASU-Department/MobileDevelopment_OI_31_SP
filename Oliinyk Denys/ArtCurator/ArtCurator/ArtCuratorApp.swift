@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ArtCuratorApp: App {
@@ -15,5 +16,6 @@ struct ArtCuratorApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Artwork.self)
     }
 }
