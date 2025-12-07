@@ -29,18 +29,12 @@ struct HomeView: View {
                             .font(.largeTitle.bold())
                             .padding(.top, 16)
                             .padding(.vertical, 20)
-
-                        // -------------------------------------------------
-                        // LOADING
-                        // -------------------------------------------------
+                        
                         if isLoading {
                             ProgressView("Loading NASA Picture...")
                                 .padding()
                         }
 
-                        // -------------------------------------------------
-                        // ERROR
-                        // -------------------------------------------------
                         if let errorMessage {
                             VStack(spacing: 6) {
                                 Text("❌ Error loading APOD")
@@ -58,15 +52,11 @@ struct HomeView: View {
                             .padding(.bottom, 12)
                         }
 
-                        // -------------------------------------------------
-                        // CONTENT
-                        // -------------------------------------------------
                         if let apod {
                             Text(apod.title)
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
 
-                            // Always show photo even if media_type == video
                             AsyncImage(url: URL(string: apod.url)) { img in
                                 img.resizable()
                                     .scaledToFit()
@@ -78,9 +68,6 @@ struct HomeView: View {
                             .padding()
                         }
 
-                        // -------------------------------------------------
-                        // Rating controls
-                        // -------------------------------------------------
                         Text("Rate the astronomical picture of the day")
                             .font(.headline)
                             .padding(.top, 10)
@@ -136,9 +123,6 @@ struct HomeView: View {
                     await loadAPOD()
                 }
 
-                // -------------------------------------------------
-                // Toast
-                // -------------------------------------------------
                 if showToast {
                     VStack {
                         Spacer()
@@ -167,9 +151,6 @@ struct HomeView: View {
         }
     }
 
-    // -------------------------------------------------
-    // LOAD APOD WITH OFFLINE FALLBACK
-    // -------------------------------------------------
     private func loadAPOD() async {
         if isRefreshing { return }
 
@@ -185,7 +166,6 @@ struct HomeView: View {
             await MainActor.run {
                 self.apod = result
 
-                // clear old cache
                 for item in cachedApods {
                     context.delete(item)
                 }
@@ -202,13 +182,11 @@ struct HomeView: View {
             }
 
         } catch {
-            // If task was cancelled — ignore
             if (error as? URLError)?.code == .cancelled {
                 print("⚠️ Request cancelled — ignoring")
                 return
             }
 
-            // Offline fallback
             if let local = cachedApods.first {
                 await MainActor.run {
                     self.apod = local.toResponse()
