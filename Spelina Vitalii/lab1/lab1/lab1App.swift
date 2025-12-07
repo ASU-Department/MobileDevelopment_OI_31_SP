@@ -1,14 +1,14 @@
 //
-//  SpaceExplorer2_0App.swift
-//  SpaceExplorer2.0
+//  lab1App.swift
+//  lab1
 //
-//  Created by Pab1m on 19.10.2025.
+//  Created by witold on 06.11.2025.
 //
 
 import SwiftUI
 
 @main
-struct SpaceExplorer2_0App: App {
+struct lab1App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
