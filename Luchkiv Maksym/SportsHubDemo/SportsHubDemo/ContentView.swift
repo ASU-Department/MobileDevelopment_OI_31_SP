@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 struct ContentView: View {
     @StateObject private var viewModel: GamesViewModel
@@ -89,9 +88,11 @@ struct ContentView: View {
                             ForEach(viewModel.filteredGames) { game in
                                 NavigationLink {
                                     GameDetailView(
-                                        game: game,
-                                        isFavoriteHome: viewModel.favoriteTeams.contains(game.home),
-                                        isFavoriteAway: viewModel.favoriteTeams.contains(game.away)
+                                        viewModel: GameDetailViewModel(
+                                            game: game,
+                                            isFavoriteHome: viewModel.favoriteTeams.contains(game.home),
+                                            isFavoriteAway: viewModel.favoriteTeams.contains(game.away)
+                                        )
                                     )
                                 } label: {
                                     GameRow(
