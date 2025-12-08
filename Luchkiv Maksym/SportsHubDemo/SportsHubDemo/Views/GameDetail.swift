@@ -8,59 +8,47 @@
 import SwiftUI
 
 struct GameDetailView: View {
-    let game: Game
-    let isFavoriteHome: Bool
-    let isFavoriteAway: Bool
-    
-    @State private var predictedHomeMargin: Double = 0
-    @State private var showShareSheet = false
-    
-    private var shareText: String {
-        let line = "\(game.away.city) \(game.away.name) @ \(game.home.city) \(game.home.name)"
-        let score = "\(game.awayScore) - \(game.homeScore) (\(game.statusText))"
-        let prediction = String(format: "Predicted margin (home): %.0f", predictedHomeMargin)
-        return "SportsHub:\n\(line)\n\(score)\n\(prediction)"
-    }
+    @ObservedObject var viewModel: GameDetailViewModel
     
     var body: some View {
         List {
             Section("Matchup") {
                 HStack {
-                    teamBadge(team: game.away, isFavorite: isFavoriteAway)
+                    teamBadge(team: viewModel.game.away, isFavorite: viewModel.isFavoriteAway)
                     Spacer()
                     Image(systemName: "at")
                         .imageScale(.large)
                         .accessibilityHidden(true)
                     Spacer()
-                    teamBadge(team: game.home, isFavorite: isFavoriteHome)
+                    teamBadge(team: viewModel.game.home, isFavorite: viewModel.isFavoriteHome)
                 }
                 .accessibilityElement(children: .combine)
                 
                 HStack {
                     Text("Score").foregroundStyle(.secondary)
                     Spacer()
-                    Text("\(game.awayScore) - \(game.homeScore)")
+                    Text("\(viewModel.game.awayScore) - \(viewModel.game.homeScore)")
                         .font(.title3)
-                        .fontWeight(game.isLive ? .bold : .regular)
-                        .accessibilityLabel("Score \(game.awayScore) to \(game.homeScore)")
+                        .fontWeight(viewModel.game.isLive ? .bold : .regular)
+                        .accessibilityLabel("Score \(viewModel.game.awayScore) to \(viewModel.game.homeScore)")
                 }
                 
                 HStack {
                     Text("Status").foregroundStyle(.secondary)
                     Spacer()
-                    Text(game.statusText)
-                        .foregroundStyle(game.isLive ? .green : .secondary)
-                        .accessibilityLabel(game.isLive ? "Live" : "Final")
+                    Text(viewModel.game.statusText)
+                        .foregroundStyle(viewModel.game.isLive ? .green : .secondary)
+                        .accessibilityLabel(viewModel.game.isLive ? "Live" : "Final")
                 }
             }
             
             Section("Predict") {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Home margin: \(Int(predictedHomeMargin))")
+                    Text("Home margin: \(Int(viewModel.predictedHomeMargin))")
                         .font(.headline)
                     
                     UISliderRepresentable(
-                        value: $predictedHomeMargin,
+                        value: $viewModel.predictedHomeMargin,
                         range: -20...20,
                         step: 1
                     )
@@ -73,18 +61,18 @@ struct GameDetailView: View {
             
             Section {
                 Button {
-                    showShareSheet = true
+                    viewModel.showShareSheet = true
                 } label: {
                     Label("Share Summary", systemImage: "square.and.arrow.up")
                 }
                 .accessibilityIdentifier("shareButton")
             }
         }
-        .navigationTitle("\(game.away.short) @ \(game.home.short)")
+        .navigationTitle("\(viewModel.game.away.short) @ \(viewModel.game.home.short)")
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showShareSheet) {
+        .sheet(isPresented: $viewModel.showShareSheet) {
             ActivityViewControllerRepresentable(
-                activityItems: [shareText],
+                activityItems: [viewModel.shareText],
                 applicationActivities: nil
             )
         }
@@ -109,9 +97,11 @@ struct GameDetailView: View {
 #Preview {
     NavigationStack {
         GameDetailView(
-            game: SampleData.games[0],
-            isFavoriteHome: true,
-            isFavoriteAway: true
+            viewModel: GameDetailViewModel(
+                game: SampleData.games[0],
+                isFavoriteHome: true,
+                isFavoriteAway: true
+            )
         )
     }
 }
