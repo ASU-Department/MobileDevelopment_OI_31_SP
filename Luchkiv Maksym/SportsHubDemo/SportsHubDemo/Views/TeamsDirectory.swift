@@ -13,7 +13,7 @@ struct TeamsDirectoryView: View {
     var body: some View {
         List(allTeams) { team in
             NavigationLink(team.city + " " + team.name) {
-                TeamDetailView(team: team)
+                TeamDetailView(viewModel: TeamDetailViewModel(team: team))
             }
         }
         .navigationTitle("Teams")
