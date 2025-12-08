@@ -19,7 +19,7 @@ struct SportsHubDemoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: GamesViewModel(repository: DefaultGamesRepository()))
                 .environmentObject(dataStore)
         }
         .modelContainer(for: GameRecord.self)
