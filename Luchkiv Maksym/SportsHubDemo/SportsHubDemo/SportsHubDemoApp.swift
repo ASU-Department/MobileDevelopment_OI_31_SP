@@ -12,7 +12,7 @@ import SwiftData
 struct SportsHubDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: GamesViewModel(repository: DefaultGamesRepository()))
+            AppCoordinatorView()
         }
         .modelContainer(for: GameRecord.self)
     }
