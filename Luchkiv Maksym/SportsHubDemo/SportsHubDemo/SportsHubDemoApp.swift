@@ -10,10 +10,15 @@ import SwiftData
 
 @main
 struct SportsHubDemoApp: App {
+    private let container: ModelContainer = {
+        do { return try ModelContainer(for: GameRecord.self) }
+        catch { fatalError("Failed to create ModelContainer: \(error)") }
+    }()
+    
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView()
+            AppCoordinatorView(container: container)
+                .modelContainer(container)
         }
-        .modelContainer(for: GameRecord.self)
     }
 }

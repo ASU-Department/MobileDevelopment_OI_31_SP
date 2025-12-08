@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 enum AppRoute: Hashable {
     case teamsDirectory
@@ -25,10 +26,10 @@ final class AppCoordinator: ObservableObject {
     private let repository: GamesRepositoryProtocol
     private(set) var latestTeams: [Team] = []
 
-    init(repository: GamesRepositoryProtocol? = nil) {
-        self.repository = repository ?? DefaultGamesRepository()
+    init(container: ModelContainer, repository: GamesRepositoryProtocol? = nil) {
+        self.repository = repository ?? DefaultGamesRepository(container: container)
     }
-
+    
     func makeGamesViewModel() -> GamesViewModel {
         GamesViewModel(repository: repository)
     }

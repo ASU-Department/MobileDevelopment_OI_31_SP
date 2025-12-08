@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @EnvironmentObject private var coordinator: AppCoordinator
@@ -143,7 +144,13 @@ struct ContentView: View {
 
 #Preview {
     NavigationStack {
-        ContentView(viewModel: GamesViewModel(repository: DefaultGamesRepository()))
-            .environmentObject(AppCoordinator())
+        ContentView(
+            viewModel: GamesViewModel(
+                repository: DefaultGamesRepository(container: PreviewContainer.shared)
+            )
+        )
+        .environmentObject(AppCoordinator(container: PreviewContainer.shared))
     }
+    .modelContainer(PreviewContainer.shared)
 }
+

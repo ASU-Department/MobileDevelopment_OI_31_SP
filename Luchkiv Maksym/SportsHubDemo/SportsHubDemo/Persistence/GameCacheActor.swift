@@ -11,12 +11,8 @@ import SwiftData
 actor GameCacheActor {
     private let container: ModelContainer
 
-    init() {
-        do {
-            container = try ModelContainer(for: GameRecord.self)
-        } catch {
-            fatalError("Failed to create cache container: \(error)")
-        }
+    init(container: ModelContainer) {
+        self.container = container
     }
 
     func loadGames() -> [Game] {

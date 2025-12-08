@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 protocol GamesRepositoryProtocol {
     var lastUpdateDate: Date? { get }
@@ -20,11 +21,11 @@ final class DefaultGamesRepository: GamesRepositoryProtocol {
 
     init(
         api: BalldontlieClient = .shared,
-        cache: GameCacheActor = GameCacheActor(),
+        container: ModelContainer,
         settings: AppSettingsStore = .shared
     ) {
         self.api = api
-        self.cache = cache
+        self.cache = GameCacheActor(container: container)
         self.settings = settings
     }
 

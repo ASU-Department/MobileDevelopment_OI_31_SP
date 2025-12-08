@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AppCoordinatorView: View {
-    @StateObject private var coordinator = AppCoordinator()
+    @StateObject private var coordinator: AppCoordinator
+    
+    init(container: ModelContainer) {
+        _coordinator = StateObject(wrappedValue: AppCoordinator(container: container))
+    }
 
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -32,5 +37,7 @@ struct AppCoordinatorView: View {
 }
 
 #Preview {
-    AppCoordinatorView()
+    AppCoordinatorView(container: PreviewContainer.shared)
+        .modelContainer(PreviewContainer.shared)
 }
+
