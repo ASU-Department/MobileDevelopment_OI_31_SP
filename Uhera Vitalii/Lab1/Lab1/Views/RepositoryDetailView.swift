@@ -10,11 +10,40 @@ import SwiftUI
 
 struct RepositoryDetailView: View {
     let repository: Repository
+    let developer: DeveloperProfile?  // optional additional info
+    let onOpenProfile: (DeveloperProfile) -> Void
+
+    @State private var showShare = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-
+                // headers
+                
+                if let dev = developer {
+                    HStack {
+                        AsyncImage(url: dev.avatarUrl) { img in img.resizable().scaledToFill() } placeholder: { Color.gray }
+                            .frame(width: 56, height: 56).clipShape(Circle())
+                        VStack(alignment: .leading) {
+                            Text(dev.name ?? dev.username).font(.headline)
+                            Text(dev.bio ?? "").font(.subheadline).foregroundColor(GitHubTheme.secondaryText)
+                        }
+                        Spacer()
+                        Button(action: {
+                            onOpenProfile(dev)
+                        }) {
+                            Text("View Profile")
+                                .fontWeight(.semibold)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(GitHubTheme.background)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding(.top, 12)
+                    }
+                }
+                
                 Text(repository.fullName)
                     .font(.title)
                     .bold()
@@ -37,21 +66,28 @@ struct RepositoryDetailView: View {
 
                 Divider()
 
-                Link("Open on GitHub", destination: URL(string: repository.htmlURL)!)
-                    .font(.headline)
-                    .foregroundColor(.blue)
+                if let link = repository.htmlUrl {
+                    Link("Open on GitHub", destination: link)
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                }
 
                 Spacer()
+                
+                Button(action: { showShare = true }) {
+                    Label("Share repo", systemImage: "square.and.arrow.up")
+                }
+                .sheet(isPresented: $showShare) {
+                    ShareSheetView(items: [repository.htmlUrl?.absoluteString ?? repository.fullName])
+                }
             }
             .padding()
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .colorScheme(.dark)
         }
         .navigationTitle(repository.name)
-        .background(Color.black)
+        .background(GitHubTheme.background)
     }
 }
 
-#Preview {
-    RepositoryDetailView(repository: FakeRepositoryData.sample().first!)
-}
+//#Preview {
+//    RepositoryDetailView(repository: FakeRepositoryData.sample().first!)
+//}

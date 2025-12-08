@@ -16,7 +16,6 @@ struct RepositoryRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Left tappable area -> opens details
             VStack(alignment: .leading, spacing: 6) {
                 Text(repository.name)
                     .font(.headline)
@@ -37,7 +36,6 @@ struct RepositoryRow: View {
                 .font(.caption)
                 .foregroundColor(.gray)
             }
-            // make the tappable area clear and big
             .contentShape(Rectangle())
             .onTapGesture {
                 onOpenDetails()
@@ -45,14 +43,13 @@ struct RepositoryRow: View {
 
             Spacer()
 
-            // Star button — separate interactive area
             Button(action: onToggleStar) {
                 Image(systemName: isStarred ? "star.fill" : "star")
                     .font(.system(size: 18))
                     .foregroundColor(isStarred ? .yellow : .gray)
                     .padding(8)
             }
-            .buttonStyle(.borderless) // critical: keep button independent inside List
+            .buttonStyle(.borderless)
         }
         .padding(.vertical, 8)
     }

@@ -10,64 +10,65 @@ import SwiftUI
 
 struct RepoHubSearchView: View {
     @StateObject private var viewModel = RepositoryViewModel()
-    @State private var selectedRepository: Repository?   // Needed for navigation
-    @State private var val: Double = 0.0
+    @State private var selectedRepository: Repository?
+    @State private var selectedDeveloper: DeveloperProfile?
+    @State private var loading: Bool = false
+    @State private var showShareSheet = false
+
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 16) {
-
-                // 🔍 Search
-                TextField("Search repositories…", text: $viewModel.searchText)
-                    .padding(10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
+            VStack(spacing: 12) {
+                UISearchBarRepresentable(text: $viewModel.searchText, placeholder: "Search repos / language")
                     .padding(.horizontal)
-
-                // ⭐ Starred toggle
-                Toggle("Show Starred Only", isOn: $viewModel.showStarredOnly)
-                    .padding(.horizontal)
-
-                // 🎚 Sliders
-                VStack(spacing: 12) {
-                    SliderRow(
-                        title: "Min Watchers",
-                        value: $viewModel.minWatchers,
-                        range: 0.0...5000.0
-                    )
-
-                    SliderRow(
-                        title: "Min Issues",
-                        value: $viewModel.minIssues,
-                        range: 0.0...2000.0
-                    )
-                }
-                .padding(.horizontal)
                 
-                // 📜 Repositories List
+                HStack {
+                    Spacer()
+                    ActivityIndicatorView(isAnimating: $loading, style: .medium)
+                    Spacer()
+                }
+
+                Text("Min Watchers: \(viewModel.minWatchers)")
+                    .foregroundColor(GitHubTheme.secondaryText)
+                UIKitSliderView(value: Binding(get: { Int(viewModel.minWatchers) }, set: { viewModel.minWatchers = Int($0) }))
+                    .frame(height: 36)
+                    .padding(.horizontal)
+
                 List(viewModel.filteredRepositories) { repo in
                     RepositoryRow(
                         repository: repo,
                         isStarred: viewModel.isStarred(repo),
-                        onToggleStar: {
-                            viewModel.toggleStar(repo)
-                        },
+                        onToggleStar: { viewModel.toggleStar(repo) },
                         onOpenDetails: {
-                            // set selected repo (navigationDestination will trigger)
                             selectedRepository = repo
                         }
                     )
+                    .listRowBackground(GitHubTheme.elevated)
                 }
                 .listStyle(.plain)
-                .colorScheme(.dark)
             }
-            .navigationTitle("DevHub Search")
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .navigationTitle("DevHub")
+            .task {
+                loading = true
+                await viewModel.load()
+                loading = false
+            }
             .navigationDestination(item: $selectedRepository) { repo in
-                RepositoryDetailView(repository: repo)
+                let dev = viewModel.developer(for: repo.owner.login)
+                
+                RepositoryDetailView(
+                    repository: repo,
+                    developer: dev,
+                    onOpenProfile: { profile in
+                        selectedDeveloper = profile
+                    }
+                )
             }
-            .background(Color(red: 13 / 255, green: 17 / 255, blue: 23 / 255).opacity(1))
-            .foregroundStyle(Color(red: 240 / 255, green: 246 / 255, blue: 252 / 255).opacity(1))
+            .navigationDestination(item: $selectedDeveloper) { profile in
+                DeveloperProfileView(profile: profile)
+            }
         }
+        .background(GitHubTheme.background.ignoresSafeArea())
+        .foregroundStyle(GitHubTheme.text)
     }
 }
 
