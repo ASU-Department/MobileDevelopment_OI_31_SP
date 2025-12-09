@@ -6,11 +6,9 @@
 //
 import Foundation
 import Combine
-import SwiftUI
 
-
+@MainActor
 final class WorkoutViewModel: ObservableObject {
-    // MARK: - UI State
     @Published var workoutName: String = ""
     @Published var exercises: [ExerciseItem] = []
     @Published var intensity: Double = 0.5
@@ -19,36 +17,30 @@ final class WorkoutViewModel: ObservableObject {
     @Published var lastSaveMessage: String = ""
     @Published var workouts: [Workout] = []
     
-    // ExerciseDB remote data
     @Published var remoteExercises: [ExerciseAPIModel] = []
     @Published var isLoadingRemote: Bool = false
-    @Published var remoteErrorMessage: String?
+    @Published var remoteErrorMessage: String? = nil
     @Published var isOfflineFallback: Bool = false
+    @Published var lastSyncText: String? = nil
     
-    // Last sync text for UI
-    @Published var lastSyncText: String?
+    private let repository: WorkoutRepository
     
-    // MARK: - File URLs
-    
-    private var workoutsURL: URL {
-        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return dir.appendingPathComponent("workouts.json")
+    init(repository: WorkoutRepository = DefaultWorkoutRepository()) {
+        self.repository = repository
     }
     
-    private var remoteExercisesURL: URL {
-        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return dir.appendingPathComponent("remote_exercises.json")
+    // MARK: - Local workouts
+    
+    func loadInitialData() {
+        Task {
+            do {
+                let stored = try await repository.loadWorkouts()
+                self.workouts = stored
+            } catch {
+                print("⚠️ Failed to load workouts:", error)
+            }
+        }
     }
-    
-    // MARK: - Init
-    
-    init() {
-        loadPersistedWorkouts()
-        loadLastSyncFromDefaults()
-        fetchExercises()
-    }
-    
-    // MARK: - Local workout actions
     
     func addExercise() {
         let baseName = workoutName.isEmpty ? "Exercise" : workoutName
@@ -56,12 +48,23 @@ final class WorkoutViewModel: ObservableObject {
     }
     
     func addExerciseFromRemote(_ remote: ExerciseAPIModel) {
-        let baseName = remote.name
-        exercises.append(ExerciseItem(name: baseName, sets: 3, reps: 10))
+        let name = remote.name
+        exercises.append(ExerciseItem(name: name, sets: 3, reps: 10))
     }
     
     func deleteExercise(at offsets: IndexSet) {
         exercises.remove(atOffsets: offsets)
+    }
+    
+    func deleteWorkout(at offsets: IndexSet) {
+        workouts.remove(atOffsets: offsets)
+        Task {
+            do {
+                try await repository.saveWorkouts(workouts)
+            } catch {
+                print("⚠️ Failed to save workouts after delete:", error)
+            }
+        }
     }
     
     func saveWorkout() {
@@ -83,144 +86,66 @@ final class WorkoutViewModel: ObservableObject {
             date: Date(),
             intensity: intensity
         )
-        
         workouts.append(newWorkout)
-        persistWorkouts()
         
         lastSaveMessage = "Saved \"\(workoutName)\" with \(exercises.count) exercise(s)."
         workoutName = ""
         exercises.removeAll()
         intensity = 0.5
         showingAlert = true
-    }
-    
-    func deleteWorkout(at offsets: IndexSet) {
-        workouts.remove(atOffsets: offsets)
-        persistWorkouts()
-    }
-    
-    // MARK: - JSON persistence
-    
-    private func persistWorkouts() {
-        do {
-            let data = try JSONEncoder().encode(workouts)
-            try data.write(to: workoutsURL, options: .atomic)
-        } catch {
-            print("Failed to save workouts: \(error)")
+        
+        Task {
+            do {
+                try await repository.saveWorkouts(workouts)
+            } catch {
+                print("⚠️ Failed to save workouts:", error)
+            }
         }
     }
     
-    private func loadPersistedWorkouts() {
-        guard FileManager.default.fileExists(atPath: workoutsURL.path) else { return }
-        do {
-            let data = try Data(contentsOf: workoutsURL)
-            let decoded = try JSONDecoder().decode([Workout].self, from: data)
-            self.workouts = decoded
-        } catch {
-            print("Failed to load workouts: \(error)")
-        }
-    }
-    
-    private func saveRemoteExercisesToDisk(_ items: [ExerciseAPIModel]) {
-        do {
-            let data = try JSONEncoder().encode(items)
-            try data.write(to: remoteExercisesURL, options: .atomic)
-        } catch {
-            print("Failed to save remote exercises: \(error)")
-        }
-    }
-    
-    private func loadCachedRemoteExercisesFromDisk() {
-        guard FileManager.default.fileExists(atPath: remoteExercisesURL.path) else { return }
-        do {
-            let data = try Data(contentsOf: remoteExercisesURL)
-            let decoded = try JSONDecoder().decode([ExerciseAPIModel].self, from: data)
-            self.remoteExercises = decoded
-            self.isOfflineFallback = !decoded.isEmpty
-        } catch {
-            print("Failed to load cached remote exercises: \(error)")
-        }
-    }
-    
-    // MARK: - ExerciseDB networking
+    // MARK: - Remote exercises
     
     func fetchExercises() {
-        guard let url = URL(string: "https://exercisedb-api1.p.rapidapi.com/api/v1/exercises?limit=10") else {
-            return
-        }
-
         isLoadingRemote = true
         remoteErrorMessage = nil
         isOfflineFallback = false
-
+        
         Task {
             do {
-                var request = URLRequest(url: url)
-                request.httpMethod = "GET"
-
-                request.setValue("1",
-                                 forHTTPHeaderField: "X-RapidAPI-Key")
-                request.setValue("exercisedb-api1.p.rapidapi.com",
-                                 forHTTPHeaderField: "X-RapidAPI-Host")
-
-                let (data, response) = try await URLSession.shared.data(for: request)
-
-                if let http = response as? HTTPURLResponse,
-                   !(200...299).contains(http.statusCode) {
-                    let bodyString = String(data: data, encoding: .utf8) ?? "<no body>"
-                    print("❌ HTTP error:", http.statusCode)
-                    print("Body:", bodyString)
-
-                    await MainActor.run {
-                        self.isLoadingRemote = false
-                        self.remoteErrorMessage = "HTTP \(http.statusCode) from ExerciseDB"
-                        self.loadCachedRemoteExercisesFromDisk()
-                    }
-                    return
-                }
-
-                let wrapper = try JSONDecoder().decode(ExerciseSearchResponse.self, from: data)
-                let decoded = wrapper.data
-
-                await MainActor.run {
-                    self.remoteExercises = decoded
-                    self.isLoadingRemote = false
-                    self.remoteErrorMessage = nil
-                    self.isOfflineFallback = false
-
-                    self.saveRemoteExercisesToDisk(decoded)
-
-                    let now = Date()
-                    UserDefaults.standard.set(
-                        now.timeIntervalSince1970,
-                        forKey: "lastExerciseSyncDate"
-                    )
-                    self.lastSyncText = Self.format(date: now)
-                }
+                let remote = try await repository.fetchRemoteExercises()
+                self.remoteExercises = remote
+                self.isLoadingRemote = false
+                self.remoteErrorMessage = nil
+                self.isOfflineFallback = false
+                
+                try await repository.saveCachedRemoteExercises(remote)
+                
+                let now = Date()
+                UserDefaults.standard.set(
+                    now.timeIntervalSince1970,
+                    forKey: "lastExerciseSyncDate"
+                )
+                self.lastSyncText = Self.format(date: now)
             } catch {
-                print("❌ Network/decoding error:", error)
-                await MainActor.run {
-                    self.isLoadingRemote = false
-                    self.remoteErrorMessage = "Network error: \(error.localizedDescription)"
-                    self.loadCachedRemoteExercisesFromDisk()
+                print("❌ Network error:", error)
+                self.isLoadingRemote = false
+                self.remoteErrorMessage = "Network error: \(error.localizedDescription)"
+                
+                do {
+                    let cached = try await repository.loadCachedRemoteExercises()
+                    self.remoteExercises = cached
+                    self.isOfflineFallback = true
+                } catch {
+                    print("⚠️ No cached remote exercises:", error)
                 }
             }
         }
     }
     
-    // MARK: - UserDefaults: last sync
-    
-    private func loadLastSyncFromDefaults() {
-        let ts = UserDefaults.standard.double(forKey: "lastExerciseSyncDate")
-        guard ts > 0 else { return }
-        let date = Date(timeIntervalSince1970: ts)
-        lastSyncText = Self.format(date: date)
-    }
-    
     private static func format(date: Date) -> String {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        df.timeStyle = .short
-        return df.string(from: date)
+        let f = DateFormatter()
+        f.dateStyle = .short
+        f.timeStyle = .short
+        return f.string(from: date)
     }
 }

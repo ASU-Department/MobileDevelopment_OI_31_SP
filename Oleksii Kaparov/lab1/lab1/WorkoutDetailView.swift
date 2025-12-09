@@ -18,10 +18,10 @@ struct WorkoutDetailView: View {
                         .font(.largeTitle).bold()
                     Text("Intensity: \(Int(workout.intensity * 100))%")
                         .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                     Text("Date: \(workout.date.formatted(date: .abbreviated, time: .shortened))")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
                 .padding(.horizontal)
                 
@@ -35,7 +35,7 @@ struct WorkoutDetailView: View {
                             Spacer()
                             Text("\(ex.sets)x\(ex.reps)")
                                 .monospacedDigit()
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                         }
                         .padding(.vertical, 4)
                     }
@@ -51,7 +51,6 @@ struct WorkoutDetailView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.green)
                 .padding(.horizontal)
-                
             }
             .padding(.top)
         }
