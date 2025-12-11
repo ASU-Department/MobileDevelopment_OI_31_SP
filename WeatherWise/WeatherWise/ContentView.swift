@@ -73,6 +73,8 @@ struct WeatherDetailView: View {
     let city: String
     @State private var mapScale: Double = 0.5
     
+    @StateObject private var weatherVM = WeatherViewModel()
+    
     var body: some View {
         VStack(spacing: 20) {
             
@@ -90,12 +92,38 @@ struct WeatherDetailView: View {
                 .foregroundColor(.gray)
                 .font(.caption)
             
+            Button("Завантажити погоду") {
+                weatherVM.loadWeather(for: city)
+            }
+            .padding()
+            .buttonStyle(.borderedProminent)
+            
+            if weatherVM.isLoading {
+                ProgressView("Завантаження...")
+            }
+            
+            if let error = weatherVM.errorMessage {
+                Text(error)
+                    .foregroundColor(.red)
+            }
+            
+            if let temp = weatherVM.temperature {
+                Text("Температура: \(temp, specifier: "%.1f")°C")
+                    .font(.headline)
+            }
+            
+            if let wind = weatherVM.wind {
+                Text("Вітер: \(wind, specifier: "%.1f") m/s")
+                    .font(.headline)
+            }
+            
             Spacer()
         }
         .padding()
         .navigationTitle("Карта міста")
     }
 }
+
 
 struct SimpleTimeFormatToggle: View {
     
@@ -128,6 +156,6 @@ struct LocationInputView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
