@@ -114,4 +114,3 @@ struct QuizCompletionView: View {
     }
 }
 
-

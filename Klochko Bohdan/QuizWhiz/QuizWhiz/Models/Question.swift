@@ -46,7 +46,7 @@ struct Question: Identifiable, Codable, Hashable {
     var isFavorite: Bool
     var userNote: String?
     
-    init(id: UUID = UUID(), category: String, type: String, difficulty: String, question: String, correctAnswer: String, incorrectAnswers: [String], isFavorite: Bool = false, userNote: String? = nil) {
+    nonisolated init(id: UUID = UUID(), category: String, type: String, difficulty: String, question: String, correctAnswer: String, incorrectAnswers: [String], isFavorite: Bool = false, userNote: String? = nil) {
         self.id = id
         self.category = category
         self.type = type
@@ -58,7 +58,7 @@ struct Question: Identifiable, Codable, Hashable {
         self.userNote = userNote
     }
     
-    init(from apiQuestion: APIQuestion) {
+    nonisolated init(from apiQuestion: APIQuestion) {
         self.id = UUID()
         self.category = apiQuestion.category
         self.type = apiQuestion.type
@@ -98,5 +98,6 @@ extension String {
         return attributedString.string
     }
 }
+
 
 

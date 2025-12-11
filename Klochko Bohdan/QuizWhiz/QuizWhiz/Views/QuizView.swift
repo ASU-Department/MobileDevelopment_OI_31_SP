@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct QuizView: View {
     let category: Category
     let questionCount: Int
     let isHardMode: Bool
+    let coordinator: AppCoordinator
     
-    @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel: QuizViewModel
     
     @State private var selectedAnswer: String?
@@ -24,14 +23,16 @@ struct QuizView: View {
     @State private var showCompletion = false
     @Environment(\.dismiss) private var dismiss
     
-    init(category: Category, questionCount: Int, isHardMode: Bool) {
+    init(category: Category, questionCount: Int, isHardMode: Bool, coordinator: AppCoordinator) {
         self.category = category
         self.questionCount = questionCount
         self.isHardMode = isHardMode
+        self.coordinator = coordinator
         _viewModel = StateObject(wrappedValue: QuizViewModel(
             category: category.name,
             questionCount: questionCount,
-            isHardMode: isHardMode
+            isHardMode: isHardMode,
+            repository: coordinator.questionRepository
         ))
     }
     
@@ -53,16 +54,21 @@ struct QuizView: View {
         .navigationTitle("Quiz")
         .navigationBarTitleDisplayMode(.inline)
         .refreshable {
-            await viewModel.refresh(modelContext: modelContext)
+            await viewModel.refresh()
         }
         .onAppear {
             Task {
-                await viewModel.loadQuestions(modelContext: modelContext)
+                await viewModel.loadQuestions()
             }
         }
         .sheet(item: $editingQuestion) { question in
-            NoteEditorView(question: question) { updatedQuestion in
-                viewModel.updateQuestion(updatedQuestion, in: modelContext)
+            NoteEditorView(
+                question: question,
+                coordinator: coordinator
+            ) { updatedQuestion in
+                Task {
+                    await viewModel.updateQuestion(updatedQuestion)
+                }
             }
         }
         .fullScreenCover(isPresented: $showCompletion) {
@@ -127,7 +133,7 @@ struct QuizView: View {
             
             Button("Retry") {
                 Task {
-                    await viewModel.loadQuestions(modelContext: modelContext)
+                    await viewModel.loadQuestions()
                 }
             }
             .buttonStyle(.bordered)
@@ -152,7 +158,7 @@ struct QuizView: View {
             
             Button("Refresh") {
                 Task {
-                    await viewModel.refresh(modelContext: modelContext)
+                    await viewModel.refresh()
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -230,7 +236,9 @@ struct QuizView: View {
                 }
                 
                 Button(action: {
-                    viewModel.toggleFavorite(question, in: modelContext)
+                    Task {
+                        await viewModel.toggleFavorite(question)
+                    }
                 }) {
                     Image(systemName: question.isFavorite ? "heart.fill" : "heart")
                         .foregroundColor(question.isFavorite ? .red : .gray)
