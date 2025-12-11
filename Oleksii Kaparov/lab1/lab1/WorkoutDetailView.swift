@@ -9,7 +9,7 @@ import SwiftUI
 struct WorkoutDetailView: View {
     let workout: Workout
     @State private var showShare = false
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -24,9 +24,9 @@ struct WorkoutDetailView: View {
                         .foregroundColor(.secondary)
                 }
                 .padding(.horizontal)
-                
+
                 Divider().padding(.horizontal)
-                
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Exercises").font(.title3).bold()
                     ForEach(workout.exercises) { ex in
@@ -41,10 +41,8 @@ struct WorkoutDetailView: View {
                     }
                 }
                 .padding(.horizontal)
-                
-                Button {
-                    showShare = true
-                } label: {
+
+                Button { showShare = true } label: {
                     Label("Share Workout", systemImage: "square.and.arrow.up")
                         .frame(maxWidth: .infinity)
                 }
@@ -60,7 +58,7 @@ struct WorkoutDetailView: View {
             ActivityViewControllerRepresentable(items: [shareText()]) { _ in }
         }
     }
-    
+
     private func shareText() -> String {
         var lines: [String] = []
         lines.append("Workout: \(workout.name)")

@@ -5,70 +5,73 @@
 //  Created by A-Z pack group on 02.11.2025.
 //
 import Foundation
-import Combine
+import SwiftUI
 
 @MainActor
 final class WorkoutViewModel: ObservableObject {
+    // Builder state
     @Published var workoutName: String = ""
     @Published var exercises: [ExerciseItem] = []
     @Published var intensity: Double = 0.5
-    
+
+    // Alerts
     @Published var showingAlert: Bool = false
     @Published var lastSaveMessage: String = ""
+
+    // Saved workouts
     @Published var workouts: [Workout] = []
-    
+
+    // Remote exercises (ExerciseDB)
     @Published var remoteExercises: [ExerciseAPIModel] = []
     @Published var isLoadingRemote: Bool = false
     @Published var remoteErrorMessage: String? = nil
     @Published var isOfflineFallback: Bool = false
     @Published var lastSyncText: String? = nil
-    
+
     private let repository: WorkoutRepository
-    
-    init(repository: WorkoutRepository = DefaultWorkoutRepository()) {
+
+    init(repository: WorkoutRepository) {
         self.repository = repository
     }
-    
-    // MARK: - Local workouts
-    
-    func loadInitialData() {
-        Task {
-            do {
-                let stored = try await repository.loadWorkouts()
-                self.workouts = stored
-            } catch {
-                print("⚠️ Failed to load workouts:", error)
-            }
-        }
-    }
-    
+
+    // MARK: - Builder actions
+
     func addExercise() {
         let baseName = workoutName.isEmpty ? "Exercise" : workoutName
         exercises.append(ExerciseItem(name: baseName, sets: 3, reps: 10))
     }
-    
-    func addExerciseFromRemote(_ remote: ExerciseAPIModel) {
-        let name = remote.name
-        exercises.append(ExerciseItem(name: name, sets: 3, reps: 10))
+
+    func addExerciseFromRemote(_ ex: ExerciseAPIModel) {
+        exercises.append(ExerciseItem(name: ex.name, sets: 3, reps: 10))
     }
-    
+
     func deleteExercise(at offsets: IndexSet) {
         exercises.remove(atOffsets: offsets)
     }
-    
-    func deleteWorkout(at offsets: IndexSet) {
-        workouts.remove(atOffsets: offsets)
+
+    // MARK: - Persistence (Core Data via Repository/Actor)
+
+    func loadInitialData() {
         Task {
             do {
-                try await repository.saveWorkouts(workouts)
+                let loaded = try await repository.loadWorkouts()
+                workouts = loaded
+
+                let cached = try await repository.loadCachedRemoteExercises()
+                remoteExercises = cached
+
+                if let ts = UserDefaults.standard.object(forKey: "lastExerciseSyncDate") as? TimeInterval {
+                    lastSyncText = Self.format(date: Date(timeIntervalSince1970: ts))
+                }
             } catch {
-                print("⚠️ Failed to save workouts after delete:", error)
+                // keep silent / optionally show message
+                print("Load error:", error)
             }
         }
     }
-    
+
     func saveWorkout() {
-        guard !workoutName.isEmpty else {
+        guard !workoutName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             lastSaveMessage = "Please enter a workout name before saving."
             showingAlert = true
             return
@@ -78,7 +81,7 @@ final class WorkoutViewModel: ObservableObject {
             showingAlert = true
             return
         }
-        
+
         let newWorkout = Workout(
             id: UUID(),
             name: workoutName,
@@ -86,65 +89,80 @@ final class WorkoutViewModel: ObservableObject {
             date: Date(),
             intensity: intensity
         )
+
         workouts.append(newWorkout)
-        
-        lastSaveMessage = "Saved \"\(workoutName)\" with \(exercises.count) exercise(s)."
-        workoutName = ""
-        exercises.removeAll()
-        intensity = 0.5
-        showingAlert = true
-        
+
         Task {
             do {
                 try await repository.saveWorkouts(workouts)
+                lastSaveMessage = "Saved \"\(newWorkout.name)\" with \(newWorkout.exercises.count) exercise(s)."
+
+                workoutName = ""
+                exercises.removeAll()
+                intensity = 0.5
+                showingAlert = true
             } catch {
-                print("⚠️ Failed to save workouts:", error)
+                lastSaveMessage = "Save failed: \(error.localizedDescription)"
+                showingAlert = true
             }
         }
     }
-    
-    // MARK: - Remote exercises
-    
-    func fetchExercises() {
+
+    func deleteWorkout(at offsets: IndexSet) {
+        let ids = offsets.map { workouts[$0].id }
+        workouts.remove(atOffsets: offsets)
+
+        Task {
+            do {
+                for id in ids {
+                    try await repository.deleteWorkout(id: id)
+                }
+            } catch {
+                print("Delete error:", error)
+            }
+        }
+    }
+
+    // MARK: - Networking
+
+    func fetchExercises(query: String = "strength exercises") {
         isLoadingRemote = true
         remoteErrorMessage = nil
         isOfflineFallback = false
-        
+
         Task {
             do {
-                let remote = try await repository.fetchRemoteExercises()
-                self.remoteExercises = remote
-                self.isLoadingRemote = false
-                self.remoteErrorMessage = nil
-                self.isOfflineFallback = false
-                
-                try await repository.saveCachedRemoteExercises(remote)
-                
+                let decoded = try await repository.fetchRemoteExercises(search: query)
+                remoteExercises = decoded
+                isLoadingRemote = false
+                remoteErrorMessage = nil
+                isOfflineFallback = false
+try await repository.saveCachedRemoteExercises(decoded)
+
                 let now = Date()
-                UserDefaults.standard.set(
-                    now.timeIntervalSince1970,
-                    forKey: "lastExerciseSyncDate"
-                )
-                self.lastSyncText = Self.format(date: now)
+                UserDefaults.standard.set(now.timeIntervalSince1970, forKey: "lastExerciseSyncDate")
+                lastSyncText = Self.format(date: now)
+
             } catch {
-                print("❌ Network error:", error)
-                self.isLoadingRemote = false
-                self.remoteErrorMessage = "Network error: \(error.localizedDescription)"
-                
+                // Offline fallback
+                isLoadingRemote = false
+                remoteErrorMessage = "Could not load exercises from network. Showing cached data if available."
+                isOfflineFallback = true
+
                 do {
                     let cached = try await repository.loadCachedRemoteExercises()
-                    self.remoteExercises = cached
-                    self.isOfflineFallback = true
+                    remoteExercises = cached
                 } catch {
-                    print("⚠️ No cached remote exercises:", error)
+                    // no cache
+                    print("Cache load error:", error)
                 }
             }
         }
     }
-    
-    private static func format(date: Date) -> String {
+
+    static func format(date: Date) -> String {
         let f = DateFormatter()
-        f.dateStyle = .short
+        f.dateStyle = .medium
         f.timeStyle = .short
         return f.string(from: date)
     }

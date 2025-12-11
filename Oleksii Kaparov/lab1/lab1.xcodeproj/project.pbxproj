@@ -26,6 +26,11 @@
 		B15322952EE82B84004AF46E /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322942EE82B84004AF46E /* WorkoutRepository.swift */; };
 		B15322972EE82BC8004AF46E /* DefaultWorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */; };
 		B15322992EE82CCE004AF46E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322982EE82CCE004AF46E /* AppCoordinator.swift */; };
+		B153229B2EEB5A11004AF46E /* WorkoutCoreDataActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */; };
+		B153229D2EEB5AA0004AF46E /* WorkoutEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */; };
+		B153229F2EEB5E1A004AF46E /* CoreDataEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */; };
+		B15322A12EEB5E5E004AF46E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322A02EEB5E5E004AF46E /* PersistenceController.swift */; };
+		B15322A32EEB6148004AF46E /* ExerciseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */; };
 		B19EE5CD2E9C332C0090F6E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */; };
 		B19EE5D02E9C332C0090F6E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */; };
 		B19EE5DA2E9C332D0090F6E3 /* lab1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */; };
@@ -70,6 +75,11 @@
 		B15322942EE82B84004AF46E /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
 		B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWorkoutRepository.swift; sourceTree = "<group>"; };
 		B15322982EE82CCE004AF46E /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCoreDataActor.swift; sourceTree = "<group>"; };
+		B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEntity.swift; sourceTree = "<group>"; };
+		B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataEntities.swift; sourceTree = "<group>"; };
+		B15322A02EEB5E5E004AF46E /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAPIService.swift; sourceTree = "<group>"; };
 		B19EE5C52E9C33250090F6E3 /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -149,6 +159,11 @@
 				B15322942EE82B84004AF46E /* WorkoutRepository.swift */,
 				B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */,
 				B15322982EE82CCE004AF46E /* AppCoordinator.swift */,
+				B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */,
+				B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */,
+				B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */,
+				B15322A02EEB5E5E004AF46E /* PersistenceController.swift */,
+				B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */,
 			);
 			path = lab1;
 			sourceTree = "<group>";
@@ -308,15 +323,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B153229B2EEB5A11004AF46E /* WorkoutCoreDataActor.swift in Sources */,
+				B15322A12EEB5E5E004AF46E /* PersistenceController.swift in Sources */,
+				B153229D2EEB5AA0004AF46E /* WorkoutEntity.swift in Sources */,
 				B153227B2EB76BA8004AF46E /* AppDelegate.swift in Sources */,
 				B153226D2EB63DE2004AF46E /* lab1App.swift in Sources */,
 				B15322792EB64089004AF46E /* Workout.swift in Sources */,
+				B15322A32EEB6148004AF46E /* ExerciseAPIService.swift in Sources */,
 				B15322952EE82B84004AF46E /* WorkoutRepository.swift in Sources */,
 				B153227F2EB78B21004AF46E /* ActivityViewControllerRepresentable.swift in Sources */,
 				B153228D2ECCF8A4004AF46E /* FitTrackerRootView.swift in Sources */,
 				B15322812EB78D70004AF46E /* SavedWorkoutsView.swift in Sources */,
 				B153228F2ECD032B004AF46E /* ExerciseItem.swift in Sources */,
 				B15322912EE829BC004AF46E /* ExerciseSearchResponse.swift in Sources */,
+				B153229F2EEB5E1A004AF46E /* CoreDataEntities.swift in Sources */,
 				B15322712EB64064004AF46E /* WorkoutViewModel.swift in Sources */,
 				B15322832EB78DAC004AF46E /* WorkoutDetailView.swift in Sources */,
 				B15322752EB64080004AF46E /* ExerciseRow.swift in Sources */,

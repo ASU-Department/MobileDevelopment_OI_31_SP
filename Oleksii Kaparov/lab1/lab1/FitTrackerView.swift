@@ -3,37 +3,38 @@
 //  lab1
 //
 //
-
 import SwiftUI
 
 struct FitTrackerView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject private var coordinator: AppCoordinator
     @AppStorage("preferredIntensity") private var preferredIntensity: Double = 0.5
-    
+
     init(viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             WorkoutHeader(workoutName: $viewModel.workoutName)
-            
+
             VStack(alignment: .leading, spacing: 8) {
                 Text("Intensity")
                     .font(.headline)
                     .padding(.horizontal)
+
                 HStack {
                     IntensitySliderRepresentable(value: $viewModel.intensity)
                         .frame(height: 40)
                         .padding(.horizontal)
+
                     Text("\(Int(viewModel.intensity * 100))%")
                         .monospacedDigit()
                         .frame(width: 60, alignment: .trailing)
                         .padding(.trailing)
                 }
             }
-            
+
             List {
                 Section(header: Text("Exercises").font(.headline)) {
                     ForEach($viewModel.exercises) { $exercise in
@@ -43,36 +44,26 @@ struct FitTrackerView: View {
                         viewModel.deleteExercise(at: indexSet)
                     }
                 }
-                
+
                 Section(
-                    header:
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Suggested from ExerciseDB")
-                                .font(.headline)
-                            if let lastSync = viewModel.lastSyncText {
-                                Text("Last sync: \(lastSync)")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
+                    header: VStack(alignment: .leading, spacing: 4) {
+                        Text("Suggested from ExerciseDB").font(.headline)
+                        if let lastSync = viewModel.lastSyncText {
+                            Text("Last sync: \(lastSync)")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
+                    }
                 ) {
                     if viewModel.isLoadingRemote {
-                        HStack {
-                            Spacer()
-                            ProgressView()
-                            Spacer()
-                        }
+                        HStack { Spacer(); ProgressView(); Spacer() }
                     } else if let error = viewModel.remoteErrorMessage {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(error)
-                                .font(.subheadline)
-                                .foregroundColor(.red)
-                            Button("Retry") {
-                                viewModel.fetchExercises()
-                            }
+                            Text(error).font(.subheadline).foregroundColor(.red)
+                            Button("Retry") { viewModel.fetchExercises() }
                         }
                     } else if viewModel.remoteExercises.isEmpty {
-                        Text("No remote exercises yet.")
+                        Text("No remote exercises yet. Pull to refresh.")
                             .foregroundColor(.secondary)
                     } else {
                         ForEach(viewModel.remoteExercises.prefix(20)) { ex in
@@ -80,12 +71,11 @@ struct FitTrackerView: View {
                                 viewModel.addExerciseFromRemote(ex)
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(ex.name)
-                                        .font(.headline)
+                                    Text(ex.name).font(.headline)
                                     Text("\(ex.primaryBodyPart.capitalized) • \((ex.exerciseType ?? "strength").capitalized)")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
-                                    Text("Equipment: \(ex.primaryEquipment)")
+                                    Text("Equipment: \(ex.primaryEquipment.capitalized)")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -99,8 +89,7 @@ struct FitTrackerView: View {
             .refreshable {
                 viewModel.fetchExercises()
             }
-            
-            HStack(spacing: 12) {
+HStack(spacing: 12) {
                 Button {
                     viewModel.addExercise()
                 } label: {
@@ -112,7 +101,7 @@ struct FitTrackerView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                
+
                 Button {
                     viewModel.saveWorkout()
                 } label: {
@@ -127,7 +116,7 @@ struct FitTrackerView: View {
                 .disabled(viewModel.workoutName.isEmpty)
             }
             .padding(.horizontal)
-            
+
             Spacer(minLength: 0)
         }
         .navigationTitle("Workout Builder")
