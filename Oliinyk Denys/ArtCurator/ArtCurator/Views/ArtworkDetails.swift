@@ -14,16 +14,35 @@ struct ArtworkDetails: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Rectangle()
-                    .fill(.blue.opacity(0.3))
-                    .frame(height: 300)
-                    .cornerRadius(12)
-                    .overlay(
-                        Image(systemName: "photo.artframe")
-                            .font(.system(size: 80))
-                            .foregroundColor(.white.opacity(0.7))
-                    )
-                    .padding()
+                AsyncImage(url: URL(string: artwork.primaryImage.isEmpty ? artwork.primaryImageSmall : artwork.primaryImage)) { phase in
+                    switch phase {
+                    case .empty:
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .frame(height: 300)
+                            .overlay(
+                                CustomIndicator(isAnimating: .constant(true), style: .large)
+                            )
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 400)
+                            .cornerRadius(12)
+                    case .failure:
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .frame(height: 300)
+                            .overlay(
+                                Image(systemName: "photo.artframe")
+                                    .font(.system(size: 80))
+                                    .foregroundColor(.gray)
+                            )
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .padding()
                 
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
@@ -47,15 +66,22 @@ struct ArtworkDetails: View {
                     Divider()
                     
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Loading Info")
+                        Text("Details")
                             .font(.headline)
                         
-                        HStack {
-                            ActivityIndicator(isAnimating: .constant(true), style: .medium)
-                            Text("Fetching details...")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                        if !artwork.objectDate.isEmpty {
+                            ArtworkDetailRow(label: "Date", value: artwork.objectDate)
                         }
+                        
+                        if !artwork.medium.isEmpty {
+                            ArtworkDetailRow(label: "Medium", value: artwork.medium)
+                        }
+                        
+                        if !artwork.department.isEmpty {
+                            ArtworkDetailRow(label: "Department", value: artwork.department)
+                        }
+                        
+                        ArtworkDetailRow(label: "Object ID", value: String(artwork.id))
                     }
                     
                     Divider()
@@ -80,7 +106,27 @@ struct ArtworkDetails: View {
                 .padding(.horizontal)
             }
         }
-        .navigationTitle("\(artwork.title) details")
+        .navigationTitle("Artwork Details")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct ArtworkDetailRow: View {
+    let label: String
+    let value: String
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            Text("\(label):")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .frame(width: 100, alignment: .leading)
+            
+            Text(value)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            Spacer()
+        }
     }
 }
