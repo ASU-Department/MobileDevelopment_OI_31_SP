@@ -2,17 +2,16 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @State private var viewModel: MovieViewModel?
-
+    @Environment(\.favoriteRepository) private var favoriteRepository
+    @State private var viewModel: MovieViewModel? = nil
     var body: some View {
-        NavigationStack {
-            Group {
-                if let viewModel = viewModel {
-                    if viewModel.isLoading && viewModel.movies.isEmpty {
-                        ProgressView("Завантажуємо фільми...")
-                            .scaleEffect(1.5)
-                    } else if let error = viewModel.errorMessage {
+            NavigationStack {
+                Group {
+                    if let viewModel = viewModel {
+                        if viewModel.isLoading && viewModel.movies.isEmpty {
+                            ProgressView("Завантажуємо фільми...")
+                                .scaleEffect(1.5)
+                        } else if let error = viewModel.errorMessage {
                         VStack(spacing: 20) {
                             Image(systemName: "wifi.slash")
                                 .font(.system(size: 70))
@@ -25,7 +24,9 @@ struct ContentView: View {
                     } else {
                         List(viewModel.movies) { movie in
                             NavigationLink {
-                                DetailView(movie: movie, viewModel: viewModel)
+                                DetailView(
+                                    movie: movie,
+                                    favoriteRepository: favoriteRepository)
                             } label: {
                                 MovieRow(movie: movie, viewModel: viewModel)
                             }
@@ -40,9 +41,10 @@ struct ContentView: View {
             }
             .navigationTitle("CineGuide")
             .task {
-                let vm = MovieViewModel(modelContext: modelContext)
-                await vm.loadMovies()
-                self.viewModel = vm
+                if viewModel == nil{
+                    viewModel = MovieViewModel(favoriteRepository: favoriteRepository)
+                    await viewModel?.loadMovies()
+                }
             }
         }
     }

@@ -1,13 +1,10 @@
 import Foundation
-import SwiftUI
-import SwiftData
 
-// TMDB
 struct TMDBResponse: Codable {
     let results: [TMDBMovie]
 }
 
-struct TMDBMovie: Codable, Identifiable {
+struct TMDBMovie: Codable, Identifiable, Sendable {
     let id: Int
     let title: String
     let overview: String?

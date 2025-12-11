@@ -11,7 +11,6 @@ actor TMDBService {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        // Додаткова перевірка — якщо сервер відповів 401 або 7 (invalid key)
         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 || httpResponse.statusCode == 7 {
             throw URLError(.userAuthenticationRequired)
         }
