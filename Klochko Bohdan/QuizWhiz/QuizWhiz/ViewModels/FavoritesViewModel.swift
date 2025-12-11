@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftData
 import SwiftUI
 import Combine
 
@@ -14,19 +13,30 @@ import Combine
 class FavoritesViewModel: ObservableObject {
     @Published var favoriteQuestions: [Question] = []
     @Published var isLoading = false
+    @Published var error: Error?
     
-    private let persistenceManager = PersistenceManager.shared
+    private let repository: QuestionRepositoryProtocol
     
-    func loadFavorites(modelContext: ModelContext) async {
-        isLoading = true
-        await Task.yield()
-        
-        let questions = persistenceManager.loadFavorites(from: modelContext)
-        self.favoriteQuestions = questions
-        self.isLoading = false
+    init(repository: QuestionRepositoryProtocol) {
+        self.repository = repository
     }
     
-    func toggleFavorite(_ question: Question, in modelContext: ModelContext) {
+    func loadFavorites() async {
+        isLoading = true
+        error = nil
+        await Task.yield()
+        
+        do {
+            let questions = try await repository.loadFavorites()
+            self.favoriteQuestions = questions
+            self.isLoading = false
+        } catch {
+            self.error = error
+            self.isLoading = false
+        }
+    }
+    
+    func toggleFavorite(_ question: Question) async {
         var updatedQuestion = question
         updatedQuestion.isFavorite = false
         
@@ -34,19 +44,28 @@ class FavoritesViewModel: ObservableObject {
             favoriteQuestions.remove(at: index)
         }
         
-        persistenceManager.updateQuestion(updatedQuestion, in: modelContext)
+        UserPreferences.removeFavorite(question.id)
         
-        Task {
-            await loadFavorites(modelContext: modelContext)
+        do {
+            try await repository.updateQuestion(updatedQuestion)
+            await loadFavorites()
+        } catch {
+            self.error = error
+            // Reload to restore state
+            await loadFavorites()
         }
     }
     
-    func updateQuestion(_ question: Question, in modelContext: ModelContext) {
+    func updateQuestion(_ question: Question) async {
         if let index = favoriteQuestions.firstIndex(where: { $0.id == question.id }) {
             favoriteQuestions[index] = question
         }
         
-        persistenceManager.updateQuestion(question, in: modelContext)
+        do {
+            try await repository.updateQuestion(question)
+        } catch {
+            self.error = error
+        }
     }
 }
 
