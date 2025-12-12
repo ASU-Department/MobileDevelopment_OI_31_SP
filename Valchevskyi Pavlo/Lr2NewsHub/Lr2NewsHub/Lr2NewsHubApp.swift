@@ -6,14 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Lr2NewsHubApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegateMockData.self) var appDelegateMockData
-    
+    let container: ModelContainer
+    let newsRepository: NewsRepository
+
+    init() {
+        do {
+            container = try ModelContainer(for: ArticleModel.self)
+            newsRepository = NewsRepository(container: container)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView(news: appDelegateMockData.news, categories: appDelegateMockData.categories)
+            ContentView(repository: newsRepository)
         }
+        .modelContainer(container)
     }
 }
