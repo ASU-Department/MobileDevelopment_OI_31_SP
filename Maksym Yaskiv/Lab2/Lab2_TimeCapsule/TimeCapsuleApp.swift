@@ -1,14 +1,14 @@
 //
-//  SpaceExplorer2_0App.swift
-//  SpaceExplorer2.0
+//  TimeCapsuleApp.swift
+//  Lab2_TimeCapsule
 //
-//  Created by Pab1m on 19.10.2025.
+//  Created by User on 26.10.2025.
 //
 
 import SwiftUI
 
 @main
-struct SpaceExplorer2_0App: App {
+struct TimeCapsuleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
