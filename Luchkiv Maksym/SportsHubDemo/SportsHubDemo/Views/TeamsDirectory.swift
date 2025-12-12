@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct TeamsDirectoryView: View {
+    @EnvironmentObject private var coordinator: AppCoordinator
     let allTeams: [Team]
     
     var body: some View {
         List(allTeams) { team in
-            NavigationLink(team.city + " " + team.name) {
-                TeamDetailView(team: team)
-            }
+            NavigationLink(team.city + " " + team.name, value: AppRoute.team(team))
         }
         .navigationTitle("Teams")
     }

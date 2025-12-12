@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BF57B1EB2ECCECF0002738D9 /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */ = {
+		BF4881A72EE721BA004EB68E /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		BF5A07542EA4455300173CD9 /* SportsHubDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				BF57B1EB2ECCECF0002738D9 /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */,
+				BF4881A72EE721BA004EB68E /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */,
 			);
 			path = SportsHubDemo;
 			sourceTree = "<group>";

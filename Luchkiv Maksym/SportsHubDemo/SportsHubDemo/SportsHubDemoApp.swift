@@ -10,18 +10,15 @@ import SwiftData
 
 @main
 struct SportsHubDemoApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var dataStore = AppDataStore()
-    
-    init() {
-        AppDelegate.dataStore = dataStore
-    }
+    private let container: ModelContainer = {
+        do { return try ModelContainer(for: GameRecord.self) }
+        catch { fatalError("Failed to create ModelContainer: \(error)") }
+    }()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(dataStore)
+            AppCoordinatorView(container: container)
+                .modelContainer(container)
         }
-        .modelContainer(for: GameRecord.self)
     }
 }

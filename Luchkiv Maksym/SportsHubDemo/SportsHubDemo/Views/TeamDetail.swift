@@ -8,18 +8,13 @@
 import SwiftUI
 
 struct TeamDetailView: View {
-    let team: Team
-    @State private var selectedScopeIndex = 1
-    private var scopes: [StatScope] {StatScope.allCases}
-    private var currentScope: StatScope { scopes[selectedScopeIndex]}
-    
-    @State private var showBoxScore = false
+    @ObservedObject var viewModel: TeamDetailViewModel
     
     var body: some View {
         List {
-            Section("\(team.city) \(team.name)") {
+            Section("\(viewModel.team.city) \(viewModel.team.name)") {
                 HStack {
-                    Text(team.short)
+                    Text(viewModel.team.short)
                         .font(.largeTitle)
                         .bold()
                     Spacer()
@@ -30,8 +25,8 @@ struct TeamDetailView: View {
             
             Section("Scope") {
                 SegmentedControlRepresentable(
-                    selectedIndex: $selectedScopeIndex,
-                    segments: scopes.map {
+                    selectedIndex: $viewModel.selectedScopeIndex,
+                    segments: viewModel.scopes.map {
                         $0.rawValue
                     }
                 )
@@ -40,8 +35,7 @@ struct TeamDetailView: View {
             }
             
             Section("Players") {
-                ForEach(SampleData.statsForTeam(short: team.short, scope: currentScope)) { line in
-                    
+                ForEach(viewModel.playerStats) { line in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(line.player.name).font(.body)
@@ -63,16 +57,16 @@ struct TeamDetailView: View {
             
             Section {
                 Button {
-                    showBoxScore = true
+                    viewModel.showBoxScore = true
                 } label: {
                     Label("Open Latest Box Score", systemImage: "doc.text.magnifyingglass")
                 }
             }
         }
-        .sheet(isPresented: $showBoxScore) {
+        .sheet(isPresented: $viewModel.showBoxScore) {
             SafariViewRepresentable(url: URL(string: "https://www.nba.com/stats/")!)
         }
-        .navigationTitle(team.short)
+        .navigationTitle(viewModel.team.short)
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -89,5 +83,5 @@ struct TeamDetailView: View {
 }
 
 #Preview {
-    NavigationStack { TeamDetailView(team: SampleData.warriors) }
+    NavigationStack { TeamDetailView(viewModel: TeamDetailViewModel(team: SampleData.warriors)) }
 }
