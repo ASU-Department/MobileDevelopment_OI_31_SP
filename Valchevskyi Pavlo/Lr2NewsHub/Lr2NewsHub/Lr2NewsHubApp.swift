@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Lr2NewsHubApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegateMockData.self) var appDelegateMockData
-    
     var body: some Scene {
         WindowGroup {
-            ContentView(news: appDelegateMockData.news, categories: appDelegateMockData.categories)
+            ContentView()
         }
+        .modelContainer(for: ArticleModel.self)
     }
 }
