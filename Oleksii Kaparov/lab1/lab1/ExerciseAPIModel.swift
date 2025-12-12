@@ -1,9 +1,3 @@
-//
-//  ExerciseAPIModel.swift
-//  lab1
-//
-//  Created by A-Z pack group on 16.11.2025.
-//
 import Foundation
 
 struct ExerciseAPIModel: Identifiable, Codable, Hashable {
@@ -44,38 +38,12 @@ struct ExerciseAPIModel: Identifiable, Codable, Hashable {
         keywords = try c.decodeIfPresent([String].self, forKey: .keywords) ?? []
     }
     
-    init(
-        id: String,
-        name: String,
-        imageUrl: String? = nil,
-        bodyParts: [String] = [],
-        equipments: [String] = [],
-        exerciseType: String? = nil,
-        targetMuscles: [String] = [],
-        secondaryMuscles: [String] = [],
-        keywords: [String] = []
-    ) {
-        self.id = id
-        self.name = name
-        self.imageUrl = imageUrl
-        self.bodyParts = bodyParts
-        self.equipments = equipments
-        self.exerciseType = exerciseType
-        self.targetMuscles = targetMuscles
-        self.secondaryMuscles = secondaryMuscles
-        self.keywords = keywords
-    }
-}
-struct ExerciseSearchResponse: Codable {
-    let data: [ExerciseAPIModel]
-}
-
-extension ExerciseAPIModel {
+    // зручні computed-властивості для UI
     var primaryBodyPart: String {
-        bodyParts.first ?? "N/A"
+        bodyParts.first ?? "unknown"
     }
     
     var primaryEquipment: String {
-        equipments.first ?? "N/A"
+        equipments.first ?? "body weight"
     }
 }
