@@ -9,13 +9,13 @@ import SwiftUI
 import NukeUI
 
 struct CryptoRowView: View {
-    @ObservedObject var coin: CoinEntity
+    @Bindable var coin: Coin
+    
     var onFavoriteToggle: () -> Void
     
     var body: some View {
         HStack(spacing: 16) {
             Button(action: onFavoriteToggle) {
-                // Using a ZStack for a more controlled and responsive animation.
                 ZStack {
                     Image(systemName: "star")
                         .foregroundColor(.gray)
@@ -29,7 +29,7 @@ struct CryptoRowView: View {
             }
             .buttonStyle(.plain)
 
-            LazyImage(url: URL(string: coin.image ?? "")) { state in
+            LazyImage(url: URL(string: coin.image)) { state in
                 if let image = state.image {
                     image.resizable()
                 } else {
@@ -39,9 +39,9 @@ struct CryptoRowView: View {
             .frame(width: 40, height: 40)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(coin.name ?? "N/A")
+                Text(coin.name)
                     .font(.headline)
-                Text((coin.symbol ?? "N/A").uppercased())
+                Text(coin.symbol.uppercased())
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -51,10 +51,14 @@ struct CryptoRowView: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text(coin.currentPrice, format: .currency(code: "USD"))
                     .font(.headline)
+                    .contentTransition(.numericText(value: coin.currentPrice))
+                    .animation(.easeInOut, value: coin.currentPrice)
                 
                 Text(String(format: "%.2f%%", coin.priceChangePercentage24h))
                     .font(.caption)
                     .foregroundColor(coin.priceChangePercentage24h >= 0 ? .green : .red)
+                    .contentTransition(.numericText(value: coin.priceChangePercentage24h))
+                    .animation(.easeInOut, value: coin.priceChangePercentage24h)
             }
         }
         .padding(.vertical, 8)
