@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EE5BB8E2EEB983200B54289 /* UIKitComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5BB8D2EEB983200B54289 /* UIKitComponents.swift */; };
 		4EE5BB902EEBA18800B54289 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5BB8F2EEBA18800B54289 /* SearchBarView.swift */; };
 		4EE5BB922EEBA26F00B54289 /* TypeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5BB912EEBA26F00B54289 /* TypeBadge.swift */; };
 		4EE5BB942EEBA2B700B54289 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5BB932EEBA2B700B54289 /* FilterView.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4EE5BB8D2EEB983200B54289 /* UIKitComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitComponents.swift; sourceTree = "<group>"; };
 		4EE5BB8F2EEBA18800B54289 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		4EE5BB912EEBA26F00B54289 /* TypeBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeBadge.swift; sourceTree = "<group>"; };
 		4EE5BB932EEBA2B700B54289 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				4EE92A6E2EEB14530067F870 /* ContentView.swift */,
+				4EE5BB8D2EEB983200B54289 /* UIKitComponents.swift */,
 				4EE5BB8F2EEBA18800B54289 /* SearchBarView.swift */,
 				4EE5BB912EEBA26F00B54289 /* TypeBadge.swift */,
 				4EE5BB932EEBA2B700B54289 /* FilterView.swift */,
@@ -274,6 +277,7 @@
 				4EE5BB942EEBA2B700B54289 /* FilterView.swift in Sources */,
 				4EE5BB902EEBA18800B54289 /* SearchBarView.swift in Sources */,
 				4EE5BB922EEBA26F00B54289 /* TypeBadge.swift in Sources */,
+				4EE5BB8E2EEB983200B54289 /* UIKitComponents.swift in Sources */,
 				4EE92A3F2EEB0B420067F870 /* PokedexterApp.swift in Sources */,
 				4EE92A6F2EEB14530067F870 /* ContentView.swift in Sources */,
 				4EE92A6C2EEB14020067F870 /* Pokemon.swift in Sources */,
