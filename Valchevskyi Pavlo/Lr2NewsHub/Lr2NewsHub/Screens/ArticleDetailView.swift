@@ -9,8 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct ArticleDetailView: View {
+    @StateObject private var vm: ArticleDetailViewModel
     @State private var showingShare = false
-    @Bindable var article: ArticleModel
+    
+    init(article: ArticleModel, repository: NewsRepositoryProtocol) {
+        _vm = StateObject(wrappedValue: ArticleDetailViewModel(article: article, repository: repository))
+    }
     
     var body: some View {
         VStack {
@@ -25,25 +29,24 @@ struct ArticleDetailView: View {
             
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text(article.title)
+                    Text(vm.article.title)
                         .font(.title2)
                         .bold()
                     Divider()
                     
                     VStack (alignment: .leading) {
-                        Text("Category: \(article.category)")
+                        Text("Category: \(vm.article.category)")
                             .italic()
-                        Text("Author: \(article.author)")
+                        Text("Author: \(vm.article.author)")
                             .italic()
-                        Text("Published: \(article.published)")
+                        Text("Published: \(vm.article.published)")
                             .italic()
                     }
 
                     
                     Divider()
                     
-                    
-                    if let img = article.imageUrl {
+                    if let img = vm.article.imageUrl {
                         AsyncImage(url: URL(string: img)) {
                             phase in switch phase {
                                 case .empty:
@@ -65,14 +68,10 @@ struct ArticleDetailView: View {
                     }
                     
                     Divider()
+                    Text(vm.article.text)
                     
-                    Text(article.text)
-                    
-                    if let urlString = article.articleUrl,
-                       let url = URL(string: urlString) {
-                        Button(action: {
-                            UIApplication.shared.open(url)
-                        }) {
+                    if let urlString = vm.article.articleUrl, let url = URL(string: urlString) {
+                        Button(action: { UIApplication.shared.open(url) }) {
                             Text("Open article source")
                                 .padding()
                                 .foregroundColor(.white)
@@ -84,13 +83,27 @@ struct ArticleDetailView: View {
                     
                     Divider()
 
-                    Toggle("Add to favorite:", isOn: $article.isFavorite)
+                    Toggle("Add to favorite:", isOn: Binding(
+                        get: {
+                            vm.article.isFavorite
+                        },
+                        set: {
+                            _ in vm.toggleFavorite()
+                        }
+                    ))
                     
                     Divider()
                     
                     VStack {
-                        Text("Rate article: \(article.userPoint)")
-                        SliderView(userPoint: $article.userPoint)
+                        Text("Rate article: \(vm.article.userPoint)")
+                        SliderView(userPoint: Binding(
+                            get: {
+                                vm.article.userPoint
+                            },
+                            set: {
+                                vm.updateRating(to: $0)
+                            }
+                        ))
                     }
                 }
                 .padding()
@@ -106,7 +119,7 @@ struct ArticleDetailView: View {
                 showingShare = true
             }
             .sheet(isPresented: $showingShare) {
-                ShareArticle(items: [article.title, article.text, article.category])
+                ShareArticle(items: [vm.article.title, vm.article.text, vm.article.category])
             }
         }
         .navigationTitle("View details")
@@ -114,11 +127,10 @@ struct ArticleDetailView: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    
     do {
-        let container = try ModelContainer(
-            for: ArticleModel.self,
-            configurations: .init(isStoredInMemoryOnly: true)
-        )
+        let container = try ModelContainer(for: ArticleModel.self, configurations: config)
         
         let mock = ArticleModel(
             id: "temp_id_for_test",
@@ -133,11 +145,13 @@ struct ArticleDetailView: View {
         )
         
         container.mainContext.insert(mock)
-
-        return ArticleDetailView(article: mock)
-            .modelContainer(container)
-
+        
+        let repository = NewsRepository(container: container)
+        
+        return NavigationStack {
+            ArticleDetailView(article: mock, repository: repository)
+        }
     } catch {
-        return Text("Failed to load preview")
+        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

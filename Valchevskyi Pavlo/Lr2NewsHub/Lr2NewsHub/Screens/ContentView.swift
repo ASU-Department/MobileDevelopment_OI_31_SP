@@ -69,7 +69,11 @@ struct ContentView: View {
                 }
                 
                 List {
-
+                    ForEach(vm.filteredArticles) { article in
+                        NavigationLink(article.title) {
+                            ArticleDetailView(article: article, repository: repository)
+                        }
+                    }
                 }
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
