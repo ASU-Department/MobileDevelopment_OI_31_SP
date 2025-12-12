@@ -18,6 +18,7 @@
 		3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */; };
 		3E96A77C2EAD5B3C005F0DE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */; };
 		3E96A77F2EAD5B3C005F0DE2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E96A77E2EAD5B3C005F0DE2 /* Preview Assets.xcassets */; };
+		3EA63DA32EEBA92700A4E09C /* NewsDataActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA63DA22EEBA92700A4E09C /* NewsDataActor.swift */; };
 		3EDB7F1B2EBBEEC700D95E73 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB7F1A2EBBEEC700D95E73 /* SliderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		3E96A7792EAD5B3A005F0DE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3E96A77B2EAD5B3C005F0DE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E96A77E2EAD5B3C005F0DE2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3EA63DA22EEBA92700A4E09C /* NewsDataActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataActor.swift; sourceTree = "<group>"; };
 		3EDB7F1A2EBBEEC700D95E73 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 			children = (
 				3E3F725A2ED2412B003CC654 /* NewsService.swift */,
 				3E3F72602ED241F7003CC654 /* NewsResponse.swift */,
+				3EA63DA22EEBA92700A4E09C /* NewsDataActor.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				3E3F72612ED241F7003CC654 /* NewsResponse.swift in Sources */,
 				3E96A77A2EAD5B3A005F0DE2 /* ContentView.swift in Sources */,
 				3E3F725B2ED2412B003CC654 /* NewsService.swift in Sources */,
+				3EA63DA32EEBA92700A4E09C /* NewsDataActor.swift in Sources */,
 				3E3F72682ED24521003CC654 /* AppSettings.swift in Sources */,
 				3E3F726A2ED24999003CC654 /* ShareArticle.swift in Sources */,
 				3EDB7F1B2EBBEEC700D95E73 /* SliderView.swift in Sources */,
