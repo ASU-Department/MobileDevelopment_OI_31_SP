@@ -8,9 +8,7 @@
 import UIKit
 import SwiftUI
 
-class ExpenseDetailViewController: UIViewController {
-    var expense: Expense?
-    
+class ExpenseDetailViewController: UIViewController { var expense: ExpenseEntity?
     private let titleLabel = UILabel()
     private let amountLabel = UILabel()
     private let dateLabel = UILabel()

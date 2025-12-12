@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 @main
 struct BudgetBuddyApp: App {
-    let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .modelContainer(for: [ExpenseEntity.self])
         }
     }
 }

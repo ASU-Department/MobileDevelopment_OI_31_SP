@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExpenseDetailView: UIViewControllerRepresentable {
-    let expense: Expense
+    let expense: ExpenseEntity
     
     func makeUIViewController(context: Context) -> ExpenseDetailViewController {
         let controller = ExpenseDetailViewController()
