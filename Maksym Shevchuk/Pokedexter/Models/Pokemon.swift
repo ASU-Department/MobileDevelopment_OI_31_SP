@@ -1,7 +1,6 @@
 import Foundation
-import SwiftUI
 
-struct Pokemon: Identifiable, Hashable {
+struct Pokemon: Identifiable, Hashable, Codable {
     let id: Int
     let name: String
     let type: [String]
@@ -12,35 +11,63 @@ struct Pokemon: Identifiable, Hashable {
     let weight: Int
 }
 
-
 extension Pokemon {
-    static let samplePokemon = [
-        Pokemon(
-            id: 25,
-            name: "Pikachu",
-            type: ["Electric"],
-            imageURL: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"),
-            abilities: ["Static", "Lightning Rod"],
-            height: 4,
-            weight: 60
-        ),
-        Pokemon(
-            id: 1,
-            name: "Bulbasaur",
-            type: ["Grass", "Poison"],
-            imageURL: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"),
-            abilities: ["Overgrow", "Chlorophyll"],
-            height: 7,
-            weight: 69
-        ),
-        Pokemon(
-            id: 4,
-            name: "Charmander",
-            type: ["Fire"],
-            imageURL: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"),
-            abilities: ["Blaze", "Solar Power"],
-            height: 6,
-            weight: 85
+    init(entity: PokemonEntity) {
+        self.id = Int(entity.id)
+        self.name = entity.name ?? "Unknown"
+        self.type = (entity.types ?? "").components(separatedBy: ",").filter { !$0.isEmpty }
+        self.imageURL = URL(string: entity.imageUrl ?? "")
+        self.isFavorite = entity.isFavorite
+        self.abilities = (entity.abilities ?? "").components(separatedBy: ",").filter { !$0.isEmpty }
+        self.height = Int(entity.height)
+        self.weight = Int(entity.weight)
+    }
+}
+
+struct PokemonListResponse: Codable {
+    let results: [PokemonBasic]
+}
+
+struct PokemonBasic: Codable {
+    let name: String
+    let url: String
+}
+
+struct PokemonDetailResponse: Codable {
+    let id: Int
+    let name: String
+    let height: Int
+    let weight: Int
+    let types: [TypeElement]
+    let abilities: [AbilityElement]
+    let sprites: Sprites
+    
+    struct TypeElement: Codable {
+        let type: NameURL
+    }
+    
+    struct AbilityElement: Codable {
+        let ability: NameURL
+    }
+    
+    struct NameURL: Codable {
+        let name: String
+    }
+    
+    struct Sprites: Codable {
+        let front_default: String?
+    }
+    
+    func toDomain() -> Pokemon {
+        return Pokemon(
+            id: id,
+            name: name.capitalized,
+            type: types.map { $0.type.name.capitalized },
+            imageURL: URL(string: sprites.front_default ?? ""),
+            isFavorite: false,
+            abilities: abilities.map { $0.ability.name.capitalized },
+            height: height,
+            weight: weight
         )
-    ]
+    }
 }
