@@ -8,8 +8,16 @@
 import Foundation
 import SwiftData
 
+protocol CoinPersistenceActorProtocol: Actor {
+    func fetchCoins() async throws -> [CoinEntity]
+    func saveCoins(_ coins: [Coin]) async throws
+    func updateCoins(from networkModels: [Crypto]) async throws
+    func toggleFavorite(coinID: String) async throws
+    func deleteAll() async throws
+}
+
 @ModelActor
-actor CoinPersistenceActor {
+actor CoinPersistenceActor: CoinPersistenceActorProtocol {
     
     func fetchCoins() throws -> [CoinEntity] {
         let descriptor = FetchDescriptor<Coin>(sortBy: [SortDescriptor(\.currentPrice, order: .reverse)])

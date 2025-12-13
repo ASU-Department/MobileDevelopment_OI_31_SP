@@ -15,13 +15,13 @@ protocol CoinRepositoryProtocol {
 }
 
 class CoinRepository: CoinRepositoryProtocol {
-    private let service: CoinGeckoService
-    private let actor: CoinPersistenceActor
+    private let service: CoinGeckoServiceProtocol
+    private let actor: CoinPersistenceActorProtocol
     
     private var lastUpdateTime: Date? = nil
     private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
     
-    init(service: CoinGeckoService = CoinGeckoService(), actor: CoinPersistenceActor) {
+    init(service: CoinGeckoServiceProtocol = CoinGeckoService(), actor: CoinPersistenceActorProtocol) {
         self.service = service
         self.actor = actor
     }

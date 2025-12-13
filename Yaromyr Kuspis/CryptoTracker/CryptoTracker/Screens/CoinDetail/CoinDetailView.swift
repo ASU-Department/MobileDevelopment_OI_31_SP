@@ -30,6 +30,7 @@ struct CoinDetailView: View {
                     Text("Current Price:")
                     Spacer()
                     Text(viewModel.coin.currentPrice, format: .currency(code: "USD"))
+                        .accessibilityIdentifier("detail_price_text")
                 }
                 
                 HStack {

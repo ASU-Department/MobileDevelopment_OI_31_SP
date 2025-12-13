@@ -16,7 +16,6 @@ class CryptoListViewModel: ObservableObject {
     @Published var showPortfolioOnly = false
     @Published var showThrottledMessage = false
     
-    // Repository abstraction
     private let repository: CoinRepositoryProtocol
     
     private var lastManualRefreshTime: Date? = nil
@@ -35,6 +34,8 @@ class CryptoListViewModel: ObservableObject {
     }
     
     func loadData(force: Bool = false) async {
+        await fetchCoinsFromRepo()
+
         guard !isLoading else { return }
         isLoading = true
         defer { isLoading = false }
@@ -64,7 +65,6 @@ class CryptoListViewModel: ObservableObject {
         withAnimation {
             if let index = coins.firstIndex(where: { $0.id == coin.id }) {
                 var updatedCoin = coins[index]
-                // Create a copy with toggled favorite status
                 updatedCoin = CoinEntity(
                     id: updatedCoin.id,
                     symbol: updatedCoin.symbol,
@@ -82,7 +82,6 @@ class CryptoListViewModel: ObservableObject {
             try await repository.toggleFavorite(coinID: coin.id)
             // Ideally we confirm with DB, but optimistic is fine.
         } catch {
-            // Revert on error
             await fetchCoinsFromRepo()
             self.errorAlert = ErrorAlert(message: "Failed to update favorite: \(error.localizedDescription)")
         }
