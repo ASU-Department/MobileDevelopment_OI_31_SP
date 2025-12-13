@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SplashScreenView: View {
-    @Binding var isActive: Bool
     
     @State private var iconScale: CGFloat = 0.6
     @State private var iconOpacity: Double = 0.0
@@ -35,24 +34,15 @@ struct SplashScreenView: View {
             }
         }
         .onAppear {
-            // A sequence of animations for a professional launch experience.
-            
-            // 1. Animate the icon first.
             withAnimation(.spring(response: 0.7, dampingFraction: 0.6)) {
                 iconScale = 1.0
                 iconOpacity = 1.0
             }
             
-            // 2. Animate the text with a slight delay.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 withAnimation(.easeIn(duration: 0.8)) {
                     textOpacity = 1.0
                 }
-            }
-            
-            // 3. Schedule the transition to the main app.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.isActive = false
             }
         }
     }
