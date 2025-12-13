@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var fontSize: Double
+    @StateObject private var viewModel = SettingsViewModel()
 
     var body: some View {
         Form {
             Section(header: Text("Font Settings")) {
-                Text("Size: \(Int(fontSize))")
-                FontSizeSlider(value: $fontSize, range: 12...24)
+                Text("Size: \(Int(viewModel.fontSize))")
+                FontSizeSlider(value: $viewModel.fontSize, range: 12...24)
                     .frame(height: 40)
             }
         }
