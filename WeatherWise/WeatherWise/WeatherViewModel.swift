@@ -7,24 +7,21 @@
 
 import Foundation
 import Combine
+import SwiftData
 
+@MainActor
 final class WeatherViewModel: ObservableObject {
     
     @Published var temperature: Double?
     @Published var wind: Double?
-    @Published var isLoading: Bool = false
+    @Published var isLoading = false
     @Published var errorMessage: String?
     
     private let service = WeatherService()
-    private let lastCityKey = "last_used_city"
-    		
-    func loadWeather(for city: String) {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
-        
-        UserDefaults.standard.set(city, forKey: self.lastCityKey)
+    
+    func loadWeather(for city: String, context: ModelContext) {
+        isLoading = true
+        errorMessage = nil
         
         let coordinates: [String: (Double, Double)] = [
             "Львів": (49.8397, 24.0297),
@@ -36,23 +33,44 @@ final class WeatherViewModel: ObservableObject {
         
         Task {
             do {
-                let result = try await self.service.fetchWeather(lat: lat, lon: lon)
+                let result = try await service.fetchWeather(lat: lat, lon: lon)
                 
-                await MainActor.run {
-                    self.temperature = result.current_weather.temperature
-                    self.wind = result.current_weather.windspeed
-                    self.isLoading = false
+                self.temperature = result.current_weather.temperature
+                self.wind = result.current_weather.windspeed
+                self.isLoading = false
+                
+                let request = FetchDescriptor<SavedWeather>(
+                    predicate: #Predicate { $0.city == city }
+                )
+                
+                if let existing = try? context.fetch(request).first {
+                    existing.temperature = result.current_weather.temperature
+                    existing.wind = result.current_weather.windspeed
+                } else {
+                    let saved = SavedWeather(
+                        city: city,
+                        temperature: result.current_weather.temperature,
+                        wind: result.current_weather.windspeed
+                    )
+                    context.insert(saved)
                 }
             } catch {
-                await MainActor.run {
-                    self.errorMessage = "Failed to load weather."
-                    self.isLoading = false
+                print("Error fetching weather: \(error)")
+                
+                let request = FetchDescriptor<SavedWeather>(
+                    predicate: #Predicate { $0.city == city }
+                )
+                
+                if let saved = try? context.fetch(request).first {
+                    self.temperature = saved.temperature
+                    self.wind = saved.wind
+                    self.errorMessage = "Offline mode: showing saved data"
+                } else {
+                    self.errorMessage = "Failed to load weather: \(error.localizedDescription)"
                 }
+
+                self.isLoading = false
             }
         }
-    }
-    
-    func loadLastCity() -> String {
-        UserDefaults.standard.string(forKey: lastCityKey) ?? "Львів"
     }
 }

@@ -72,9 +72,9 @@ struct WeatherDetailView: View {
     
     let city: String
     @State private var mapScale: Double = 0.5
-    
     @StateObject private var weatherVM = WeatherViewModel()
-    
+    @Environment(\.modelContext) private var modelContext
+
     var body: some View {
         VStack(spacing: 20) {
             
@@ -93,7 +93,7 @@ struct WeatherDetailView: View {
                 .font(.caption)
             
             Button("Завантажити погоду") {
-                weatherVM.loadWeather(for: city)
+                weatherVM.loadWeather(for: city, context: modelContext)
             }
             .padding()
             .buttonStyle(.borderedProminent)
@@ -123,7 +123,6 @@ struct WeatherDetailView: View {
         .navigationTitle("Карта міста")
     }
 }
-
 
 struct SimpleTimeFormatToggle: View {
     
