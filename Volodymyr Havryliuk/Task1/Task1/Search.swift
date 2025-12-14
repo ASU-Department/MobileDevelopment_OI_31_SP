@@ -52,7 +52,7 @@ final class SearchBooksViewModel: ObservableObject {
 
     func saveBookToLibrary(item: GoogleBookItem) {
         Task {
-            _ = await repository.saveBook(from: item)
+            _ = try await repository.saveBook(from: item)
         }
     }
 }

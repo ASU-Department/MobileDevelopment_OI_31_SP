@@ -60,29 +60,30 @@ final class ContentViewModel: ObservableObject {
         self.modelContext = modelContext
         self.repository = BookRepository(
             apiService: BookAPIService(),
-            modelContext: modelContext
+            container: modelContext.container
         )
+        
+        NotificationCenter.default.addObserver(
+            forName: .backgroundContextDidSave,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.reload()
+        }
+        
+        reload()
     }
 
-    func loadBooks() {
-        guard let repository, let modelContext else { return }
-        Task {
-            do {
-                let ids = try await repository.fetchBooks()
-                let descriptor = FetchDescriptor<Book>(
-                    predicate: #Predicate { ids.contains($0.id) }
-                )
-                let fetched = try modelContext.fetch(descriptor)
-                self.books = fetched.sorted {
-                    $0.title.localizedCaseInsensitiveCompare($1.title)
-                        == .orderedAscending
-                }
-            } catch {
-                print("Failed to load books: \(error)")
-            }
+    func reload() {
+        do {
+            // Fetch with the same descriptor @Query would use
+            let descriptor = FetchDescriptor<Book>()
+            books = try modelContext!.fetch(descriptor)
+        } catch {
+            print("Fetch failed: \(error)")
         }
     }
-
+    
     func getMotivation() {
         motivation = quotes.randomElement() ?? "No quotes found"
     }
@@ -90,8 +91,7 @@ final class ContentViewModel: ObservableObject {
     func addNewBook() {
         guard let repository else { return }
         Task {
-            _ = await repository.addNewBook()
-            loadBooks()
+            _ = try await repository.addNewBook()
         }
     }
 
@@ -99,7 +99,6 @@ final class ContentViewModel: ObservableObject {
         guard let repository else { return }
         Task {
             try await repository.deleteBook(by: book.id)
-            loadBooks()
         }
     }
 }
@@ -162,7 +161,7 @@ struct ContentView: View {
                     viewModel: SearchBooksViewModel(
                         repository: BookRepository(
                             apiService: BookAPIService(),
-                            modelContext: modelContext
+                            container: modelContext.container
                         ),
                         modelContext: modelContext
                     )
@@ -171,7 +170,6 @@ struct ContentView: View {
         }
         .onAppear {
             viewModel.configure(modelContext: modelContext)
-            viewModel.loadBooks()
         }
     }
 }
