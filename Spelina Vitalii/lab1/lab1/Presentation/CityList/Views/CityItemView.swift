@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CityItemView: View {
-    @Bindable var city: City
-
+    let city: City
+    
     var body: some View {
         HStack(spacing: 15) {
             Circle()
@@ -20,7 +20,7 @@ struct CityItemView: View {
                 Image(systemName: "pin.fill")
                     .foregroundColor(.blue)
             }
-
+            
             VStack(alignment: .leading) {
                 Text(city.name)
                     .font(.headline)

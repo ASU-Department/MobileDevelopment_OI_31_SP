@@ -23,4 +23,3 @@ struct IAQI: Codable {
 struct AQValue: Codable {
     let v: Double?
 }
-
