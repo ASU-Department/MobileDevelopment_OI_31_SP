@@ -16,9 +16,6 @@ struct CryptoListView: View {
         animation: .default)
     private var allCoins: FetchedResults<CoinEntity>
 
-    @State private var portfolioCoins: [String: Bool] = [
-        "bitcoin": true, "ethereum": true, "ripple": true, "solana": true
-    ]
     @State private var showPortfolioOnly = false
     @State private var isLoading = false
     
@@ -29,35 +26,81 @@ struct CryptoListView: View {
 
     private var filteredCoins: [CoinEntity] {
         if showPortfolioOnly {
-            return allCoins.filter { portfolioCoins[$0.id ?? "", default: false] }
+            return allCoins.filter { $0.isFavorite }
         } else {
             return Array(allCoins)
         }
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Toggle(isOn: $showPortfolioOnly) {
-                    Text("Show Portfolio Only")
-                        .font(.headline)
-                }
-                .padding(.horizontal)
-                .padding(.top)
-
+        NavigationStack {
+            VStack(spacing: 0) {
                 if isLoading && allCoins.isEmpty {
                     ProgressView("Loading Coins...")
                 } else {
-                    List(filteredCoins, id: \.self) { coin in
-                        CryptoRowView(coin: coin)
+                    List {
+                        ForEach(filteredCoins, id: \.self) { coin in
+                            NavigationLink(value: coin) {
+                                CryptoRowView(coin: coin) {
+                                    toggleFavorite(for: coin)
+                                }
+                            }
+                        }
                     }
                     .listStyle(PlainListStyle())
                 }
             }
             .navigationTitle("CryptoTracker")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            showPortfolioOnly.toggle()
+                        }
+                    }) {
+                        Image(systemName: showPortfolioOnly ? "star.fill" : "star")
+                            .font(.headline)
+                            .foregroundColor(.yellow)
+                    }
+                }
+            }
+            .safeAreaInset(edge: .bottom, alignment: .center) {
+                Link(destination: URL(string: "https://www.coingecko.com?utm_source=CryptoTracker&utm_medium=referral")!) {
+                    HStack(spacing: 4) {
+                        Text("Data powered by")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                        
+                        Image("coingecko_logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 15)
+                    }
+                    .padding(8)
+                    .background(.thinMaterial)
+                    .cornerRadius(10)
+                }
+                .padding(.bottom, 4)
+            }
             .task {
                 await loadDataIfNeeded()
             }
+            .navigationDestination(for: CoinEntity.self) { coin in
+                CoinDetailView(coin: coin)
+            }
+        }
+    }
+    
+    private func toggleFavorite(for coin: CoinEntity) {
+        withAnimation(.interpolatingSpring(stiffness: 300, damping: 15)) {
+            coin.isFavorite.toggle()
+        }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("Failed to save favorite status: \(error)")
         }
     }
     
@@ -67,11 +110,9 @@ struct CryptoListView: View {
         let lastFetchTime = UserDefaults.standard.double(forKey: lastFetchKey)
         let now = Date().timeIntervalSince1970
         
-        // Check if the data needs to be refreshed from the API.
         let needsUpdate = (now - lastFetchTime > cacheInterval) || allCoins.isEmpty
         
         if needsUpdate {
-            // Set the loading flag to prevent concurrent fetches.
             self.isLoading = true
             
             do {
@@ -82,7 +123,6 @@ struct CryptoListView: View {
                 print("Failed to load coins: \(error.localizedDescription)")
             }
             
-            // Reset the loading flag after the operation completes.
             self.isLoading = false
         }
     }
