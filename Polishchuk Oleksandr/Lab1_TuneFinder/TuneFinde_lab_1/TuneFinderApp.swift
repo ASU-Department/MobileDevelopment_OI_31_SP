@@ -1,15 +1,14 @@
 import SwiftUI
-import SwiftData
 
 @main
 struct TuneFinderApp: App {
+    private let coordinator = AppCoordinator()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            coordinator.makeRootView()
         }
-        .modelContainer(for: [
-            SongEntity.self,
-            FavoriteSongEntity.self
-        ])
     }
 }
+
+
