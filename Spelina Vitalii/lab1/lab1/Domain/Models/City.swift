@@ -69,4 +69,3 @@ extension City {
         self.o3 = data.iaqi?.o3?.v ?? self.o3
     }
 }
-
