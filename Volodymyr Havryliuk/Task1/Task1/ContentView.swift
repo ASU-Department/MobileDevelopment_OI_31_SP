@@ -6,20 +6,36 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Book: Hashable, Identifiable {
-    let id = UUID()
+@Model
+class Book {
+    var id: UUID
     var title: String
-    var isRead: Bool = false
-    var notes: String = ""
-    var rating: Float = 0.0
-}
+    var author: String
+    var desc: String
+    var coverURL: String?
+    var isRead: Bool
+    var notes: String
+    var rating: Float
+    
+    init(title: String, author: String = "", desc: String = "", coverURL: String? = nil, isRead: Bool = false, notes: String = "", rating: Float = 0.0) {
+        self.id = UUID()
+        self.title = title
+        self.author = author
+        self.desc = desc
+        self.coverURL = coverURL
+        self.isRead = isRead
+        self.notes = notes
+        self.rating = rating
+    }}
 
 struct ContentView: View {
-    @State var books = BookStore.shared.books
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Book.title) private var books: [Book]
     
     @State private var path = NavigationPath()
-    
+    @State private var showingSearch = false
     @State var motivation = "You have nothing"
     
     let quotes = [
@@ -32,27 +48,29 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             VStack {
                 if books.isEmpty {
-                    SimpleText(text: motivation)
-                        .frame(width: 40, height: 80)
-                        .padding(.horizontal)
-                    
-                    Button("Get motivated") {
-                        motivation = quotes.randomElement() ?? "Something is very wrong, someone stole all quotes"
+                    VStack {
+                        Text(motivation)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        
+                        Button("Get motivated") {
+                            motivation = quotes.randomElement() ?? "No quotes found"
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .frame(height: 200)
+                    
                 } else {
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
                     Text("BookTracker")
                         .bold()
                         .font(.system(size: 36))
+                    
                     List {
-                        ForEach($books) { $book in
-                            NavigationLink(value: $book.id) {
-                                BookRow(book: $book) {
-                                    deleteBook(id: $book.id)
-                                }
+                        ForEach(books) { book in
+                            NavigationLink(value: book) {
+                                BookRow(book: book, onDelete: {
+                                    deleteBook(book: book)
+                                })
                             }
                         }
                     }
@@ -61,65 +79,97 @@ struct ContentView: View {
             .padding()
             .navigationTitle("Book Tracker")
             .toolbar {
-                Button(action: addNewBook) {
-                    Label("Add", systemImage: "plus")
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: addNewBook) {
+                        Label("Add", systemImage: "plus")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingSearch = true
+                    } label: {
+                        Label("Search", systemImage: "magnifyingglass")
+                    }
                 }
             }
-            .navigationDestination(for: UUID.self) { bookId in
-                if let index = books.firstIndex(where: { $0.id == bookId }) {
-                    BookFormView(book: $books[index])
-                        .navigationTitle("Edit Book")
-                        .navigationBarTitleDisplayMode(.inline)
-                }
+            .navigationDestination(for: Book.self) { book in
+                BookFormView(book: book)
+                    .navigationTitle("Edit Book")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .sheet(isPresented: $showingSearch) {
+                SearchBooksView()
             }
         }
     }
     
     func addNewBook() {
         let newBook = Book(title: "New Book")
-        books.append(newBook)
-        path.append(newBook.id)
+        modelContext.insert(newBook)
+        path.append(newBook)
     }
     
-    func deleteBook(id: UUID) {
-        if let index = books.firstIndex(where: { $0.id == id }) {
-            books.remove(at: index)
+    func deleteBook(book: Book) {
+        // fix for a ForEach, crashes when deleting from rear of a list
+        DispatchQueue.main.async {
+            withAnimation {
+                modelContext.delete(book)
+            }
         }
     }
 }
 
 struct BookRow: View {
-    @Binding var book: Book
+    @Bindable var book: Book
     var onDelete: () -> Void
     
     var body: some View {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(book.title)
-                        .font(.headline)
-                    Text(String(format: "Rating: %.1f", book.rating))
+        HStack {
+            if let urlString = book.coverURL, let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image.resizable().scaledToFit()
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                }
+                .frame(width: 40, height: 60)
+                .cornerRadius(4)
+            }
+            
+            VStack(alignment: .leading) {
+                Text(book.title)
+                    .font(.headline)
+                if !book.author.isEmpty {
+                    Text(book.author)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                
-                Spacer()
-                
-                Toggle(isOn: $book.isRead) {
-                    Text("Read")
-                }
-                .labelsHidden()
+                Text(String(format: "Rating: %.1f", book.rating))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
-            .padding(.vertical, 4)
-            .contextMenu {
-                Button(role: .destructive) {
-                    onDelete()
-                } label: {
-                    Label("Delete Book", systemImage: "trash")
-                }
+            
+            Spacer()
+            
+            Toggle(isOn: $book.isRead) {
+                Text("Read")
+            }
+            .labelsHidden()
+        }
+        .padding(.vertical, 4)
+        .contextMenu {
+            Button(role: .destructive) {
+                onDelete()
+            } label: {
+                Label("Delete Book", systemImage: "trash")
             }
         }
+    }
 }
 
 #Preview {
-    ContentView()
+    // need for previews to change how data is stored
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Book.self, configurations: config)
+    return ContentView()
+        .modelContainer(container)
 }
