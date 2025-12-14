@@ -46,50 +46,69 @@ final class ContentViewModel: ObservableObject {
     @Published var showingSearch = false
     @Published var motivation = "You have nothing"
     @Published var books: [Book] = []
-    
+
     let quotes = [
         "Reading is dreaming with open eyes.",
         "So many books, so little time.",
-        "A room without books is like a body without a soul.",
+        "A room without books is like a body without a soul."
     ]
-    
-    var modelContext: ModelContext?
-    
-    func updateBooks(_ fetched: [Book]) {
-        books = fetched.sorted {
-            $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+
+    private var repository: BookRepositoryProtocol?
+    private var modelContext: ModelContext?
+
+    func configure(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        self.repository = BookRepository(
+            apiService: BookAPIService(),
+            modelContext: modelContext
+        )
+    }
+
+    func loadBooks() {
+        guard let repository, let modelContext else { return }
+        Task {
+            do {
+                let ids = try await repository.fetchBooks()
+                let descriptor = FetchDescriptor<Book>(
+                    predicate: #Predicate { ids.contains($0.id) }
+                )
+                let fetched = try modelContext.fetch(descriptor)
+                self.books = fetched.sorted {
+                    $0.title.localizedCaseInsensitiveCompare($1.title)
+                        == .orderedAscending
+                }
+            } catch {
+                print("Failed to load books: \(error)")
+            }
         }
     }
-    
+
     func getMotivation() {
         motivation = quotes.randomElement() ?? "No quotes found"
     }
-    
+
     func addNewBook() {
-        guard let ctx = modelContext else { return }
-        let newBook = Book(title: "New Book")
-        ctx.insert(newBook)
-        path.append(newBook)
+        guard let repository else { return }
+        Task {
+            _ = await repository.addNewBook()
+            loadBooks()
+        }
     }
-    
+
     func deleteBook(_ book: Book) {
-        guard let ctx = modelContext else { return }
-        DispatchQueue.main.async {
-            withAnimation {
-                ctx.delete(book)
-            }
+        guard let repository else { return }
+        Task {
+            try await repository.deleteBook(by: book.id)
+            loadBooks()
         }
     }
 }
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    
-    // Fetch raw data only; sorting is handled in the ViewModel
     @Query private var fetchedBooks: [Book]
-    
     @StateObject private var viewModel = ContentViewModel()
-    
+
     var body: some View {
         NavigationStack(path: $viewModel.path) {
             VStack {
@@ -98,25 +117,22 @@ struct ContentView: View {
                         Text(viewModel.motivation)
                             .multilineTextAlignment(.center)
                             .padding()
-                        
                         Button("Get motivated") {
                             viewModel.getMotivation()
                         }
                         .buttonStyle(.borderedProminent)
                     }
                     .frame(height: 200)
-                    
                 } else {
                     Text("BookTracker")
                         .bold()
                         .font(.system(size: 36))
-                    
                     List {
                         ForEach(viewModel.books) { book in
                             NavigationLink(value: book) {
-                                BookRow(book: book, onDelete: {
+                                BookRow(book: book) {
                                     viewModel.deleteBook(book)
-                                })
+                                }
                             }
                         }
                     }
@@ -131,9 +147,7 @@ struct ContentView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        viewModel.showingSearch = true
-                    } label: {
+                    Button { viewModel.showingSearch = true } label: {
                         Label("Search", systemImage: "magnifyingglass")
                     }
                 }
@@ -146,18 +160,18 @@ struct ContentView: View {
             .sheet(isPresented: $viewModel.showingSearch) {
                 SearchBooksView(
                     viewModel: SearchBooksViewModel(
-                        apiService: BookAPIService(),
+                        repository: BookRepository(
+                            apiService: BookAPIService(),
+                            modelContext: modelContext
+                        ),
                         modelContext: modelContext
                     )
                 )
             }
         }
         .onAppear {
-            viewModel.modelContext = modelContext
-            viewModel.updateBooks(fetchedBooks)
-        }
-        .onChange(of: fetchedBooks) { newValue in
-            viewModel.updateBooks(newValue)
+            viewModel.configure(modelContext: modelContext)
+            viewModel.loadBooks()
         }
     }
 }

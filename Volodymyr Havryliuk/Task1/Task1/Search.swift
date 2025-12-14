@@ -16,67 +16,51 @@ final class SearchBooksViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var showingError = false
-    
-    private let apiService: BookAPIService
+
+    private let repository: BookRepositoryProtocol
     private let modelContext: ModelContext
     private let lastSearchKey = "lastSearchQuery"
-    
-    init(apiService: BookAPIService = BookAPIService(), modelContext: ModelContext) {
-        self.apiService = apiService
+
+    init(repository: BookRepositoryProtocol, modelContext: ModelContext) {
+        self.repository = repository
         self.modelContext = modelContext
-        // Restore last query for convenience
         self.query = UserDefaults.standard.string(forKey: lastSearchKey) ?? ""
     }
-    
+
     func onAppear() {
         if query.isEmpty {
             query = UserDefaults.standard.string(forKey: lastSearchKey) ?? ""
         }
     }
-    
+
     func performSearch() {
         guard !query.isEmpty else { return }
         UserDefaults.standard.set(query, forKey: lastSearchKey)
-        
         isLoading = true
         errorMessage = nil
-        
+
         Task {
             do {
-                let result = try await apiService.searchBooks(query: query)
-                books = result
+                books = try await repository.searchRemoteBooks(query: query)
             } catch {
-                errorMessage =
-                    "Failed to load books. Please check your internet connection."
+                errorMessage = "Failed to load books. Please check your internet connection."
                 showingError = true
             }
             isLoading = false
         }
     }
-    
+
     func saveBookToLibrary(item: GoogleBookItem) {
-        let info = item.volumeInfo
-        let secureImg = info.imageLinks?.thumbnail?.replacingOccurrences(
-            of: "http://",
-            with: "https://"
-        )
-        
-        let newBook = Book(
-            title: info.title,
-            author: info.authors?.joined(separator: ", ") ?? "Unknown",
-            desc: info.description ?? "No description available.",
-            coverURL: secureImg
-        )
-        
-        modelContext.insert(newBook)
+        Task {
+            _ = await repository.saveBook(from: item)
+        }
     }
 }
 
 struct SearchBooksView: View {
     @Environment(\.dismiss) var dismiss
-    
     @ObservedObject var viewModel: SearchBooksViewModel
-    
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -84,7 +68,7 @@ struct SearchBooksView: View {
                     TextField("Search title or author...", text: $viewModel.query)
                         .textFieldStyle(.roundedBorder)
                         .onSubmit { viewModel.performSearch() }
-                    
+
                     if viewModel.isLoading {
                         ProgressView()
                     } else {
@@ -92,19 +76,16 @@ struct SearchBooksView: View {
                     }
                 }
                 .padding()
-                
+
                 if let error = viewModel.errorMessage {
                     Text(error).foregroundStyle(.red).padding()
                 }
-                
+
                 List(viewModel.books) { item in
                     HStack(alignment: .top) {
-                        if let urlString = item
-                            .volumeInfo
-                            .imageLinks?
-                            .thumbnail?
+                        if let urlStr = item.volumeInfo.imageLinks?.thumbnail?
                             .replacingOccurrences(of: "http://", with: "https://"),
-                            let url = URL(string: urlString)
+                            let url = URL(string: urlStr)
                         {
                             AsyncImage(url: url) { image in
                                 image.resizable().scaledToFit()
@@ -118,21 +99,19 @@ struct SearchBooksView: View {
                                 .fill(.gray.opacity(0.3))
                                 .frame(width: 50, height: 75)
                         }
-                        
+
                         VStack(alignment: .leading) {
                             Text(item.volumeInfo.title)
                                 .font(.headline)
                                 .lineLimit(2)
-                            Text(
-                                item.volumeInfo.authors?.joined(separator: ", ")
-                                    ?? "Unknown Author"
-                            )
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            Text(item.volumeInfo.authors?.joined(separator: ", ")
+                                ?? "Unknown Author")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button {
                             viewModel.saveBookToLibrary(item: item)
                         } label: {
@@ -145,9 +124,7 @@ struct SearchBooksView: View {
                 }
             }
             .navigationTitle("Google Books")
-            .onAppear {
-                viewModel.onAppear()
-            }
+            .onAppear { viewModel.onAppear() }
             .alert("Error", isPresented: $viewModel.showingError) {
                 Button("OK", role: .cancel) {}
             } message: {
