@@ -10,6 +10,7 @@ import SwiftUI
 struct Habit: Identifiable {
     let id = UUID()
     var name: String
+    var desc: String
     var streak: Int
 }
 
@@ -45,40 +46,48 @@ struct HabitRow: View {
 
 struct ContentView: View {
     @State private var habits: [Habit] = [
-        Habit(name: "8 hour sleep", streak: 3),
-        Habit(name: "10000 steps", streak: 1)
+        Habit(name: "8 hour sleep", desc: "Get a full night’s rest", streak: 3),
+        Habit(name: "10000 steps", desc: "Daily step goal for better health", streak: 1)
     ]
     
     @State private var quote: String = "Loading..."
+    @State private var showAddHabit = false
     
     var body: some View {
-        VStack {
-            Text("HabitBuddy")
-                .font(.largeTitle.bold())
-                .padding(.top, 16)
-            
-            Text(quote)
-                .font(.subheadline)
-                .italic()
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .onAppear {
-                    Task {
-                        await fetchQuote()
+        NavigationStack {
+            VStack {
+                Text("HabitBuddy")
+                    .font(.largeTitle.bold())
+                    .padding(.top, 16)
+                
+                Text(quote)
+                    .font(.subheadline)
+                    .italic()
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .onAppear {
+                        Task { await fetchQuote() }
+                    }
+
+                List {
+                    ForEach($habits) { $habit in
+                        NavigationLink(destination: HabitDetailView(habit: $habit)) {
+                            HabitRow(habit: $habit)
+                        }
                     }
                 }
-            
-            List {
-                ForEach($habits) { $habit in
-                    HabitRow(habit: $habit)
+                
+                Button("Add New Habit") {
+                    showAddHabit = true
+                }
+                .buttonStyle(.bordered)
+                .padding(.bottom, 20)
+                .sheet(isPresented: $showAddHabit) {
+                    AddHabitView { newHabit in
+                        habits.append(newHabit)
+                    }
                 }
             }
-            
-            Button("And new habit") {
-                habits.append(Habit(name: "created habit", streak: 0))
-            }
-            .buttonStyle(.bordered)
-            .padding(.bottom, 20)
         }
     }
     
