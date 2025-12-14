@@ -10,22 +10,37 @@ import SwiftData
 
 @main
 struct Lr2NewsHubApp: App {
-    let container: ModelContainer
-    let newsRepository: NewsRepository
+    let container: ModelContainer?
+    let newsRepository: NewsRepositoryProtocol
 
     init() {
-        do {
-            container = try ModelContainer(for: ArticleModel.self)
-            newsRepository = NewsRepository(container: container)
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
+        let isUnitTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        
+        if isUnitTesting {
+            print("Use mock repository for test:\n")
+            
+            newsRepository = MockNewsRepository()
+            let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            container = try? ModelContainer(for: ArticleModel.self, configurations: config)
+        } else {
+            do {
+                let realContainer = try ModelContainer(for: ArticleModel.self)
+                container = realContainer
+                newsRepository = NewsRepository(container: realContainer)
+            } catch {
+                fatalError("Failed to create ModelContainer: \(error)")
+            }
         }
     }
 
     var body: some Scene {
         WindowGroup {
-            ContentView(repository: newsRepository)
+            if let container = container {
+                ContentView(repository: newsRepository)
+                    .modelContainer(container)
+            } else {
+                ContentView(repository: newsRepository)
+            }
         }
-        .modelContainer(container)
     }
 }
