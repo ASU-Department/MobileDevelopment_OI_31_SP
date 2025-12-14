@@ -9,13 +9,12 @@ import SwiftUI
 
 struct QuizSettingsView: View {
     @State private var questionCount = 10
-    @State private var selectedCategory = "General Knowledge"
+    @State private var selectedCategory: Category = categories.first!
     @State private var isHardMode = false
-
-    let categories = ["General Knowledge", "Science", "History", "Sports", "Music"]
+    @State private var isQuizActive: Bool = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
 
                 Text("Quiz Settings")
@@ -30,11 +29,11 @@ struct QuizSettingsView: View {
 
                 Spacer()
 
-                StartButton {
-                    print("Start quiz with:")
-                    print("Category: \(selectedCategory)")
-                    print("Questions: \(questionCount)")
-                    print("Hard Mode: \(isHardMode)")
+                StartButton{
+                    isQuizActive = true
+                }
+                .navigationDestination(isPresented: $isQuizActive) {
+                    QuizStartView(category: selectedCategory, questionCount: questionCount, isHardMode: isHardMode)
                 }
             }
             .padding()
