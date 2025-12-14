@@ -1,14 +1,14 @@
 //
-//  SpaceExplorer2_0App.swift
-//  SpaceExplorer2.0
+//  EventiveApp.swift
+//  Eventive
 //
-//  Created by Pab1m on 19.10.2025.
+//  Created by Anastasiia Falkovska on 30.10.2025.
 //
 
 import SwiftUI
 
 @main
-struct SpaceExplorer2_0App: App {
+struct EventiveApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
