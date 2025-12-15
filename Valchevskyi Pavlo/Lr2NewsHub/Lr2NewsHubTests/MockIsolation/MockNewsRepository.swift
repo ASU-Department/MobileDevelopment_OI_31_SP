@@ -24,6 +24,8 @@ final class MockNewsRepository: NewsRepositoryProtocol, @unchecked Sendable {
                     text: "Content 1",
                     category: "Category 1",
                     isFavorite: false,
+                    articleUrl: "urlArticle",
+                    imageUrl: "https://ichef.bbci.co.uk/news/1024/branded_news/447e/live/440a5730-c743-11f0-8c06-f5d460985095.jpg",
                     author: "Author 1",
                     published: "2021-01-01"
                 ),

@@ -45,6 +45,7 @@ struct ContentView: View {
                     .onChange(of: settings.selectedCategory) { _, newValue in
                         vm.updateFilters(category: newValue, favoriteOnly: settings.filterFavorite)
                     }
+                    .accessibilityIdentifier("FilterPicker")
                 }
                 
                 HStack {
@@ -75,6 +76,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                .accessibilityIdentifier("ArticlesList")
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.blue, lineWidth: 2)

@@ -15,9 +15,14 @@ struct Lr2NewsHubApp: App {
 
     init() {
         let isUnitTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        let isUITesting = CommandLine.arguments.contains("-UITest")
         
-        if isUnitTesting {
+        if isUITesting || isUnitTesting {
             print("Use mock repository for test:\n")
+            
+            if let bundleID = Bundle.main.bundleIdentifier {
+                UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            }
             
             newsRepository = MockNewsRepository()
             let config = ModelConfiguration(isStoredInMemoryOnly: true)
