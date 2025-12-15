@@ -3,16 +3,10 @@
 //  habitBuddy
 //
 //  Created by paul on 17.10.2025.
-//	
-	
+//
+    
 import SwiftUI
-
-struct Habit: Identifiable {
-    let id = UUID()
-    var name: String
-    var desc: String
-    var streak: Int
-}
+import SwiftData
 
 struct QuoteResponse: Decodable {
     let q: String
@@ -20,7 +14,8 @@ struct QuoteResponse: Decodable {
 }
 
 struct HabitRow: View {
-    @Binding var habit: Habit
+    @Bindable var habit: Habit
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         HStack {
@@ -31,6 +26,11 @@ struct HabitRow: View {
             
             Button("Done") {
                 habit.streak += 1
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Failed saving streak: \(error)")
+                }
             }
             .buttonStyle(.borderedProminent)
             .frame(width: 80)
@@ -45,12 +45,13 @@ struct HabitRow: View {
 }
 
 struct ContentView: View {
-    @State private var habits: [Habit] = [
-        Habit(name: "8 hour sleep", desc: "Get a full night’s rest", streak: 3),
-        Habit(name: "10000 steps", desc: "Daily step goal for better health", streak: 1)
-    ]
+    @Environment(\.modelContext) private var modelContext
+    @Query private var habits: [Habit]
     
     @State private var quote: String = "Loading..."
+    @State private var isLoading = false
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
     @State private var showAddHabit = false
     
     var body: some View {
@@ -59,57 +60,113 @@ struct ContentView: View {
                 Text("HabitBuddy")
                     .font(.largeTitle.bold())
                     .padding(.top, 16)
-                
-                Text(quote)
-                    .font(.subheadline)
-                    .italic()
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                    .onAppear {
-                        Task { await fetchQuote() }
-                    }
 
-                List {
-                    ForEach($habits) { $habit in
-                        NavigationLink(destination: HabitDetailView(habit: $habit)) {
-                            HabitRow(habit: $habit)
-                        }
-                    }
+                if isLoading {
+                    ProgressView("Loading quote...")
+                        .padding()
+                } else {
+                    Text(quote)
+                        .font(.subheadline)
+                        .italic()
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+
+                if habits.isEmpty {
+                    Text("No habits yet - add your first habit")
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 20)
                 }
                 
+                List {
+                    ForEach(habits) { habit in
+                        NavigationLink(destination: HabitDetailView(habit: habit)) {
+                            HabitRow(habit: habit)
+                        }
+                    }
+                    .onDelete(perform: delete)
+                }
+                .refreshable { await fetchQuote() }
+
                 Button("Add New Habit") {
                     showAddHabit = true
                 }
                 .buttonStyle(.bordered)
                 .padding(.bottom, 20)
                 .sheet(isPresented: $showAddHabit) {
-                    AddHabitView { newHabit in
-                        habits.append(newHabit)
-                    }
+                    AddHabitView(modelContext: modelContext)
                 }
+            }
+            .onAppear {
+                Task { await fetchQuote() }
+            }
+            .alert("Error", isPresented: $showErrorAlert) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage)
             }
         }
     }
     
-    func fetchQuote() async {
-        guard let url = URL(string: "https://zenquotes.io/api/today") else {
-            quote = "Failed to load quote."
-            return
+    private func delete(at offsets: IndexSet) {
+        for index in offsets {
+            let h = habits[index]
+            modelContext.delete(h)
         }
         do {
-            let(data, _) = try await URLSession.shared.data(from: url)
-            if let decoded = try?
-                JSONDecoder().decode([QuoteResponse].self, from: data),
-               let first = decoded.first { quote = "\"\(first.q)\" - \(first.a)"
-            } else {
-                quote = "Could not parse quote."
-            }
+            try modelContext.save()
         } catch {
-            quote = "Error loading quote."
+            print("Failed to delete: \(error)")
         }
+    }
+    
+    func fetchQuote() async {
+        isLoading = true
+        
+        guard let url = URL(string: "https://zenquotes.io/api/today") else {
+            loadCachedQuote()
+            showError("Invalid URL")
+            return
+        }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            if let decoded = try? JSONDecoder().decode([QuoteResponse].self, from: data),
+               let first = decoded.first {
+                
+                let formatted = "\"\(first.q)\" - \(first.a)"
+                quote = formatted
+                
+                UserDefaults.standard.set(formatted, forKey: "cachedQuote")
+            } else {
+                loadCachedQuote()
+                showError("Could not parse quote")
+            }
+            
+        } catch {
+            loadCachedQuote()
+            showError("No internet connection")
+        }
+        
+        isLoading = false
+    }
+
+    func loadCachedQuote() {
+        if let saved = UserDefaults.standard.string(forKey: "cachedQuote") {
+            quote = saved + " (offline)"
+        } else {
+            quote = "No saved quote available."
+        }
+    }
+
+    func showError(_ message: String) {
+        errorMessage = message
+        showErrorAlert = true
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: [Habit.self])
 }
