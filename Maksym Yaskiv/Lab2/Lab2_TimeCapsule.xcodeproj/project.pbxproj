@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		46E1A1B22EB7EB06008E1B00 /* Time_Capsule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Time_Capsule.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE7A5D362EAE2C2E006ABA0F /* Lab2_TimeCapsule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab2_TimeCapsule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		46E1A1C42EB7EB0C008E1B00 /* Exceptions for "Time_Capsule" folder in "Time_Capsule" target */ = {
+		CE7A5D482EAE2C33006ABA0F /* Exceptions for "Lab2_TimeCapsule" folder in "Lab2_TimeCapsule" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 46E1A1B12EB7EB06008E1B00 /* Time_Capsule */;
+			target = CE7A5D352EAE2C2D006ABA0F /* Lab2_TimeCapsule */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		46E1A1B42EB7EB06008E1B00 /* Time_Capsule */ = {
+		CE7A5D382EAE2C2E006ABA0F /* Lab2_TimeCapsule */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				46E1A1C42EB7EB0C008E1B00 /* Exceptions for "Time_Capsule" folder in "Time_Capsule" target */,
+				CE7A5D482EAE2C33006ABA0F /* Exceptions for "Lab2_TimeCapsule" folder in "Lab2_TimeCapsule" target */,
 			);
-			path = Time_Capsule;
+			path = Lab2_TimeCapsule;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		46E1A1AF2EB7EB06008E1B00 /* Frameworks */ = {
+		CE7A5D332EAE2C2D006ABA0F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		46E1A1A92EB7EB06008E1B00 = {
+		CE7A5D2D2EAE2C2D006ABA0F = {
 			isa = PBXGroup;
 			children = (
-				46E1A1B42EB7EB06008E1B00 /* Time_Capsule */,
-				46E1A1B32EB7EB06008E1B00 /* Products */,
+				CE7A5D382EAE2C2E006ABA0F /* Lab2_TimeCapsule */,
+				CE7A5D372EAE2C2E006ABA0F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		46E1A1B32EB7EB06008E1B00 /* Products */ = {
+		CE7A5D372EAE2C2E006ABA0F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				46E1A1B22EB7EB06008E1B00 /* Time_Capsule.app */,
+				CE7A5D362EAE2C2E006ABA0F /* Lab2_TimeCapsule.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		46E1A1B12EB7EB06008E1B00 /* Time_Capsule */ = {
+		CE7A5D352EAE2C2D006ABA0F /* Lab2_TimeCapsule */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 46E1A1C52EB7EB0C008E1B00 /* Build configuration list for PBXNativeTarget "Time_Capsule" */;
+			buildConfigurationList = CE7A5D492EAE2C33006ABA0F /* Build configuration list for PBXNativeTarget "Lab2_TimeCapsule" */;
 			buildPhases = (
-				46E1A1AE2EB7EB06008E1B00 /* Sources */,
-				46E1A1AF2EB7EB06008E1B00 /* Frameworks */,
-				46E1A1B02EB7EB06008E1B00 /* Resources */,
+				CE7A5D322EAE2C2D006ABA0F /* Sources */,
+				CE7A5D332EAE2C2D006ABA0F /* Frameworks */,
+				CE7A5D342EAE2C2D006ABA0F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				46E1A1B42EB7EB06008E1B00 /* Time_Capsule */,
+				CE7A5D382EAE2C2E006ABA0F /* Lab2_TimeCapsule */,
 			);
-			name = Time_Capsule;
+			name = Lab2_TimeCapsule;
 			packageProductDependencies = (
 			);
-			productName = Time_Capsule;
-			productReference = 46E1A1B22EB7EB06008E1B00 /* Time_Capsule.app */;
+			productName = Lab2_TimeCapsule;
+			productReference = CE7A5D362EAE2C2E006ABA0F /* Lab2_TimeCapsule.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		46E1A1AA2EB7EB06008E1B00 /* Project object */ = {
+		CE7A5D2E2EAE2C2D006ABA0F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
-					46E1A1B12EB7EB06008E1B00 = {
-						CreatedOnToolsVersion = 26.0.1;
+					CE7A5D352EAE2C2D006ABA0F = {
+						CreatedOnToolsVersion = 16.1;
 					};
 				};
 			};
-			buildConfigurationList = 46E1A1AD2EB7EB06008E1B00 /* Build configuration list for PBXProject "Time_Capsule" */;
+			buildConfigurationList = CE7A5D312EAE2C2D006ABA0F /* Build configuration list for PBXProject "Lab2_TimeCapsule" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 46E1A1A92EB7EB06008E1B00;
+			mainGroup = CE7A5D2D2EAE2C2D006ABA0F;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 46E1A1B32EB7EB06008E1B00 /* Products */;
+			productRefGroup = CE7A5D372EAE2C2E006ABA0F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				46E1A1B12EB7EB06008E1B00 /* Time_Capsule */,
+				CE7A5D352EAE2C2D006ABA0F /* Lab2_TimeCapsule */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		46E1A1B02EB7EB06008E1B00 /* Resources */ = {
+		CE7A5D342EAE2C2D006ABA0F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		46E1A1AE2EB7EB06008E1B00 /* Sources */ = {
+		CE7A5D322EAE2C2D006ABA0F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		46E1A1C62EB7EB0C008E1B00 /* Debug */ = {
+		CE7A5D4A2EAE2C33006ABA0F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -146,7 +146,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Time_Capsule/Info.plist;
+				INFOPLIST_FILE = Lab2_TimeCapsule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -157,19 +157,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.Time-Capsule";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.labs.Lab2-TimeCapsule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		46E1A1C72EB7EB0C008E1B00 /* Release */ = {
+		CE7A5D4B2EAE2C33006ABA0F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -177,7 +173,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Time_Capsule/Info.plist;
+				INFOPLIST_FILE = Lab2_TimeCapsule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -188,19 +184,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.Time-Capsule";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.labs.Lab2-TimeCapsule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		46E1A1C82EB7EB0C008E1B00 /* Debug */ = {
+		CE7A5D4C2EAE2C33006ABA0F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -252,7 +244,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -263,7 +255,7 @@
 			};
 			name = Debug;
 		};
-		46E1A1C92EB7EB0C008E1B00 /* Release */ = {
+		CE7A5D4D2EAE2C33006ABA0F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -309,7 +301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -322,25 +314,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		46E1A1AD2EB7EB06008E1B00 /* Build configuration list for PBXProject "Time_Capsule" */ = {
+		CE7A5D312EAE2C2D006ABA0F /* Build configuration list for PBXProject "Lab2_TimeCapsule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				46E1A1C82EB7EB0C008E1B00 /* Debug */,
-				46E1A1C92EB7EB0C008E1B00 /* Release */,
+				CE7A5D4C2EAE2C33006ABA0F /* Debug */,
+				CE7A5D4D2EAE2C33006ABA0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46E1A1C52EB7EB0C008E1B00 /* Build configuration list for PBXNativeTarget "Time_Capsule" */ = {
+		CE7A5D492EAE2C33006ABA0F /* Build configuration list for PBXNativeTarget "Lab2_TimeCapsule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				46E1A1C62EB7EB0C008E1B00 /* Debug */,
-				46E1A1C72EB7EB0C008E1B00 /* Release */,
+				CE7A5D4A2EAE2C33006ABA0F /* Debug */,
+				CE7A5D4B2EAE2C33006ABA0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 46E1A1AA2EB7EB06008E1B00 /* Project object */;
+	rootObject = CE7A5D2E2EAE2C2D006ABA0F /* Project object */;
 }

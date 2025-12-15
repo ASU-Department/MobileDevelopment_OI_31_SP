@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CEA89CA62EBA590E0079A579 /* habitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA52EBA590E0079A579 /* habitDetailView.swift */; };
+		CE88D9D42ED35758002E1220 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88D9D32ED35758002E1220 /* Habit.swift */; };
+		CEA89CA62EBA590E0079A579 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */; };
 		CEA89CA82EBA5D5F0079A579 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */; };
 		FDD486E12EA24BCF00238CA8 /* habitBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */; };
 		FDD486E32EA24BCF00238CA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486E22EA24BCF00238CA8 /* ContentView.swift */; };
@@ -36,7 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CEA89CA52EBA590E0079A579 /* habitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitDetailView.swift; sourceTree = "<group>"; };
+		CE88D9D32ED35758002E1220 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		FDD486DD2EA24BCF00238CA8 /* habitBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = habitBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitBuddyApp.swift; sourceTree = "<group>"; };
@@ -99,10 +101,11 @@
 			isa = PBXGroup;
 			children = (
 				FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */,
+				CE88D9D32ED35758002E1220 /* Habit.swift */,
 				FDD486E22EA24BCF00238CA8 /* ContentView.swift */,
 				FDD486E42EA24BE000238CA8 /* Assets.xcassets */,
 				FDD486E62EA24BE000238CA8 /* Preview Content */,
-				CEA89CA52EBA590E0079A579 /* habitDetailView.swift */,
+				CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */,
 				CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */,
 			);
 			path = habitBuddy;
@@ -264,8 +267,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD486E32EA24BCF00238CA8 /* ContentView.swift in Sources */,
+				CE88D9D42ED35758002E1220 /* Habit.swift in Sources */,
 				CEA89CA82EBA5D5F0079A579 /* AddHabitView.swift in Sources */,
-				CEA89CA62EBA590E0079A579 /* habitDetailView.swift in Sources */,
+				CEA89CA62EBA590E0079A579 /* HabitDetailView.swift in Sources */,
 				FDD486E12EA24BCF00238CA8 /* habitBuddyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
