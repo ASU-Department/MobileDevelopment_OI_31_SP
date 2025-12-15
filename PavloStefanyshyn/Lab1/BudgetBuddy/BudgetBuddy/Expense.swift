@@ -15,7 +15,8 @@ final class ExpenseEntity: Identifiable {
     var amount: Double
     var priority: Double
     var date: Date
-    
+    var isSynced: Bool = true
+
     init(id: UUID = UUID(), title: String, amount: Double, priority: Double = 0.5, date: Date = Date()) {
         self.id = id
         self.title = title
@@ -24,3 +25,4 @@ final class ExpenseEntity: Identifiable {
         self.date = date
     }
 }
+

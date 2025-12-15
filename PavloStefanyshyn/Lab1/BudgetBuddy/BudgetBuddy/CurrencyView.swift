@@ -68,3 +68,4 @@ struct CurrencyView: View {
         loadedCount += nextBatch.count
     }
 }
+

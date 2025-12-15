@@ -20,9 +20,9 @@ enum NetworkError: Error, LocalizedError {
     
     var errorDescription: String? {
         switch self {
-        case .invalidURL: return "Невірний URL."
-        case .serverError(let msg): return "Серверна помилка: \(msg)"
-        case .decodingError(let e): return "Помилка розбору: \(e.localizedDescription)"
+        case .invalidURL: return "Invalid URL."
+        case .serverError(let msg): return "Server error: \(msg)"
+        case .decodingError(let e): return "Decoding error: \(e.localizedDescription)"
         }
     }
 }
@@ -33,7 +33,7 @@ final class NetworkManager {
     
     private let urlString = "https://jsonplaceholder.typicode.com/posts"
     
-    func fetchSampleExpenses() async throws -> [RemotePost] {
+    func fetchSampleRemotePosts() async throws -> [RemotePost] {
         guard let url = URL(string: urlString) else { throw NetworkError.invalidURL }
         let (data, response) = try await URLSession.shared.data(from: url)
         if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
@@ -47,3 +47,5 @@ final class NetworkManager {
         }
     }
 }
+
+
