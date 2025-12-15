@@ -71,6 +71,7 @@ final class ContentViewModelTests: XCTestCase {
     
     @MainActor
     func testAvailableCategoriesComputation() {
+        sleep(1) // Delay to compensate for slow VM performance all running all test (create report)
         viewModel.loadLocalData()
         
         let categories = viewModel.availableCategories

@@ -66,6 +66,7 @@ final class Lr2NewsHubUITests: XCTestCase {
         let favoriteSwitch = app.switches.firstMatch
         if let value = favoriteSwitch.value as? String, value == "0" {
             favoriteSwitch.tap()
+            sleep(12) // Delay to compensate for slow VM performance all running all test (create report)
         }
         
         let slider = app.sliders.firstMatch
