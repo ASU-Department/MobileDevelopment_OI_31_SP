@@ -35,8 +35,11 @@ class BookAPIService {
     }
     
     func searchBooks(query: String) async throws -> [GoogleBookItem] {
-        guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "https://www.googleapis.com/books/v1/volumes?q=\(encodedQuery)") else {
+        guard let encodedQuery = query.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ),
+        let url = URL(string: "https://www.googleapis.com/books/v1/volumes?q=\(encodedQuery)")
+        else {
             throw APIError.invalidURL
         }
         

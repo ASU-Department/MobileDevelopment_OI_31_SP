@@ -7,42 +7,102 @@
 
 import UIKit
 import SwiftUI
+import Combine
+
+@MainActor
+final class BookFormViewModel: ObservableObject {
+    @Published var title: String
+    @Published var author: String
+    @Published var desc: String
+    @Published var rating: Float
+    @Published var notes: String
+    
+    private let book: Book
+    
+    init(book: Book) {
+        self.book = book
+        self.title = book.title
+        self.author = book.author
+        self.desc = book.desc
+        self.rating = book.rating
+        self.notes = book.notes
+    }
+    
+    func didUpdateData(
+        title: String,
+        author: String,
+        desc: String,
+        notes: String,
+        rating: Float
+    ) {
+        // Update VM state
+        self.title = title
+        self.author = author
+        self.desc = desc
+        self.notes = notes
+        self.rating = rating
+        
+        // Persist to the model (data persistence coordination in VM)
+        book.title = title
+        book.author = author
+        book.desc = desc
+        book.notes = notes
+        book.rating = rating
+    }
+}
 
 struct BookFormView: UIViewControllerRepresentable {
-    @Bindable var book: Book
+    @ObservedObject var viewModel: BookFormViewModel
     
     func makeUIViewController(context: Context) -> BookFormViewController {
         let vc = BookFormViewController()
-        vc.currentTitle = book.title
-        vc.currentAuthor = book.author
-        vc.currentDesc = book.desc
-        vc.currentRating = book.rating
-        vc.currentNotes = book.notes
+        vc.currentTitle = viewModel.title
+        vc.currentAuthor = viewModel.author
+        vc.currentDesc = viewModel.desc
+        vc.currentRating = viewModel.rating
+        vc.currentNotes = viewModel.notes
         
         vc.delegate = context.coordinator
         return vc
     }
     
-    func updateUIViewController(_ uiViewController: BookFormViewController, context: Context) {}
+    func updateUIViewController(
+        _ uiViewController: BookFormViewController,
+        context: Context
+    ) {}
     
-    func makeCoordinator() -> Coordinator { Coordinator(self) }
+    func makeCoordinator() -> Coordinator { Coordinator(viewModel: viewModel) }
     
     class Coordinator: NSObject, BookFormDelegate {
-        var parent: BookFormView
-        init(_ parent: BookFormView) { self.parent = parent }
+        let viewModel: BookFormViewModel
+        init(viewModel: BookFormViewModel) { self.viewModel = viewModel }
         
-        func didUpdateData(title: String, author: String, desc: String, notes: String, rating: Float) {
-            parent.book.title = title
-            parent.book.author = author
-            parent.book.desc = desc
-            parent.book.notes = notes
-            parent.book.rating = rating
+        func didUpdateData(
+            title: String,
+            author: String,
+            desc: String,
+            notes: String,
+            rating: Float
+        ) {
+            viewModel.didUpdateData(
+                title: title,
+                author: author,
+                desc: desc,
+                notes: notes,
+                rating: rating
+            )
         }
     }
 }
 
 protocol BookFormDelegate: AnyObject {
-    func didUpdateData(title: String, author: String, desc: String, notes: String, rating: Float)
+    func didUpdateData(
+        title: String,
+        author: String,
+        desc: String,
+        notes: String,
+        rating: Float
+    )
 }
 
 class BookFormViewController: UIViewController, UITextViewDelegate {
@@ -58,29 +118,60 @@ class BookFormViewController: UIViewController, UITextViewDelegate {
     private let contentView = UIView()
     
     private let titleField: UITextField = {
-        let tf = UITextField(); tf.placeholder = "Book Title"; tf.borderStyle = .roundedRect; return tf
+        let tf = UITextField()
+        tf.placeholder = "Book Title"
+        tf.borderStyle = .roundedRect
+        return tf
     }()
     
     private let authorField: UITextField = {
-        let tf = UITextField(); tf.placeholder = "Author"; tf.borderStyle = .roundedRect; return tf
+        let tf = UITextField()
+        tf.placeholder = "Author"
+        tf.borderStyle = .roundedRect
+        return tf
     }()
     
-    private let descLabel: UILabel = { let l = UILabel(); l.text = "Description"; l.font = .boldSystemFont(ofSize: 14); return l }()
+    private let descLabel: UILabel = {
+        let l = UILabel()
+        l.text = "Description"
+        l.font = .boldSystemFont(ofSize: 14)
+        return l
+    }()
     
     private let descTextView: UITextView = {
-        let tv = UITextView(); tv.layer.borderColor = UIColor.systemGray4.cgColor; tv.layer.borderWidth = 1; tv.layer.cornerRadius = 6; tv.font = .systemFont(ofSize: 14); tv.isScrollEnabled = false; return tv
+        let tv = UITextView()
+        tv.layer.borderColor = UIColor.systemGray4.cgColor
+        tv.layer.borderWidth = 1
+        tv.layer.cornerRadius = 6
+        tv.font = .systemFont(ofSize: 14)
+        tv.isScrollEnabled = false
+        return tv
     }()
     
     private let ratingLabel = UILabel()
     
     private let ratingSlider: UISlider = {
-        let s = UISlider(); s.minimumValue = 0; s.maximumValue = 5; return s
+        let s = UISlider()
+        s.minimumValue = 0
+        s.maximumValue = 5
+        return s
     }()
     
-    private let notesLabel: UILabel = { let l = UILabel(); l.text = "Notes"; l.font = .boldSystemFont(ofSize: 14); return l }()
+    private let notesLabel: UILabel = {
+        let l = UILabel()
+        l.text = "Notes"
+        l.font = .boldSystemFont(ofSize: 14)
+        return l
+    }()
     
     private let notesTextView: UITextView = {
-        let tv = UITextView(); tv.layer.borderColor = UIColor.systemGray4.cgColor; tv.layer.borderWidth = 1; tv.layer.cornerRadius = 6; tv.font = .systemFont(ofSize: 14); tv.isScrollEnabled = false; return tv
+        let tv = UITextView()
+        tv.layer.borderColor = UIColor.systemGray4.cgColor
+        tv.layer.borderWidth = 1
+        tv.layer.cornerRadius = 6
+        tv.font = .systemFont(ofSize: 14)
+        tv.isScrollEnabled = false
+        return tv
     }()
     
     override func viewDidLoad() {
@@ -108,7 +199,9 @@ class BookFormViewController: UIViewController, UITextViewDelegate {
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(
+                equalTo: view.keyboardLayoutGuide.topAnchor
+            ),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
@@ -121,13 +214,15 @@ class BookFormViewController: UIViewController, UITextViewDelegate {
     }
     
     private func setupLayout() {
-        let stack = UIStackView(arrangedSubviews: [
-            UILabel(text: "Title"), titleField,
-            UILabel(text: "Author"), authorField,
-            descLabel, descTextView,
-            ratingLabel, ratingSlider,
-            notesLabel, notesTextView
-        ])
+        let stack = UIStackView(
+            arrangedSubviews: [
+                UILabel(text: "Title"), titleField,
+                UILabel(text: "Author"), authorField,
+                descLabel, descTextView,
+                ratingLabel, ratingSlider,
+                notesLabel, notesTextView
+            ]
+        )
         stack.axis = .vertical
         stack.spacing = 12
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -137,8 +232,14 @@ class BookFormViewController: UIViewController, UITextViewDelegate {
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20) // Important for scroll content size
+            stack.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -20
+            ),
+            stack.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -20
+            ) // Important for scroll content size
         ])
     }
     
@@ -165,7 +266,10 @@ class BookFormViewController: UIViewController, UITextViewDelegate {
     }
     
     private func updateLabel() {
-        ratingLabel.text = String(format: "Rating: %.1f / 5.0", ratingSlider.value)
+        ratingLabel.text = String(
+            format: "Rating: %.1f / 5.0",
+            ratingSlider.value
+        )
     }
 }
 

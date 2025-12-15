@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Combine
 
 @Model
 class Book {
@@ -19,7 +20,15 @@ class Book {
     var notes: String
     var rating: Float
     
-    init(title: String, author: String = "", desc: String = "", coverURL: String? = nil, isRead: Bool = false, notes: String = "", rating: Float = 0.0) {
+    init(
+        title: String,
+        author: String = "",
+        desc: String = "",
+        coverURL: String? = nil,
+        isRead: Bool = false,
+        notes: String = "",
+        rating: Float = 0.0
+    ) {
         self.id = UUID()
         self.title = title
         self.author = author
@@ -28,49 +37,101 @@ class Book {
         self.isRead = isRead
         self.notes = notes
         self.rating = rating
-    }}
+    }
+}
 
-struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Book.title) private var books: [Book]
-    
-    @State private var path = NavigationPath()
-    @State private var showingSearch = false
-    @State var motivation = "You have nothing"
-    
+@MainActor
+final class ContentViewModel: ObservableObject {
+    @Published var path = NavigationPath()
+    @Published var showingSearch = false
+    @Published var motivation = "You have nothing"
+    @Published var books: [Book] = []
+
     let quotes = [
         "Reading is dreaming with open eyes.",
         "So many books, so little time.",
-        "A room without books is like a body without a soul.",
+        "A room without books is like a body without a soul."
     ]
+
+    private var repository: BookRepositoryProtocol?
+    private var modelContext: ModelContext?
+
+    func configure(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        self.repository = BookRepository(
+            apiService: BookAPIService(),
+            container: modelContext.container
+        )
+        
+        NotificationCenter.default.addObserver(
+            forName: .backgroundContextDidSave,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.reload()
+        }
+        
+        reload()
+    }
+
+    func reload() {
+        do {
+            // Fetch with the same descriptor @Query would use
+            let descriptor = FetchDescriptor<Book>()
+            books = try modelContext!.fetch(descriptor)
+        } catch {
+            print("Fetch failed: \(error)")
+        }
+    }
     
+    func getMotivation() {
+        motivation = quotes.randomElement() ?? "No quotes found"
+    }
+
+    func addNewBook() {
+        guard let repository else { return }
+        Task {
+            _ = try await repository.addNewBook()
+        }
+    }
+
+    func deleteBook(_ book: Book) {
+        guard let repository else { return }
+        Task {
+            try await repository.deleteBook(by: book.id)
+        }
+    }
+}
+
+struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var fetchedBooks: [Book]
+    @StateObject private var viewModel = ContentViewModel()
+
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $viewModel.path) {
             VStack {
-                if books.isEmpty {
+                if viewModel.books.isEmpty {
                     VStack {
-                        Text(motivation)
+                        Text(viewModel.motivation)
                             .multilineTextAlignment(.center)
                             .padding()
-                        
                         Button("Get motivated") {
-                            motivation = quotes.randomElement() ?? "No quotes found"
+                            viewModel.getMotivation()
                         }
                         .buttonStyle(.borderedProminent)
                     }
                     .frame(height: 200)
-                    
                 } else {
                     Text("BookTracker")
                         .bold()
                         .font(.system(size: 36))
-                    
                     List {
-                        ForEach(books) { book in
+                        ForEach(viewModel.books) { book in
                             NavigationLink(value: book) {
-                                BookRow(book: book, onDelete: {
-                                    deleteBook(book: book)
-                                })
+                                BookRow(book: book) {
+                                    viewModel.deleteBook(book)
+                                }
                             }
                         }
                     }
@@ -80,41 +141,35 @@ struct ContentView: View {
             .navigationTitle("Book Tracker")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: addNewBook) {
+                    Button(action: viewModel.addNewBook) {
                         Label("Add", systemImage: "plus")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showingSearch = true
-                    } label: {
+                    Button { viewModel.showingSearch = true } label: {
                         Label("Search", systemImage: "magnifyingglass")
                     }
                 }
             }
             .navigationDestination(for: Book.self) { book in
-                BookFormView(book: book)
+                BookFormView(viewModel: BookFormViewModel(book: book))
                     .navigationTitle("Edit Book")
                     .navigationBarTitleDisplayMode(.inline)
             }
-            .sheet(isPresented: $showingSearch) {
-                SearchBooksView()
+            .sheet(isPresented: $viewModel.showingSearch) {
+                SearchBooksView(
+                    viewModel: SearchBooksViewModel(
+                        repository: BookRepository(
+                            apiService: BookAPIService(),
+                            container: modelContext.container
+                        ),
+                        modelContext: modelContext
+                    )
+                )
             }
         }
-    }
-    
-    func addNewBook() {
-        let newBook = Book(title: "New Book")
-        modelContext.insert(newBook)
-        path.append(newBook)
-    }
-    
-    func deleteBook(book: Book) {
-        // fix for a ForEach, crashes when deleting from rear of a list
-        DispatchQueue.main.async {
-            withAnimation {
-                modelContext.delete(book)
-            }
+        .onAppear {
+            viewModel.configure(modelContext: modelContext)
         }
     }
 }
