@@ -15,7 +15,9 @@ struct IntensitySliderRepresentable: UIViewRepresentable {
         slider.minimumValue = 0
         slider.maximumValue = 1
         slider.value = Float(value)
-        slider.addTarget(context.coordinator, action: #selector(Coordinator.changed(_:)), for: .valueChanged)
+        slider.addTarget(context.coordinator,
+                         action: #selector(Coordinator.changed(_:)),
+                         for: .valueChanged)
         return slider
     }
     
@@ -32,6 +34,7 @@ struct IntensitySliderRepresentable: UIViewRepresentable {
     final class Coordinator: NSObject {
         var value: Binding<Double>
         init(value: Binding<Double>) { self.value = value }
+        
         @objc func changed(_ sender: UISlider) {
             value.wrappedValue = Double(sender.value)
         }
