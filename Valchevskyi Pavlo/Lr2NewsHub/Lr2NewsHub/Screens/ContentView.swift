@@ -9,18 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var context
-    @StateObject var vm: NewsViewModel
+    @StateObject var vm: ContentViewModel
     @StateObject var settings = AppSettings()
-
-    init() {
-        let container = try! ModelContainer(for: ArticleModel.self)
-        _vm = StateObject(wrappedValue: NewsViewModel(context: container.mainContext))
-    }
     
-    var categories: [String] {
-        let setCategories = Set(vm.articles.map { $0.category })
-        return ["All"] + setCategories.sorted()
+    let repository: NewsRepositoryProtocol
+
+    init(repository: NewsRepositoryProtocol) {
+        self.repository = repository
+        _vm = StateObject(wrappedValue: ContentViewModel(repository: repository))
     }
 
     var body: some View {
@@ -40,20 +36,25 @@ struct ContentView: View {
                 .padding()
                 
                 HStack {
-                    Text("Choose category:")
-                        .italic()
+                    Text("Choose category:").italic()
                     Picker("Category", selection: $settings.selectedCategory) {
-                        ForEach(categories, id: \.self) {
-                            category in Text(category)
+                        ForEach(vm.availableCategories, id: \.self) { category in
+                            Text(category)
                         }
+                    }
+                    .onChange(of: settings.selectedCategory) { _, newValue in
+                        vm.updateFilters(category: newValue, favoriteOnly: settings.filterFavorite)
                     }
                 }
                 
-                HStack() {
+                HStack {
                     Text("Show favorite:")
                         .italic()
                     Toggle("", isOn: $settings.filterFavorite)
                         .labelsHidden()
+                        .onChange(of: settings.filterFavorite) { _, newValue in
+                            vm.updateFilters(category: settings.selectedCategory, favoriteOnly: newValue)
+                        }
                 }
 
                 
@@ -68,16 +69,11 @@ struct ContentView: View {
                 }
                 
                 List {
-                    let filteredByCategory = vm.articles.filter { settings.selectedCategory == "All" || $0.category == settings.selectedCategory }
-                    
-                    let finalArticles = settings.filterFavorite ? filteredByCategory.filter { $0.isFavorite } : filteredByCategory
-
-                    ForEach(finalArticles) { article in
+                    ForEach(vm.filteredArticles) { article in
                         NavigationLink(article.title) {
-                            ArticleDetailView(article: article)
+                            ArticleDetailView(article: article, repository: repository)
                         }
                     }
-                    
                 }
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
@@ -101,6 +97,7 @@ struct ContentView: View {
                 }
             }
             .task {
+                vm.updateFilters(category: settings.selectedCategory, favoriteOnly: settings.filterFavorite)
                 await vm.fetchRemoteNews()
             }
         }
@@ -110,10 +107,7 @@ struct ContentView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: ArticleModel.self, configurations: config)
-
+    let repository = NewsRepository(container: container)
     
-    let context = container.mainContext
-    
-    return ContentView()
-        .modelContainer(container)
+    return ContentView(repository: repository)
 }

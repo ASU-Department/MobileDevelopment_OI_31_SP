@@ -10,10 +10,22 @@ import SwiftData
 
 @main
 struct Lr2NewsHubApp: App {
+    let container: ModelContainer
+    let newsRepository: NewsRepository
+
+    init() {
+        do {
+            container = try ModelContainer(for: ArticleModel.self)
+            newsRepository = NewsRepository(container: container)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(repository: newsRepository)
         }
-        .modelContainer(for: ArticleModel.self)
+        .modelContainer(container)
     }
 }
