@@ -5,22 +5,30 @@
 //  Created by User on 26.10.2025.
 //
 
+
 import SwiftUI
 import SwiftData
 
 struct FavoritesView: View {
-    @Query(filter: #Predicate<HistoricalEvent> { $0.isFavorite == true }, sort: \HistoricalEvent.year)
-    var favoriteEvents: [HistoricalEvent]
+    @StateObject private var viewModel: FavoritesViewModel
+    
+    let repository: any TimeCapsuleRepositoryProtocol
+    
+    init(repository: any TimeCapsuleRepositoryProtocol) {
+        self.repository = repository
+        _viewModel = StateObject(wrappedValue: FavoritesViewModel(repository: repository))
+    }
 
     var body: some View {
         NavigationStack {
             List {
-                if favoriteEvents.isEmpty {
+                if viewModel.favoriteEvents.isEmpty {
                     ContentUnavailableView("No favorites yet", systemImage: "star.slash")
                         .listRowSeparator(.hidden)
                 } else {
-                    ForEach(favoriteEvents) { event in
-                        NavigationLink(destination: EventDetailView(event: event)) {
+                    ForEach(viewModel.favoriteEvents) { event in
+                        NavigationLink(destination: EventDetailView(event: event, repository: repository))
+                        {
                             HStack {
                                 Text(event.year)
                                     .bold()
@@ -34,12 +42,18 @@ struct FavoritesView: View {
                             .padding(.vertical, 4)
                         }
                     }
-                    .onDelete(perform: deleteFavorites)
+                    .onDelete(perform: viewModel.deleteFavorites)
                 }
             }
             .navigationTitle("Favorites")
             .navigationBarTitleDisplayMode(.large)
             .padding(.top, 10)
-            .listStyle(.plain) 
+            .listStyle(.plain)
+            .onAppear {
+                Task {
+                    await viewModel.loadFavorites()
+                }
+            }
         }
     }
+}

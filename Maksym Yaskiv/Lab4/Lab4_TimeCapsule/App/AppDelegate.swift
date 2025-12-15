@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         
         print("TimeCapsule has launched!")
-
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         

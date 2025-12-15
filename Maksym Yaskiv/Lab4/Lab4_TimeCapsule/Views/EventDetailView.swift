@@ -9,38 +9,44 @@ import SwiftUI
 import SwiftData
 
 struct EventDetailView: View {
-    @Bindable var event: HistoricalEvent
+    @StateObject private var viewModel: EventDetailViewModel
+    
     @AppStorage("eventFontSize") private var fontSize: Double = 16.0
     @State private var isShowingSafari = false
+    
+    init(event: HistoricalEvent, repository: any TimeCapsuleRepositoryProtocol) {
+        _viewModel = StateObject(wrappedValue: EventDetailViewModel(event: event, repository: repository))
+    }
     
     var body: some View {
         ScrollView {
             VStack(spacing: 25) {
-                Text(event.year)
+                Text(viewModel.event.year)
                     .font(.largeTitle)
                     .bold()
                 
-                Text(event.text)
+                Text(viewModel.event.text)
                     .font(.system(size: fontSize))
                 
                 VStack(spacing: 15) {
-                    if let url = URL(string: event.urlString), !event.urlString.isEmpty {
+                    if let url = URL(string: viewModel.event.urlString), !viewModel.event.urlString.isEmpty {
                         Button("Read Full Article") {
                             isShowingSafari = true
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
+                    
                     Button(action: {
-                        event.isFavorite.toggle()
+                        viewModel.toggleFavorite()
                     }) {
                         Label(
-                            event.isFavorite ? "Remove from Favorites" : "Add to Favorites",
-                            systemImage: event.isFavorite ? "star.fill" : "star"
+                            viewModel.event.isFavorite ? "Remove from Favorites" : "Add to Favorites",
+                            systemImage: viewModel.event.isFavorite ? "star.fill" : "star"
                         )
                     }
                     .buttonStyle(.bordered)
-                    .tint(event.isFavorite ? .orange : .blue)
+                    .tint(viewModel.event.isFavorite ? .orange : .blue)
                 }
                 .padding(.top, 20)
             }
@@ -49,22 +55,10 @@ struct EventDetailView: View {
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $isShowingSafari) {
-            if let url = URL(string: event.urlString) {
+            if let url = URL(string: viewModel.event.urlString) {
                 SafariView(url: url)
                     .ignoresSafeArea()
             }
         }
     }
-}
-
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: HistoricalEvent.self, configurations: config)
-        let event = HistoricalEvent(text: "Test Event", year: "2024", urlString: "https://google.com")
-        return NavigationStack {
-            EventDetailView(event: event)
-        }
-        .modelContainer(container)
-    } catch { return Text("Error") }
 }
