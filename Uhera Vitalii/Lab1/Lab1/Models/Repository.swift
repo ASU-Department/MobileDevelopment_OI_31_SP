@@ -13,12 +13,12 @@ struct Repository: Identifiable, Hashable {
     let name: String
     let fullName: String
     let description: String?
+    let htmlUrl: URL?
     let language: String?
     let stargazersCount: Int
     let watchersCount: Int
-    let openIssuesCount: Int
     let forksCount: Int
-    let htmlURL: String
+    let openIssuesCount: Int
     let defaultBranch: String
     let createdAt: Date
     let updatedAt: Date
