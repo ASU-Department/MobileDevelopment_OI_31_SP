@@ -1,109 +1,151 @@
 //
-//  ContentView.swift
+//  FitTrackerView.swift
 //  lab1
 //
-//  Created by A-Z pack group on 12.10.2025.
 //
 
 import SwiftUI
 
-struct ExerciseItem: Identifiable {
-    let id = UUID()
-    var name: String
-    var sets: Int
-    var reps: Int
-}
-
-// This view allows editing the workout name while syncing directly with the parent ContentView's @State variable.
-struct WorkoutHeader: View {
-    @Binding var workoutName: String
+struct FitTrackerView: View {
+    @ObservedObject var viewModel: WorkoutViewModel
+    
+    @AppStorage("preferredIntensity") private var preferredIntensity: Double = 0.5
     
     var body: some View {
-        TextField("Enter workout name or exercise", text:$workoutName)
-            .textFieldStyle(.roundedBorder)
-            .padding(.horizontal)
-    }
-}
-
-// Each row allows editing of an ExerciseItem through a binding to the parent exercises array.
-struct ExerciseRow: View {
-    @Binding var exercise: ExerciseItem
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10){
-            TextField("Exercise name", text: $exercise.name)
-                .font(.headline)
-            HStack{
-                Stepper("Sets: \(exercise.sets)", value: $exercise.sets, in: 1...10)
-                Spacer()
-                Stepper("Reps: \(exercise.reps)", value: $exercise.reps, in: 1...50)
+        VStack(alignment: .leading, spacing: 16) {
+            WorkoutHeader(workoutName: $viewModel.workoutName)
+            
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Intensity")
+                        .font(.headline)
+                    Spacer()
+                    if let lastSync = viewModel.lastSyncText {
+                        Text("Last sync: \(lastSync)")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .padding(.horizontal)
+                
+                HStack {
+                    IntensitySliderRepresentable(value: $viewModel.intensity)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    
+                    Text("\(Int(viewModel.intensity * 100))%")
+                        .monospacedDigit()
+                        .frame(width: 60, alignment: .trailing)
+                        .padding(.trailing)
+                }
             }
-        }
-    }
-}
-
-struct ContentView: View {
-    @State private var workoutName: String = ""
-    @State private var exercises: [ExerciseItem] = [
-        ExerciseItem(name: "Push up", sets: 3, reps: 15),
-        ExerciseItem(name: "Squat", sets: 3, reps: 20)
-    ]
-    @State private var showingAlert = false
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            WorkoutHeader(workoutName: $workoutName)
             
             List {
-                ForEach($exercises) { $exercise in
-                    ExerciseRow(exercise: $exercise)
+                Section(header: Text("Exercises").font(.headline)) {
+                    ForEach($viewModel.exercises) { $exercise in
+                        ExerciseRow(exercise: $exercise)
+                    }
+                    .onDelete { indexSet in
+                        viewModel.deleteExercise(at: indexSet)
+                    }
                 }
-                .onDelete(perform: deleteExercise)  // Enable swipe-to-delete
+                
+                Section(header: Text("Suggested from ExerciseDB").font(.headline)) {
+                    if viewModel.isLoadingRemote {
+                        HStack {
+                            ProgressView()
+                            Text("Loading exercises…")
+                        }
+                    } else if let error = viewModel.remoteErrorMessage {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(error)
+                                .foregroundColor(.red)
+                            Button("Retry") {
+                                viewModel.fetchExercises()
+                            }
+                        }
+                    } else if viewModel.remoteExercises.isEmpty {
+                        Text("No remote exercises yet.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        if viewModel.isOfflineFallback {
+                            Text("Offline: showing last cached exercises")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        ForEach(viewModel.remoteExercises.prefix(20)) { ex in
+                            Button {
+                                viewModel.addExerciseFromRemote(ex)
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(ex.name)
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        
-            Button(action: addExercise) {
-                Text("Add Exercise")
-                    .fontWeight(.semibold)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            .listStyle(.insetGrouped)
+            .refreshable {
+                viewModel.fetchExercises()
+            }
+            
+            // Кнопки дій
+            HStack(spacing: 12) {
+                Button(action: viewModel.addExercise) {
+                    Text("Add Exercise")
+                        .fontWeight(.semibold)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                
+                Button(action: viewModel.saveWorkout) {
+                    Text("Save Workout")
+                        .fontWeight(.semibold)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                        .background(viewModel.workoutName.isEmpty ? Color.gray : Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .disabled(viewModel.workoutName.isEmpty)
             }
             .padding(.horizontal)
-        
-            Button(action: saveWorkout) {
-                Text("Save Workout")
-                    .fontWeight(.semibold)
-                    .padding()
-                    .background(workoutName.isEmpty ? Color.gray : Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            .disabled(workoutName.isEmpty)
-            .padding(.horizontal)
+            
+            Spacer(minLength: 0)
         }
-        .padding(.top)
-        .alert(isPresented: $showingAlert){
+        .navigationTitle("Workout Builder")
+        .alert(isPresented: $viewModel.showingAlert) {
             Alert(
-                title: Text("Work"), message: Text("Workout '\(workoutName)'saved with \(exercises.count) exercise "), dismissButton: .default(Text("OK"))
+                title: Text("Workout"),
+                message: Text(viewModel.lastSaveMessage),
+                dismissButton: .default(Text("OK"))
             )
         }
-    }
-    
-    func addExercise(){
-        exercises.append(ExerciseItem(name: "\(workoutName)", sets: 3, reps: 10))
-    }
-    
-    func deleteExercise(at offsets: IndexSet){
-        exercises.remove(atOffsets: offsets)
-    }
-    
-    func saveWorkout(){
-        showingAlert = true
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+        .toolbar {
+            NavigationLink(
+                destination: SavedWorkoutsView(viewModel: viewModel)
+            ) {
+                Label("Saved", systemImage: "list.bullet.rectangle")
+            }
+        }
+        .onAppear {
+            if viewModel.intensity == 0.5 {
+                viewModel.intensity = preferredIntensity
+            }
+            
+            if viewModel.remoteExercises.isEmpty && !viewModel.isLoadingRemote {
+                viewModel.fetchExercises()
+            }
+        }
+        .onChange(of: viewModel.intensity) { newValue in
+            preferredIntensity = newValue
+        }
     }
 }
