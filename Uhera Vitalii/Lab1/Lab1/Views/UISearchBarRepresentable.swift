@@ -37,6 +37,9 @@ struct UISearchBarRepresentable: UIViewRepresentable {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
         searchBar.placeholder = placeholder
+        searchBar.barTintColor = GitHubTheme.background.uiColor
+        searchBar.searchTextField.leftView?.tintColor = GitHubTheme.text.uiColor
+        
 
         let tf = searchBar.searchTextField
         tf.backgroundColor = GitHubTheme.elevated.uiColor

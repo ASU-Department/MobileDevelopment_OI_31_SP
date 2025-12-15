@@ -5,7 +5,6 @@
 //  Created by UnseenHand on 07.12.2025.
 //
 
-
 import Foundation
 
 protocol RepositoryServiceProtocol {

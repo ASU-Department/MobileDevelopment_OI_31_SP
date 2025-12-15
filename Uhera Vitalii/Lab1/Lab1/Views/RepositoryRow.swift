@@ -42,7 +42,7 @@ struct RepositoryRow: View {
             }
 
             Spacer()
-
+            
             Button(action: onToggleStar) {
                 Image(systemName: isStarred ? "star.fill" : "star")
                     .font(.system(size: 18))
