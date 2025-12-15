@@ -5,9 +5,10 @@
 
 import SwiftUI
 import UIKit
+import SwiftData
 
 class AddHabitViewController: UIViewController {
-    var onSave: ((Habit) -> Void)?
+    var modelContext: ModelContext?
     
     private let nameField = UITextField()
     private let descField = UITextField()
@@ -45,17 +46,24 @@ class AddHabitViewController: UIViewController {
     @objc private func saveTapped() {
         guard let name = nameField.text, !name.isEmpty else { return }
         let newHabit = Habit(name: name, desc: descField.text ?? "", streak: 0)
-        onSave?(newHabit)
+        if let ctx = modelContext {
+            ctx.insert(newHabit)
+            do {
+                try ctx.save()
+            } catch {
+                print("Failed to save new habit: \(error)")
+            }
+        }
         dismiss(animated: true)
     }
 }
 
 struct AddHabitView: UIViewControllerRepresentable {
-    var onSave: (Habit) -> Void
+    var modelContext: ModelContext
     
     func makeUIViewController(context: Context) -> AddHabitViewController {
         let vc = AddHabitViewController()
-        vc.onSave = onSave
+        vc.modelContext = modelContext
         return vc
     }
     
