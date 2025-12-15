@@ -61,7 +61,7 @@ struct RepoHubSearchView: View {
                             FilterValueInputRow(
                                 title: "Minimum Stars",
                                 sliderValue: $viewModel.minStars,
-                                range: 0...5000,
+                                range: 0...300000,
                                 usesSlider: viewModel.useSliderMode
                             )
 
@@ -138,7 +138,6 @@ struct RepoHubSearchView: View {
             }
             .navigationDestination(item: $selectedDeveloper) { profile in
                 DeveloperProfileView(profile: profile)
-                    .background(GitHubTheme.background.ignoresSafeArea())
             }
             .background(GitHubTheme.background.ignoresSafeArea())
             .foregroundStyle(GitHubTheme.text)

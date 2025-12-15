@@ -11,42 +11,45 @@ struct DeveloperProfileView: View {
     let profile: DeveloperProfile
 
     var body: some View {
-        HStack {
+           ScrollView {
+               VStack(spacing: 20) {
+                   AsyncImage(url: profile.avatarUrl) { image in
+                       image.resizable().scaledToFit()
+                   } placeholder: {
+                       ProgressView()
+                   }
+                   .frame(width: 120, height: 120)
+                   .clipShape(Circle())
 
-            VStack(spacing: 20) {
-                AsyncImage(url: profile.avatarUrl) { image in
-                    image.resizable().scaledToFit()
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 120, height: 120)
-                .clipShape(Circle())
+                   Text(profile.username)
+                       .font(.title.bold())
 
-                Text(profile.username).font(.title.bold())
+                   HStack {
+                       VStack {
+                           Text("Followers")
+                           Text("\(profile.followers)")
+                       }
+                       VStack {
+                           Text("Following")
+                           Text("\(profile.following)")
+                       }
+                       VStack {
+                           Text("Repos")
+                           Text("\(profile.publicRepos)")
+                       }
+                   }
 
-                HStack {
-                    VStack {
-                        Text("Followers")
-                        Text("\(profile.followers)")
-                    }
-                    VStack {
-                        Text("Following")
-                        Text("\(profile.following)")
-                    }
-                    VStack {
-                        Text("Repos")
-                        Text("\(profile.publicRepos)")
-                    }
-                }
-
-                Spacer()
-            }
-            .padding()
-            .navigationTitle("Developer Profile")
-            .foregroundStyle(GitHubTheme.text)
-        }
-        .background(GitHubTheme.background)
-    }
+                   Spacer()
+               }
+               .padding()
+               .frame(maxWidth: .infinity)
+           }
+           .navigationTitle("Developer Profile")
+           .toolbarBackground(GitHubTheme.background, for: .navigationBar)
+           .toolbarColorScheme(.dark, for: .navigationBar)
+           .background(GitHubTheme.background.ignoresSafeArea())
+           .foregroundStyle(GitHubTheme.text)
+       }
 }
 
 //#Preview {
