@@ -7,8 +7,18 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 final class RepositoryViewModel: ObservableObject {
+    @AppStorage("lastUsername") var lastUsername = "octocat"
+    @AppStorage("useSliderMode") var lastUseSliderMode = true
+    @AppStorage("sortMode") var sortModeRaw = RepoSortMode.stars.rawValue
+    
+    @Published var username: String = "octocat"
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var isOffline = false
+
     @Published var showAdvancedFilters = false
 
     @Published var useSliderMode = true  // switch between slider + manual
@@ -28,17 +38,41 @@ final class RepositoryViewModel: ObservableObject {
 
     @Published private(set) var starredRepoIds: Set<Int> = []
 
-    private let service: RepositoryServiceProtocol
+    private let api: GitHubAPIServiceProtocol
+    private let persistence: PersistenceStore
 
-    init(service: RepositoryServiceProtocol = MockRepositoryService.shared) {
-        self.service = service
+    init(
+        api: GitHubAPIServiceProtocol = GitHubAPIService(),
+        persistence: PersistenceStore = .shared
+    ) {
+        self.api = api
+        self.persistence = persistence
     }
 
     func load() async {
-        let repos = await service.fetchRepositories()
-        let devs = await service.fetchDevelopers()
-        self.repositories = repos
-        self.developers = devs
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let userDTO = try await api.fetchUser(username: username)
+            let repoDTOs = try await api.fetchRepositories(username: username)
+
+            let developer = DeveloperProfile(dto: userDTO)
+            let repos = repoDTOs.map { Repository(dto: $0) }
+
+            self.developers = [developer]
+            self.repositories = repos
+
+            persistence.save(repositories: repos, developers: [developer])
+            isOffline = false
+
+        } catch {
+            isOffline = true
+            errorMessage = error.localizedDescription
+            loadFromCache()
+        }
+
+        isLoading = false
     }
 
     func toggleStar(_ repo: Repository) {
@@ -81,5 +115,32 @@ final class RepositoryViewModel: ObservableObject {
 
     func developer(for ownerLogin: String) -> DeveloperProfile? {
         developers.first(where: { $0.username == ownerLogin })
+    }
+
+    private func loadFromCache() {
+        let cached: [CachedRepository] = persistence.fetch()
+
+        repositories = cached.map {
+            Repository(
+                id: $0.id,
+                name: $0.name,
+                fullName: $0.fullName,
+                description: nil,
+                htmlUrl: nil,
+                language: $0.language,
+                stargazersCount: $0.stars,
+                watchersCount: $0.watchers,
+                forksCount: 0,
+                openIssuesCount: $0.issues,
+                defaultBranch: "main",
+                createdAt: Date(),
+                updatedAt: Date(),
+                owner: RepositoryOwner(
+                    login: $0.ownerLogin,
+                    avatarUrl: nil,
+                    location: nil
+                )
+            )
+        }
     }
 }
