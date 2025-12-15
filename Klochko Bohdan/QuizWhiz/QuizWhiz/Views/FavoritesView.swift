@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct FavoritesView: View {
-    @Environment(\.modelContext) private var modelContext
-    @StateObject private var viewModel = FavoritesViewModel()
+    let coordinator: AppCoordinator
+    @StateObject private var viewModel: FavoritesViewModel
     
     @State private var selectedQuestion: Question?
+    
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+        _viewModel = StateObject(wrappedValue: FavoritesViewModel(repository: coordinator.questionRepository))
+    }
     
     var body: some View {
         Group {
@@ -27,16 +31,21 @@ struct FavoritesView: View {
         .navigationTitle("Favorites")
         .navigationBarTitleDisplayMode(.large)
         .task {
-            await viewModel.loadFavorites(modelContext: modelContext)
+            await viewModel.loadFavorites()
         }
         .onAppear {
             Task {
-                await viewModel.loadFavorites(modelContext: modelContext)
+                await viewModel.loadFavorites()
             }
         }
         .sheet(item: $selectedQuestion) { question in
-            NoteEditorView(question: question) { updatedQuestion in
-                viewModel.updateQuestion(updatedQuestion, in: modelContext)
+            NoteEditorView(
+                question: question,
+                coordinator: coordinator
+            ) { updatedQuestion in
+                Task {
+                    await viewModel.updateQuestion(updatedQuestion)
+                }
             }
         }
     }
@@ -74,7 +83,9 @@ struct FavoritesView: View {
         List {
             ForEach(viewModel.favoriteQuestions) { question in
                 QuestionRowView(question: question) {
-                    viewModel.toggleFavorite(question, in: modelContext)
+                    Task {
+                        await viewModel.toggleFavorite(question)
+                    }
                 } onEditNote: {
                     selectedQuestion = question
                 }
@@ -82,7 +93,7 @@ struct FavoritesView: View {
         }
         .listStyle(.insetGrouped)
         .refreshable {
-            await viewModel.loadFavorites(modelContext: modelContext)
+            await viewModel.loadFavorites()
         }
     }
 }
