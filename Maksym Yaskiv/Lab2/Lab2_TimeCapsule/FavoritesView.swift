@@ -6,44 +6,40 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesView: View {
-    @Binding var events: [HistoricalEvent]
-
-    var favoriteEvents: [HistoricalEvent] {
-        events.filter { $0.isFavorite }
-    }
+    @Query(filter: #Predicate<HistoricalEvent> { $0.isFavorite == true }, sort: \HistoricalEvent.year)
+    var favoriteEvents: [HistoricalEvent]
 
     var body: some View {
         NavigationStack {
             List {
                 if favoriteEvents.isEmpty {
-                    Text("No favorites yet")
-                        .foregroundColor(.gray)
-                        .padding()
+                    ContentUnavailableView("No favorites yet", systemImage: "star.slash")
+                        .listRowSeparator(.hidden)
                 } else {
                     ForEach(favoriteEvents) { event in
                         NavigationLink(destination: EventDetailView(event: event)) {
                             HStack {
+                                Text(event.year)
+                                    .bold()
+                                    .foregroundStyle(.blue)
+                                    .frame(width: 50, alignment: .leading)
+                                
                                 Text(event.text)
-                                Spacer()
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
+                                    .lineLimit(1)
+                                    .foregroundStyle(.primary)
                             }
+                            .padding(.vertical, 4)
                         }
                     }
+                    .onDelete(perform: deleteFavorites)
                 }
             }
             .navigationTitle("Favorites")
+            .navigationBarTitleDisplayMode(.large)
+            .padding(.top, 10)
+            .listStyle(.plain) 
         }
     }
-}
-
-#Preview {
-    NavigationStack {
-        FavoritesView(events: .constant([
-            HistoricalEvent(text: "My Favorite Event", urlString: "...", isFavorite: true),
-            HistoricalEvent(text: "Not Favorite", urlString: "...", isFavorite: false)
-        ]))
-    }
-}
