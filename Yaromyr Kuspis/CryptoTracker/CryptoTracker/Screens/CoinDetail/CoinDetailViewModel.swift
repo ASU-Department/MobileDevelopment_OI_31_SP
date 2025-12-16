@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+@MainActor
 class CoinDetailViewModel: ObservableObject {
     let coin: CoinEntity
     @Published var chartData: [Double] = [100, 120, 110, 130, 150, 140, 160, 155]

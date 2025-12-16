@@ -30,7 +30,11 @@ enum NetworkError: LocalizedError {
     }
 }
 
-class CoinGeckoService {
+protocol CoinGeckoServiceProtocol {
+    func fetchCoins() async throws -> [Crypto]
+}
+
+class CoinGeckoService: CoinGeckoServiceProtocol {
     
     func fetchCoins() async throws -> [Crypto] {
             guard let url = URL(string: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false") else {
@@ -47,8 +51,8 @@ class CoinGeckoService {
                 throw NetworkError.rateLimitExceeded
             }
             
-            guard (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkError.serverError(statusCode: httpResponse.statusCode)
+            if !(200...299).contains(httpResponse.statusCode) {
+                 throw NetworkError.serverError(statusCode: httpResponse.statusCode)
             }
             
             do {

@@ -50,6 +50,7 @@ struct CryptoListView: View {
                             .font(.headline)
                             .foregroundColor(.yellow)
                     }
+                    .accessibilityIdentifier("portfolio_filter_button")
                 }
             }
             .safeAreaInset(edge: .bottom, alignment: .center) {

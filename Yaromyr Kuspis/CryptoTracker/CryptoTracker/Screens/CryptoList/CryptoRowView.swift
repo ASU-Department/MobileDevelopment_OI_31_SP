@@ -28,6 +28,7 @@ struct CryptoRowView: View {
                 .font(.title3)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("favorite_button_\(coin.id)")
 
             LazyImage(url: URL(string: coin.image)) { state in
                 if let image = state.image {
