@@ -73,7 +73,7 @@ struct CryptoListView: View {
             .task {
                 await viewModel.loadData()
             }
-            .navigationDestination(for: CoinEntity.self) { coin in
+            .navigationDestination(for: Coin.self) { coin in
                 CoinDetailView(coin: coin)
             }
             .alert(item: $viewModel.errorAlert) { alert in
@@ -96,4 +96,10 @@ struct CryptoListView: View {
             }
         }
     }
+}
+
+
+struct ErrorAlert: Identifiable {
+    let id = UUID()
+    let message: String
 }

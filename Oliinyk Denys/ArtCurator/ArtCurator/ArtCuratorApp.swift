@@ -11,11 +11,11 @@ import SwiftData
 @main
 struct ArtCuratorApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var coordinator = AppCoordinator()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            coordinator.makeContentView()
         }
-        .modelContainer(for: Artwork.self)
     }
 }

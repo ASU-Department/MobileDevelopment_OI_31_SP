@@ -16,6 +16,7 @@ struct CryptoTrackerApp: App {
         WindowGroup {
             RootView(container: appDelegate.container)
         }
+        .modelContainer(for: Coin.self)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CoinDetailView: View {
     @StateObject private var viewModel: CoinDetailViewModel
