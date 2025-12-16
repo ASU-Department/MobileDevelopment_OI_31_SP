@@ -6,63 +6,51 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct CryptoListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CoinEntity.currentPrice, ascending: false)],
-        animation: .default)
-    private var allCoins: FetchedResults<CoinEntity>
-
-    @State private var showPortfolioOnly = false
-    @State private var isLoading = false
+    @StateObject private var viewModel: CryptoListViewModel
     
-    private let coinService = CoinGeckoService()
-    
-    private let lastFetchKey = "lastFetchTime"
-    private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
-
-    private var filteredCoins: [CoinEntity] {
-        if showPortfolioOnly {
-            return allCoins.filter { $0.isFavorite }
-        } else {
-            return Array(allCoins)
-        }
+    init(repository: CoinRepositoryProtocol) {
+        _viewModel = StateObject(wrappedValue: CryptoListViewModel(repository: repository))
     }
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                if isLoading && allCoins.isEmpty {
-                    ProgressView("Loading Coins...")
-                } else {
-                    List {
-                        ForEach(filteredCoins, id: \.self) { coin in
-                            NavigationLink(value: coin) {
-                                CryptoRowView(coin: coin) {
-                                    toggleFavorite(for: coin)
-                                }
+            List {
+                ForEach(viewModel.filteredCoins) { coin in
+                    NavigationLink(value: coin) {
+                        CryptoRowView(coin: coin) {
+                            Task {
+                                await viewModel.toggleFavorite(for: coin)
                             }
                         }
                     }
-                    .listStyle(PlainListStyle())
                 }
             }
-            .navigationTitle("CryptoTracker")
+            .listStyle(PlainListStyle())
+            .refreshable {
+                await viewModel.refreshData()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("CryptoTracker").font(.headline)
+
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         withAnimation(.spring()) {
-                            showPortfolioOnly.toggle()
+                            viewModel.showPortfolioOnly.toggle()
                         }
                     }) {
-                        Image(systemName: showPortfolioOnly ? "star.fill" : "star")
+                        Image(systemName: viewModel.showPortfolioOnly ? "star.fill" : "star")
                             .font(.headline)
                             .foregroundColor(.yellow)
                     }
+                    .accessibilityIdentifier("portfolio_filter_button")
                 }
             }
             .safeAreaInset(edge: .bottom, alignment: .center) {
@@ -84,46 +72,35 @@ struct CryptoListView: View {
                 .padding(.bottom, 4)
             }
             .task {
-                await loadDataIfNeeded()
+                await viewModel.loadData()
             }
-            .navigationDestination(for: CoinEntity.self) { coin in
+            .navigationDestination(for: Coin.self) { coin in
                 CoinDetailView(coin: coin)
             }
-        }
-    }
-    
-    private func toggleFavorite(for coin: CoinEntity) {
-        withAnimation(.interpolatingSpring(stiffness: 300, damping: 15)) {
-            coin.isFavorite.toggle()
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("Failed to save favorite status: \(error)")
-        }
-    }
-    
-    private func loadDataIfNeeded() async {
-        guard !isLoading else { return }
-        
-        let lastFetchTime = UserDefaults.standard.double(forKey: lastFetchKey)
-        let now = Date().timeIntervalSince1970
-        
-        let needsUpdate = (now - lastFetchTime > cacheInterval) || allCoins.isEmpty
-        
-        if needsUpdate {
-            self.isLoading = true
-            
-            do {
-                let cryptoModels = try await coinService.fetchCoins()
-                PersistenceController.shared.saveCoins(from: cryptoModels)
-                UserDefaults.standard.set(now, forKey: lastFetchKey)
-            } catch {
-                print("Failed to load coins: \(error.localizedDescription)")
+            .alert(item: $viewModel.errorAlert) { alert in
+                Alert(title: Text("Network Error"),
+                      message: Text(alert.message),
+                      dismissButton: .default(Text("OK")))
             }
-            
-            self.isLoading = false
+            .overlay(alignment: .top) {
+                if viewModel.showThrottledMessage {
+                    Text("Please wait a moment before refreshing again.")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(10)
+                        .background(.thinMaterial)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 4)
+                }
+            }
         }
     }
+}
+
+
+struct ErrorAlert: Identifiable {
+    let id = UUID()
+    let message: String
 }
