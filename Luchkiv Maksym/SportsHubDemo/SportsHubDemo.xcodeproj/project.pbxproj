@@ -191,9 +191,11 @@
 					};
 					BF9E10022F00000000000003 = {
 						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = BF5A07512EA4455300173CD9;
 					};
 					BF9E10032F00000000000004 = {
 						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = BF5A07512EA4455300173CD9;
 					};
 				};
 			};
@@ -407,6 +409,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SportsHubDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,6 +442,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SportsHubDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -466,6 +471,7 @@
 		BF9E100C2F0000000000000D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -479,7 +485,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/SportsHubDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SportsHubDemo";
 				TEST_TARGET_NAME = SportsHubDemo;
 			};
 			name = Debug;
@@ -487,6 +493,7 @@
 		BF9E100D2F0000000000000E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -500,7 +507,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/SportsHubDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SportsHubDemo";
 				TEST_TARGET_NAME = SportsHubDemo;
 			};
 			name = Release;
