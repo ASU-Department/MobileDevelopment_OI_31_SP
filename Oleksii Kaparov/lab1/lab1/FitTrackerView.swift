@@ -19,7 +19,7 @@ struct FitTrackerView: View {
                     content
             if viewModel.showingAlert {
                 ZStack {
-                    // ✅ затемнення + TAP dismiss
+
                     Color.black.opacity(0.25)
                         .ignoresSafeArea()
                         .onTapGesture {
@@ -36,7 +36,7 @@ struct FitTrackerView: View {
                             .multilineTextAlignment(.center)
                             .accessibilityIdentifier("workoutAlertMessage")
 
-                        // Кнопку OK МОЖНА ЛИШИТИ ДЛЯ USER, але тест її більше не чіпає
+                   
                         Button("OK") {
                             viewModel.showingAlert = false
                         }
@@ -47,7 +47,7 @@ struct FitTrackerView: View {
                     .background(Color(.systemBackground))
                     .cornerRadius(14)
                     .shadow(radius: 10)
-                    .allowsHitTesting(false) // 🔥 КЛЮЧ
+                    .allowsHitTesting(false) 
                 }
                 .zIndex(999)
             }

@@ -97,7 +97,7 @@ final class WorkoutViewModelTests: XCTestCase {
             vm.saveWorkout()
         }
         
-        // даємо Task всередині saveWorkout() виконатись
+
         await Task.yield()
         
         await MainActor.run {
