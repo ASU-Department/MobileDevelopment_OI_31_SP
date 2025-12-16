@@ -8,20 +8,26 @@
 import Foundation
 
 final class FavoriteStore {
-    private let key = "favoriteTeams.v1"
+    private let key: String
+    private let defaults: UserDefaults
     static let shared = FavoriteStore()
-    
+
+    init(defaults: UserDefaults = .standard, key: String = "favoriteTeams.v1") {
+        self.defaults = defaults
+        self.key = key
+    }
+
     func save(_ teams: Set<Team>) {
         do {
             let data = try JSONEncoder().encode(Array(teams))
-            UserDefaults.standard.set(data, forKey: key)
+            defaults.set(data, forKey: key)
         } catch {
             print("Failed to save favorites: \(error)")
         }
     }
-    
+
     func load() -> Set<Team> {
-        guard let data = UserDefaults.standard.data(forKey: key),
+        guard let data = defaults.data(forKey: key),
               let arr = try? JSONDecoder().decode([Team].self, from: data) else {
             return []
         }

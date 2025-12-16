@@ -132,6 +132,12 @@ struct ContentView: View {
                     ),
                     allTeams: viewModel.allTeams
                 )
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done") { showFavoritesManager = false }
+                            .accessibilityIdentifier("favoritesDoneButton")
+                    }
+                }
             }
         }
         .task {
@@ -153,4 +159,3 @@ struct ContentView: View {
     }
     .modelContainer(PreviewContainer.shared)
 }
-
