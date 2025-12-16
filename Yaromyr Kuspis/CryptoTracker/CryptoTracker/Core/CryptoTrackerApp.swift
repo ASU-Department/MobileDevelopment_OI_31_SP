@@ -6,30 +6,30 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 @main
 struct CryptoTrackerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
-    let persistenceController = PersistenceController.shared
-    
-    @State private var isShowingSplash = true
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if !isShowingSplash {
-                    CryptoListView()
-                        .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                        .transition(.opacity.animation(.easeIn(duration: 0.5)))
-                }
-                
-                if isShowingSplash {
-                    SplashScreenView(isActive: $isShowingSplash)
-                        .transition(.opacity.animation(.easeOut(duration: 0.5)))
-                }
-            }
+            RootView(container: appDelegate.container)
         }
+        .modelContainer(for: Coin.self)
+    }
+}
+
+struct RootView: View {
+    let repository: CoinRepositoryProtocol
+    
+    init(container: ModelContainer) {
+        let actor = CoinPersistenceActor(modelContainer: container)
+        let service = CoinGeckoService()
+        self.repository = CoinRepository(service: service, actor: actor)
+    }
+    
+    var body: some View {
+        LaunchView(repository: repository)
     }
 }

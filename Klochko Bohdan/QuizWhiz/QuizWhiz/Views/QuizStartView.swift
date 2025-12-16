@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct QuizStartView: View {
-    var category: Category
-    var questionCount: Int
-    var isHardMode: Bool
+    let category: Category
+    let questionCount: Int
+    let isHardMode: Bool
+    let coordinator: AppCoordinator
     
     var body: some View {
         QuizView(
             category: category,
             questionCount: questionCount,
-            isHardMode: isHardMode
+            isHardMode: isHardMode,
+            coordinator: coordinator
         )
     }
 }

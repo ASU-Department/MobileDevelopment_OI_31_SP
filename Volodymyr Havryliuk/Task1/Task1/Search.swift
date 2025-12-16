@@ -7,46 +7,86 @@
 
 import SwiftUI
 import SwiftData
+import Combine
+
+@MainActor
+final class SearchBooksViewModel: ObservableObject {
+    @Published var query: String = ""
+    @Published var books: [GoogleBookItem] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var showingError = false
+
+    private let repository: BookRepositoryProtocol
+    private let modelContext: ModelContext
+    private let lastSearchKey = "lastSearchQuery"
+
+    init(repository: BookRepositoryProtocol, modelContext: ModelContext) {
+        self.repository = repository
+        self.modelContext = modelContext
+        self.query = UserDefaults.standard.string(forKey: lastSearchKey) ?? ""
+    }
+
+    func onAppear() {
+        if query.isEmpty {
+            query = UserDefaults.standard.string(forKey: lastSearchKey) ?? ""
+        }
+    }
+
+    func performSearch() {
+        guard !query.isEmpty else { return }
+        UserDefaults.standard.set(query, forKey: lastSearchKey)
+        isLoading = true
+        errorMessage = nil
+
+        Task {
+            do {
+                books = try await repository.searchRemoteBooks(query: query)
+            } catch {
+                errorMessage = "Failed to load books. Please check your internet connection."
+                showingError = true
+            }
+            isLoading = false
+        }
+    }
+
+    func saveBookToLibrary(item: GoogleBookItem) {
+        Task {
+            _ = try await repository.saveBook(from: item)
+        }
+    }
+}
 
 struct SearchBooksView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
-    
-    @State private var query: String = ""
-    @State private var books: [GoogleBookItem] = []
-    @State private var isLoading = false
-    @State private var errorMessage: String?
-    @State private var showingError = false
-    
-    // UserDefaults
-    @AppStorage("lastSearchQuery") private var lastSearchQuery: String = ""
-    
-    let apiService = BookAPIService()
-    
+    @ObservedObject var viewModel: SearchBooksViewModel
+
     var body: some View {
         NavigationStack {
             VStack {
                 HStack {
-                    TextField("Search title or author...", text: $query)
+                    TextField("Search title or author...", text: $viewModel.query)
                         .textFieldStyle(.roundedBorder)
-                        .onSubmit { performSearch() }
-                    
-                    if isLoading {
+                        .onSubmit { viewModel.performSearch() }
+
+                    if viewModel.isLoading {
                         ProgressView()
                     } else {
-                        Button("Search") { performSearch() }
+                        Button("Search") { viewModel.performSearch() }
                     }
                 }
                 .padding()
-                
-                if let error = errorMessage {
+
+                if let error = viewModel.errorMessage {
                     Text(error).foregroundStyle(.red).padding()
                 }
-                
-                List(books) { item in
+
+                List(viewModel.books) { item in
                     HStack(alignment: .top) {
-                        if let urlString = item.volumeInfo.imageLinks?.thumbnail?.replacingOccurrences(of: "http://", with: "https://"),
-                           let url = URL(string: urlString) {
+                        if let urlStr = item.volumeInfo.imageLinks?.thumbnail?
+                            .replacingOccurrences(of: "http://", with: "https://"),
+                            let url = URL(string: urlStr)
+                        {
                             AsyncImage(url: url) { image in
                                 image.resizable().scaledToFit()
                             } placeholder: {
@@ -55,19 +95,25 @@ struct SearchBooksView: View {
                             .frame(width: 50, height: 75)
                             .cornerRadius(4)
                         } else {
-                            Rectangle().fill(.gray.opacity(0.3)).frame(width: 50, height: 75)
+                            Rectangle()
+                                .fill(.gray.opacity(0.3))
+                                .frame(width: 50, height: 75)
                         }
-                        
+
                         VStack(alignment: .leading) {
-                            Text(item.volumeInfo.title).font(.headline).lineLimit(2)
-                            Text(item.volumeInfo.authors?.joined(separator: ", ") ?? "Unknown Author")
-                                .font(.caption).foregroundStyle(.secondary)
+                            Text(item.volumeInfo.title)
+                                .font(.headline)
+                                .lineLimit(2)
+                            Text(item.volumeInfo.authors?.joined(separator: ", ")
+                                ?? "Unknown Author")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button {
-                            saveBookToLibrary(item: item)
+                            viewModel.saveBookToLibrary(item: item)
                         } label: {
                             Image(systemName: "arrow.down.circle.fill")
                                 .font(.title2)
@@ -78,47 +124,12 @@ struct SearchBooksView: View {
                 }
             }
             .navigationTitle("Google Books")
-            .onAppear {
-                if query.isEmpty { query = lastSearchQuery }
-            }
-            .alert("Error", isPresented: $showingError) {
-                Button("OK", role: .cancel) { }
+            .onAppear { viewModel.onAppear() }
+            .alert("Error", isPresented: $viewModel.showingError) {
+                Button("OK", role: .cancel) {}
             } message: {
-                Text(errorMessage ?? "Unknown error")
+                Text(viewModel.errorMessage ?? "Unknown error")
             }
         }
-    }
-    
-    func performSearch() {
-        guard !query.isEmpty else { return }
-        
-        lastSearchQuery = query
-        
-        isLoading = true
-        errorMessage = nil
-        
-        Task {
-            do {
-                books = try await apiService.searchBooks(query: query)
-            } catch {
-                errorMessage = "Failed to load books. Please check your internet connection."
-                showingError = true
-            }
-            isLoading = false
-        }
-    }
-    
-    func saveBookToLibrary(item: GoogleBookItem) {
-        let info = item.volumeInfo
-        let secureImg = info.imageLinks?.thumbnail?.replacingOccurrences(of: "http://", with: "https://")
-        
-        let newBook = Book(
-            title: info.title,
-            author: info.authors?.joined(separator: ", ") ?? "Unknown",
-            desc: info.description ?? "No description available.",
-            coverURL: secureImg
-        )
-        
-        modelContext.insert(newBook)
     }
 }

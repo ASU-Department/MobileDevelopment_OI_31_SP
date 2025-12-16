@@ -10,12 +10,27 @@ import SwiftData
 
 @main
 struct AirAwareApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView(modelContext: sharedModelContainer.mainContext)
         }
-        .modelContainer(for: City.self)
+        .modelContainer(sharedModelContainer)
     }
+    
+    private var sharedModelContainer: ModelContainer = {
+        let schema = Schema([City.self])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+}
+
+#Preview {
+    let container = try! ModelContainer(for: City.self)
+    return RootView(modelContext: container.mainContext)
+        .modelContainer(container)
 }

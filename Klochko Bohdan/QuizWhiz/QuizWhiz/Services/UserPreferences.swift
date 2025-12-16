@@ -7,7 +7,9 @@
 
 import Foundation
 
-class UserPreferences {
+/// Thread-safe user preferences storage using UserDefaults
+/// Marked as nonisolated(unsafe) to allow access from any actor context
+nonisolated(unsafe) class UserPreferences {
     private static let defaults = UserDefaults.standard
     
     // Keys

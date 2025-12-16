@@ -9,105 +9,112 @@ import SwiftUI
 import SwiftData
 
 struct QuizSettingsView: View {
-    @State private var questionCount = UserPreferences.questionsPerPage
-    @State private var selectedCategory: Category = categories.first!
-    @State private var isHardMode = false
-    @State private var isQuizActive: Bool = false
-    @State private var showFavorites = false
-    @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel: QuizSettingsViewModel
+    @EnvironmentObject private var coordinator: AppCoordinator
     
-    private var lastUpdateText: String {
-        if let timestamp = UserPreferences.lastUpdateTimestamp {
-            let formatter = RelativeDateTimeFormatter()
-            formatter.unitsStyle = .full
-            return "Last updated: \(formatter.localizedString(for: timestamp, relativeTo: Date()))"
-        }
-        return "No updates yet"
+    init(coordinator: AppCoordinator) {
+        _viewModel = StateObject(wrappedValue: QuizSettingsViewModel())
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    // Header
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Quiz Settings")
-                            .font(.largeTitle.bold())
-                        
-                        Text(lastUpdateText)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.bottom, 10)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Quiz Settings")
+                        .font(.largeTitle.bold())
+                    
+                    Text(viewModel.lastUpdateText)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.bottom, 10)
 
-                    // Category Selection
-                    CategoryPicker(selectedCategory: $selectedCategory, categories: categories)
+                // Category Selection
+                CategoryPicker(selectedCategory: $viewModel.selectedCategory, categories: categories)
 
-                    // Question Count
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Number of Questions")
-                            .font(.headline)
-                        Stepper("Questions: \(questionCount)", value: $questionCount, in: 5...20)
-                            .onChange(of: questionCount) { _, newValue in
-                                UserPreferences.questionsPerPage = newValue
-                            }
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
-
-                    // Hard Mode Toggle
-                    HardModeToggle(isHardMode: $isHardMode)
-
-                    // Additional Options
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Options")
-                            .font(.headline)
-                        
-                        Button(action: {
-                            showFavorites = true
-                        }) {
-                            HStack {
-                                Image(systemName: "heart.fill")
-                                    .foregroundColor(.red)
-                                Text("View Favorites")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(12)
+                // Question Count
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Number of Questions")
+                        .font(.headline)
+                    Stepper("Questions: \(viewModel.questionCount)", value: $viewModel.questionCount, in: 5...20)
+                        .onChange(of: viewModel.questionCount) { _, newValue in
+                            viewModel.updateQuestionCount(newValue)
                         }
-                        .buttonStyle(.plain)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
-
-                    Spacer()
-
-                    // Start Button
-                    StartButton {
-                        isQuizActive = true
-                    }
-                    .navigationDestination(isPresented: $isQuizActive) {
-                        QuizStartView(
-                            category: selectedCategory,
-                            questionCount: questionCount,
-                            isHardMode: isHardMode
-                        )
-                    }
                 }
                 .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
+
+                // Hard Mode Toggle
+                HardModeToggle(isHardMode: $viewModel.isHardMode)
+
+                // Additional Options
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Options")
+                        .font(.headline)
+                    
+                    Button(action: {
+                        coordinator.navigateToFavorites()
+                    }) {
+                        HStack {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                            Text("View Favorites")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.secondary)
+                        }
+                        .padding()
+                        .background(Color(.systemBackground))
+                        .cornerRadius(12)
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
+
+                Spacer()
+
+                // Start Button
+                StartButton {
+                    coordinator.navigateToQuiz(
+                        category: viewModel.selectedCategory,
+                        questionCount: viewModel.questionCount,
+                        isHardMode: viewModel.isHardMode
+                    )
+                }
             }
-            .navigationDestination(isPresented: $showFavorites) {
-                FavoritesView()
+            .padding()
+        }
+        .navigationDestination(for: NavigationDestination.self) { destination in
+            switch destination {
+            case .quiz(let category, let questionCount, let isHardMode):
+                QuizStartView(
+                    category: category,
+                    questionCount: questionCount,
+                    isHardMode: isHardMode,
+                    coordinator: coordinator
+                )
+            case .favorites:
+                FavoritesView(coordinator: coordinator)
             }
         }
     }
 }
 
 #Preview {
-    QuizSettingsView()
+    let container: ModelContainer = {
+        let schema = Schema([PersistedQuestion.self])
+        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        do {
+            return try ModelContainer(for: schema, configurations: [config])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+    let coordinator = AppCoordinator(modelContainer: container)
+    return QuizSettingsView(coordinator: coordinator)
+        .environmentObject(coordinator)
 }

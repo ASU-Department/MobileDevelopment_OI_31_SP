@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftData
 import SwiftUI
 import Combine
 
@@ -20,35 +19,44 @@ class QuizViewModel: ObservableObject {
     private let category: String
     private let questionCount: Int
     private let isHardMode: Bool
-    private let quizService = QuizService.shared
-    private let persistenceManager = PersistenceManager.shared
+    private let repository: QuestionRepositoryProtocol
     
-    init(category: String, questionCount: Int, isHardMode: Bool) {
+    init(
+        category: String,
+        questionCount: Int,
+        isHardMode: Bool,
+        repository: QuestionRepositoryProtocol
+    ) {
         self.category = category
         self.questionCount = questionCount
         self.isHardMode = isHardMode
+        self.repository = repository
     }
     
-    func loadQuestions(modelContext: ModelContext) async {
+    func loadQuestions() async {
         isLoading = true
         error = nil
         
-        offlineQuestions = persistenceManager.loadQuestions(from: modelContext, category: category)
+        // Load offline questions first
+        do {
+            offlineQuestions = try await repository.loadQuestions(category: category)
+        } catch {
+            offlineQuestions = []
+        }
         
         do {
             let difficulty = isHardMode ? "hard" : nil
-            let fetchedQuestions = try await quizService.fetchQuestions(
+            let fetchedQuestions = try await repository.fetchQuestions(
                 category: category,
                 difficulty: difficulty,
                 amount: questionCount
             )
             
-            persistenceManager.saveQuestions(fetchedQuestions, to: modelContext)
+            // Save questions to persistence
+            try await repository.saveQuestions(fetchedQuestions)
             
-            let questionsWithSavedState = persistenceManager.mergeWithSavedState(
-                fetchedQuestions,
-                from: modelContext
-            )
+            // Merge with saved state (favorites, notes)
+            let questionsWithSavedState = try await repository.mergeWithSavedState(fetchedQuestions)
             
             questions = questionsWithSavedState
             isLoading = false
@@ -65,8 +73,8 @@ class QuizViewModel: ObservableObject {
         }
     }
     
-    func refresh(modelContext: ModelContext) async {
-        await loadQuestions(modelContext: modelContext)
+    func refresh() async {
+        await loadQuestions()
     }
     
     func useOfflineQuestions() {
@@ -74,7 +82,7 @@ class QuizViewModel: ObservableObject {
         error = nil
     }
     
-    func toggleFavorite(_ question: Question, in modelContext: ModelContext) {
+    func toggleFavorite(_ question: Question) async {
         var updatedQuestion = question
         updatedQuestion.isFavorite.toggle()
         
@@ -88,29 +96,27 @@ class QuizViewModel: ObservableObject {
             UserPreferences.removeFavorite(question.id)
         }
         
-        let descriptor = FetchDescriptor<PersistedQuestion>(
-            predicate: #Predicate { $0.id == question.id }
-        )
-        
-        if let existing = try? modelContext.fetch(descriptor).first {
-            existing.isFavorite = updatedQuestion.isFavorite
-        } else {
-            let persisted = PersistedQuestion(from: updatedQuestion)
-            modelContext.insert(persisted)
-        }
-        
         do {
-            try modelContext.save()
+            try await repository.updateQuestion(updatedQuestion)
         } catch {
+            // Revert on error
+            if let index = questions.firstIndex(where: { $0.id == question.id }) {
+                questions[index] = question
+            }
+            self.error = error
         }
     }
     
-    func updateQuestion(_ question: Question, in modelContext: ModelContext) {
+    func updateQuestion(_ question: Question) async {
         if let index = questions.firstIndex(where: { $0.id == question.id }) {
             questions[index] = question
         }
         
-        persistenceManager.updateQuestion(question, in: modelContext)
+        do {
+            try await repository.updateQuestion(question)
+        } catch {
+            self.error = error
+        }
     }
 }
 

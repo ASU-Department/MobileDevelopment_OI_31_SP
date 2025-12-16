@@ -5,23 +5,40 @@
 //  Created by UnseenHand on 16.11.2025.
 //
 
-
-import Foundation
 import Combine
+import Foundation
 
 final class RepositoryViewModel: ObservableObject {
+    @Published var showAdvancedFilters = false
+
+    @Published var useSliderMode = true  // switch between slider + manual
+    @Published var minStars: Double = 0
+
+    @Published var languageFilter: String = "Any"
+    @Published var showOnlyStarred = false
+    @Published var showOnlyWithIssues = false
+    @Published var sortMode: RepoSortMode = .stars
+
     @Published var searchText: String = ""
-    @Published var showStarredOnly: Bool = false
-    @Published var minWatchers: Int = 0
-    @Published var minIssues: Int = 0
+    @Published var minWatchers: Double = 0
+    @Published var minIssues: Double = 0
 
-    @Published var repositories: [Repository] = FakeRepositoryData.sample()
+    @Published private(set) var repositories: [Repository] = []
+    @Published private(set) var developers: [DeveloperProfile] = []
 
-    // storing only the IDs of starred repos (local session favorites)
     @Published private(set) var starredRepoIds: Set<Int> = []
 
-    func isStarred(_ repo: Repository) -> Bool {
-        starredRepoIds.contains(repo.id)
+    private let service: RepositoryServiceProtocol
+
+    init(service: RepositoryServiceProtocol = MockRepositoryService.shared) {
+        self.service = service
+    }
+
+    func load() async {
+        let repos = await service.fetchRepositories()
+        let devs = await service.fetchDevelopers()
+        self.repositories = repos
+        self.developers = devs
     }
 
     func toggleStar(_ repo: Repository) {
@@ -32,18 +49,37 @@ final class RepositoryViewModel: ObservableObject {
         }
     }
 
-    // Computed filtered list depends on @Published properties above
+    func isStarred(_ repo: Repository) -> Bool {
+        starredRepoIds.contains(repo.id)
+    }
+
     var filteredRepositories: [Repository] {
-        repositories.filter { repo in
-            let matchesSearch = searchText.isEmpty ||
-                repo.name.localizedCaseInsensitiveContains(searchText)
-
-            let matchesStarFilter = !showStarredOnly || starredRepoIds.contains(repo.id)
-
-            let matchesWatchers = repo.watchersCount >= minWatchers
-            let matchesIssues = repo.openIssuesCount >= minIssues
-
-            return matchesSearch && matchesStarFilter && matchesWatchers && matchesIssues
+        let filtered = repositories.filter { repo in
+            let matchesSearch =
+                searchText.isEmpty
+                || repo.name.localizedCaseInsensitiveContains(searchText)
+                || repo.fullName.localizedCaseInsensitiveContains(searchText)
+                || (repo.language?.localizedCaseInsensitiveContains(searchText)
+                    ?? false)
+            let matchesStar =
+                !showOnlyStarred || starredRepoIds.contains(repo.id)
+            let matchesWatchers = repo.watchersCount >= Int(minWatchers)
+            let matchesIssues = repo.openIssuesCount >= Int(minIssues)
+            return matchesSearch && matchesStar && matchesWatchers
+                && matchesIssues
         }
+
+        switch sortMode {
+        case .stars:
+            return filtered.sorted { $0.stargazersCount < $1.stargazersCount }
+        case .issues:
+            return filtered.sorted { $0.openIssuesCount < $1.openIssuesCount }
+        case .alphabet:
+            return filtered.sorted { $0.name < $1.name }
+        }
+    }
+
+    func developer(for ownerLogin: String) -> DeveloperProfile? {
+        developers.first(where: { $0.username == ownerLogin })
     }
 }
