@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		1521BC962EF1FED700E1AD3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15CC5AA32EA21DA600373D6B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15CC5AAA2EA21DA700373D6B;
+			remoteInfo = Task1;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		1521BC922EF1FED700E1AD3A /* SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15CC5AAB2EA21DA700373D6B /* Task1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		1521BC932EF1FED700E1AD3A /* SwiftTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SwiftTests;
+			sourceTree = "<group>";
+		};
 		15CC5AAD2EA21DA700373D6B /* Task1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Task1;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1521BC8F2EF1FED700E1AD3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15CC5AA82EA21DA700373D6B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				15CC5AAD2EA21DA700373D6B /* Task1 */,
+				1521BC932EF1FED700E1AD3A /* SwiftTests */,
 				15CC5AAC2EA21DA700373D6B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				15CC5AAB2EA21DA700373D6B /* Task1.app */,
+				1521BC922EF1FED700E1AD3A /* SwiftTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1521BC912EF1FED700E1AD3A /* SwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1521BC982EF1FED700E1AD3A /* Build configuration list for PBXNativeTarget "SwiftTests" */;
+			buildPhases = (
+				1521BC8E2EF1FED700E1AD3A /* Sources */,
+				1521BC8F2EF1FED700E1AD3A /* Frameworks */,
+				1521BC902EF1FED700E1AD3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1521BC972EF1FED700E1AD3A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1521BC932EF1FED700E1AD3A /* SwiftTests */,
+			);
+			name = SwiftTests;
+			packageProductDependencies = (
+			);
+			productName = SwiftTests;
+			productReference = 1521BC922EF1FED700E1AD3A /* SwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		15CC5AAA2EA21DA700373D6B /* Task1 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 15CC5AB62EA21DD900373D6B /* Build configuration list for PBXNativeTarget "Task1" */;
@@ -80,6 +128,10 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					1521BC912EF1FED700E1AD3A = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 15CC5AAA2EA21DA700373D6B;
+					};
 					15CC5AAA2EA21DA700373D6B = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				15CC5AAA2EA21DA700373D6B /* Task1 */,
+				1521BC912EF1FED700E1AD3A /* SwiftTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1521BC902EF1FED700E1AD3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15CC5AA92EA21DA700373D6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1521BC8E2EF1FED700E1AD3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15CC5AA72EA21DA700373D6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1521BC972EF1FED700E1AD3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15CC5AAA2EA21DA700373D6B /* Task1 */;
+			targetProxy = 1521BC962EF1FED700E1AD3A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		1521BC992EF1FED700E1AD3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ky3ow.task1.SwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Task1";
+			};
+			name = Debug;
+		};
+		1521BC9A2EF1FED700E1AD3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ky3ow.task1.SwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Task1";
+			};
+			name = Release;
+		};
 		15CC5AB42EA21DD900373D6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +424,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1521BC982EF1FED700E1AD3A /* Build configuration list for PBXNativeTarget "SwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1521BC992EF1FED700E1AD3A /* Debug */,
+				1521BC9A2EF1FED700E1AD3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		15CC5AA62EA21DA600373D6B /* Build configuration list for PBXProject "Task1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
