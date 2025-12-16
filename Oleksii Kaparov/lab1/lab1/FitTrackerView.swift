@@ -15,6 +15,63 @@ struct FitTrackerView: View {
     }
 
     var body: some View {
+        ZStack {
+                    content
+            if viewModel.showingAlert {
+                ZStack {
+                    // ✅ затемнення + TAP dismiss
+                    Color.black.opacity(0.25)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            viewModel.showingAlert = false
+                        }
+                        .accessibilityIdentifier("workoutAlertBackdrop")
+
+                    VStack(spacing: 12) {
+                        Text("Workout")
+                            .font(.headline)
+
+                        Text(viewModel.lastSaveMessage)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.center)
+                            .accessibilityIdentifier("workoutAlertMessage")
+
+                        // Кнопку OK МОЖНА ЛИШИТИ ДЛЯ USER, але тест її більше не чіпає
+                        Button("OK") {
+                            viewModel.showingAlert = false
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .padding()
+                    .frame(maxWidth: 320)
+                    .background(Color(.systemBackground))
+                    .cornerRadius(14)
+                    .shadow(radius: 10)
+                    .allowsHitTesting(false) // 🔥 КЛЮЧ
+                }
+                .zIndex(999)
+            }
+        }
+        .navigationTitle("Workout Builder")
+        .padding(.top)
+        .toolbar {
+            Button {
+                coordinator.openSavedWorkouts()
+            } label: {
+                Label("Saved", systemImage: "list.bullet.rectangle")
+            }
+        }
+        .onAppear {
+            if viewModel.intensity == 0.5 {
+                viewModel.intensity = preferredIntensity
+            }
+        }
+        .onChange(of: viewModel.intensity) { newValue in
+            preferredIntensity = newValue
+        }
+    }
+
+    private var content: some View {
         VStack(alignment: .leading, spacing: 16) {
             WorkoutHeader(workoutName: $viewModel.workoutName)
 
@@ -44,8 +101,7 @@ struct FitTrackerView: View {
                         viewModel.deleteExercise(at: indexSet)
                     }
                 }
-
-                Section(
+Section(
                     header: VStack(alignment: .leading, spacing: 4) {
                         Text("Suggested from ExerciseDB").font(.headline)
                         if let lastSync = viewModel.lastSyncText {
@@ -59,8 +115,12 @@ struct FitTrackerView: View {
                         HStack { Spacer(); ProgressView(); Spacer() }
                     } else if let error = viewModel.remoteErrorMessage {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(error).font(.subheadline).foregroundColor(.red)
-                            Button("Retry") { viewModel.fetchExercises() }
+                            Text(error)
+                                .font(.subheadline)
+                                .foregroundColor(.red)
+                            Button("Retry") {
+                                viewModel.fetchExercises()
+                            }
                         }
                     } else if viewModel.remoteExercises.isEmpty {
                         Text("No remote exercises yet. Pull to refresh.")
@@ -86,10 +146,9 @@ struct FitTrackerView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .refreshable {
-                viewModel.fetchExercises()
-            }
-HStack(spacing: 12) {
+            .refreshable { viewModel.fetchExercises() }
+
+            HStack(spacing: 12) {
                 Button {
                     viewModel.addExercise()
                 } label: {
@@ -101,6 +160,7 @@ HStack(spacing: 12) {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
+                .accessibilityIdentifier("addExerciseButton")
 
                 Button {
                     viewModel.saveWorkout()
@@ -114,34 +174,11 @@ HStack(spacing: 12) {
                         .cornerRadius(8)
                 }
                 .disabled(viewModel.workoutName.isEmpty)
+                .accessibilityIdentifier("saveWorkoutButton")
             }
             .padding(.horizontal)
 
             Spacer(minLength: 0)
-        }
-        .navigationTitle("Workout Builder")
-        .padding(.top)
-        .toolbar {
-            Button {
-                coordinator.openSavedWorkouts()
-            } label: {
-                Label("Saved", systemImage: "list.bullet.rectangle")
-            }
-        }
-        .alert(isPresented: $viewModel.showingAlert) {
-            Alert(
-                title: Text("Workout"),
-                message: Text(viewModel.lastSaveMessage),
-                dismissButton: .default(Text("OK"))
-            )
-        }
-        .onAppear {
-            if viewModel.intensity == 0.5 {
-                viewModel.intensity = preferredIntensity
-            }
-        }
-        .onChange(of: viewModel.intensity) { newValue in
-            preferredIntensity = newValue
         }
     }
 }
