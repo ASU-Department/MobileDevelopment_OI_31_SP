@@ -3,7 +3,7 @@ import XCTest
 
 @MainActor
 final class StoresTests: XCTestCase {
-    func testFavoriteStorePersistsTeams() {
+    func testFavoriteStorePersistsTeams() async {
         let suiteName = "favorite-store-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
         defaults.removePersistentDomain(forName: suiteName)
@@ -16,7 +16,7 @@ final class StoresTests: XCTestCase {
         XCTAssertEqual(loaded, favorites)
     }
 
-    func testAppSettingsStorePersistsFilters() {
+    func testAppSettingsStorePersistsFilters() async {
         let suiteName = "app-settings-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
         defaults.removePersistentDomain(forName: suiteName)

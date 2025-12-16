@@ -3,7 +3,7 @@ import XCTest
 
 @MainActor
 final class TeamDetailViewModelTests: XCTestCase {
-    func testDefaultsUseSeasonScope() {
+    func testDefaultsUseSeasonScope() async {
         let viewModel = TeamDetailViewModel(team: SampleData.warriors)
 
         XCTAssertEqual(viewModel.selectedScopeIndex, 1)
@@ -11,7 +11,7 @@ final class TeamDetailViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.playerStats.isEmpty)
     }
 
-    func testChangingScopeUpdatesCurrentScope() {
+    func testChangingScopeUpdatesCurrentScope() async {
         let viewModel = TeamDetailViewModel(team: SampleData.lakers)
 
         viewModel.selectedScopeIndex = 0
