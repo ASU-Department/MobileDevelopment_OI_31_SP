@@ -10,8 +10,14 @@ struct FitTrackerRootView: View {
     @StateObject private var coordinator: AppCoordinator
 
     init() {
+        let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TESTING")
+
+        let persistence = isUITest
+            ? PersistenceController(inMemory: true)
+            : PersistenceController.shared
+
         let repo = DefaultWorkoutRepository(
-            storage: WorkoutCoreDataActor(container: PersistenceController.shared.container),
+            storage: WorkoutCoreDataActor(container: persistence.container),
             api: ExerciseAPIService()
         )
         let vm = WorkoutViewModel(repository: repo)
