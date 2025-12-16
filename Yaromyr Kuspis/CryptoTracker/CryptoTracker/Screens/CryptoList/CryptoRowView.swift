@@ -9,7 +9,7 @@ import SwiftUI
 import NukeUI
 
 struct CryptoRowView: View {
-    @Bindable var coin: Coin
+    let coin: CoinEntity
     
     var onFavoriteToggle: () -> Void
     
