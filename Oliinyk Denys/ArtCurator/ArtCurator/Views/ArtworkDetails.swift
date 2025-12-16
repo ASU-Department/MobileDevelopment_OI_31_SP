@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ArtworkDetails: View {
-    @Binding var artwork: Artwork
+    @ObservedObject var viewModel: ArtworkDetailViewModel
     @State private var showShareSheet = false
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                AsyncImage(url: URL(string: artwork.primaryImage.isEmpty ? artwork.primaryImageSmall : artwork.primaryImage)) { phase in
+                AsyncImage(url: URL(string: viewModel.imageURL)) { phase in
                     switch phase {
                     case .empty:
                         Rectangle()
@@ -46,20 +46,20 @@ struct ArtworkDetails: View {
                 
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
-                        Text(artwork.title)
+                        Text(viewModel.artwork.title)
                             .font(.title)
                             .fontWeight(.bold)
                         
                         Spacer()
                         
-                        Button(action: { artwork.isFavorite.toggle() }) {
-                            Image(systemName: artwork.isFavorite ? "heart.fill" : "heart")
+                        Button(action: { Task { await viewModel.toggleFavorite() } }) {
+                            Image(systemName: viewModel.artwork.isFavorite ? "heart.fill" : "heart")
                                 .font(.title2)
-                                .foregroundColor(artwork.isFavorite ? .red : .gray)
+                                .foregroundColor(viewModel.artwork.isFavorite ? .red : .gray)
                         }
                     }
                     
-                    Text(artwork.artistDisplayName)
+                    Text(viewModel.artwork.artistDisplayName)
                         .font(.title3)
                         .foregroundColor(.secondary)
                     
@@ -69,19 +69,19 @@ struct ArtworkDetails: View {
                         Text("Details")
                             .font(.headline)
                         
-                        if !artwork.objectDate.isEmpty {
-                            ArtworkDetailRow(label: "Date", value: artwork.objectDate)
+                        if !viewModel.artwork.objectDate.isEmpty {
+                            ArtworkDetailRow(label: "Date", value: viewModel.artwork.objectDate)
                         }
                         
-                        if !artwork.medium.isEmpty {
-                            ArtworkDetailRow(label: "Medium", value: artwork.medium)
+                        if !viewModel.artwork.medium.isEmpty {
+                            ArtworkDetailRow(label: "Medium", value: viewModel.artwork.medium)
                         }
                         
-                        if !artwork.department.isEmpty {
-                            ArtworkDetailRow(label: "Department", value: artwork.department)
+                        if !viewModel.artwork.department.isEmpty {
+                            ArtworkDetailRow(label: "Department", value: viewModel.artwork.department)
                         }
                         
-                        ArtworkDetailRow(label: "Object ID", value: String(artwork.id))
+                        ArtworkDetailRow(label: "Object ID", value: String(viewModel.artwork.id))
                     }
                     
                     Divider()
@@ -98,9 +98,7 @@ struct ArtworkDetails: View {
                         .cornerRadius(10)
                     }
                     .sheet(isPresented: $showShareSheet) {
-                        ShareSheetRepresentable(items: [
-                            "\(artwork.title) by \(artwork.artistDisplayName)"
-                        ])
+                        ShareSheetRepresentable(items: [viewModel.shareText])
                     }
                 }
                 .padding(.horizontal)

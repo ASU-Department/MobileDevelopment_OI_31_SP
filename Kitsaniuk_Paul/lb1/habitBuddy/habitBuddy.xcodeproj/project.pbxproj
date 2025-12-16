@@ -7,7 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CEA89CA62EBA590E0079A579 /* habitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA52EBA590E0079A579 /* habitDetailView.swift */; };
+		CE812EF82EEEA3280074617E /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812EF72EEEA3280074617E /* Quote.swift */; };
+		CE812EFA2EEEA3930074617E /* HabitListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812EF92EEEA3930074617E /* HabitListViewModel.swift */; };
+		CE812EFC2EEEA3A50074617E /* HabitDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812EFB2EEEA3A50074617E /* HabitDetailViewModel.swift */; };
+		CE812EFE2EEEA3B80074617E /* AddHabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812EFD2EEEA3B80074617E /* AddHabitViewModel.swift */; };
+		CE812F002EEEA3F20074617E /* QuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812EFF2EEEA3F20074617E /* QuoteViewModel.swift */; };
+		CE812F022EEEA4150074617E /* HabitRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F012EEEA4150074617E /* HabitRepositoryProtocol.swift */; };
+		CE812F042EEEA4B40074617E /* HabitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F032EEEA4B40074617E /* HabitRepository.swift */; };
+		CE812F062EEEA4BF0074617E /* QuoteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F052EEEA4BF0074617E /* QuoteRepositoryProtocol.swift */; };
+		CE812F082EEEA4D30074617E /* QuoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F072EEEA4D30074617E /* QuoteRepository.swift */; };
+		CE812F0A2EEEA4FA0074617E /* HabitStorageActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F092EEEA4FA0074617E /* HabitStorageActor.swift */; };
+		CE812F0C2EEEA5070074617E /* QuoteCacheActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F0B2EEEA5070074617E /* QuoteCacheActor.swift */; };
+		CE812F0E2EEEA5200074617E /* QuoteAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F0D2EEEA5200074617E /* QuoteAPIService.swift */; };
+		CE88D9D42ED35758002E1220 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88D9D32ED35758002E1220 /* Habit.swift */; };
+		CEA89CA62EBA590E0079A579 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */; };
 		CEA89CA82EBA5D5F0079A579 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */; };
 		FDD486E12EA24BCF00238CA8 /* habitBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */; };
 		FDD486E32EA24BCF00238CA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486E22EA24BCF00238CA8 /* ContentView.swift */; };
@@ -36,7 +49,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CEA89CA52EBA590E0079A579 /* habitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitDetailView.swift; sourceTree = "<group>"; };
+		CE812EF72EEEA3280074617E /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
+		CE812EF92EEEA3930074617E /* HabitListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListViewModel.swift; sourceTree = "<group>"; };
+		CE812EFB2EEEA3A50074617E /* HabitDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailViewModel.swift; sourceTree = "<group>"; };
+		CE812EFD2EEEA3B80074617E /* AddHabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitViewModel.swift; sourceTree = "<group>"; };
+		CE812EFF2EEEA3F20074617E /* QuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteViewModel.swift; sourceTree = "<group>"; };
+		CE812F012EEEA4150074617E /* HabitRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRepositoryProtocol.swift; sourceTree = "<group>"; };
+		CE812F032EEEA4B40074617E /* HabitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRepository.swift; sourceTree = "<group>"; };
+		CE812F052EEEA4BF0074617E /* QuoteRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteRepositoryProtocol.swift; sourceTree = "<group>"; };
+		CE812F072EEEA4D30074617E /* QuoteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteRepository.swift; sourceTree = "<group>"; };
+		CE812F092EEEA4FA0074617E /* HabitStorageActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitStorageActor.swift; sourceTree = "<group>"; };
+		CE812F0B2EEEA5070074617E /* QuoteCacheActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCacheActor.swift; sourceTree = "<group>"; };
+		CE812F0D2EEEA5200074617E /* QuoteAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteAPIService.swift; sourceTree = "<group>"; };
+		CE88D9D32ED35758002E1220 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		FDD486DD2EA24BCF00238CA8 /* habitBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = habitBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitBuddyApp.swift; sourceTree = "<group>"; };
@@ -75,6 +101,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE812EF12EEEA2220074617E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE88D9D32ED35758002E1220 /* Habit.swift */,
+				CE812EF72EEEA3280074617E /* Quote.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CE812EF22EEEA2C90074617E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */,
+				CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */,
+				FDD486E22EA24BCF00238CA8 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CE812EF32EEEA2D20074617E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CE812EF92EEEA3930074617E /* HabitListViewModel.swift */,
+				CE812EFB2EEEA3A50074617E /* HabitDetailViewModel.swift */,
+				CE812EFD2EEEA3B80074617E /* AddHabitViewModel.swift */,
+				CE812EFF2EEEA3F20074617E /* QuoteViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CE812EF42EEEA2DB0074617E /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F012EEEA4150074617E /* HabitRepositoryProtocol.swift */,
+				CE812F032EEEA4B40074617E /* HabitRepository.swift */,
+				CE812F052EEEA4BF0074617E /* QuoteRepositoryProtocol.swift */,
+				CE812F072EEEA4D30074617E /* QuoteRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		CE812EF52EEEA2E50074617E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F092EEEA4FA0074617E /* HabitStorageActor.swift */,
+				CE812F0B2EEEA5070074617E /* QuoteCacheActor.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		CE812EF62EEEA2ED0074617E /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F0D2EEEA5200074617E /* QuoteAPIService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		FDD486D42EA24BCF00238CA8 = {
 			isa = PBXGroup;
 			children = (
@@ -98,12 +182,15 @@
 		FDD486DF2EA24BCF00238CA8 /* habitBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				CE812EF62EEEA2ED0074617E /* Networking */,
+				CE812EF52EEEA2E50074617E /* Persistence */,
+				CE812EF42EEEA2DB0074617E /* Repositories */,
+				CE812EF32EEEA2D20074617E /* ViewModels */,
+				CE812EF22EEEA2C90074617E /* Views */,
+				CE812EF12EEEA2220074617E /* Models */,
 				FDD486E02EA24BCF00238CA8 /* habitBuddyApp.swift */,
-				FDD486E22EA24BCF00238CA8 /* ContentView.swift */,
 				FDD486E42EA24BE000238CA8 /* Assets.xcassets */,
 				FDD486E62EA24BE000238CA8 /* Preview Content */,
-				CEA89CA52EBA590E0079A579 /* habitDetailView.swift */,
-				CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */,
 			);
 			path = habitBuddy;
 			sourceTree = "<group>";
@@ -264,9 +351,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD486E32EA24BCF00238CA8 /* ContentView.swift in Sources */,
+				CE812F002EEEA3F20074617E /* QuoteViewModel.swift in Sources */,
+				CE88D9D42ED35758002E1220 /* Habit.swift in Sources */,
 				CEA89CA82EBA5D5F0079A579 /* AddHabitView.swift in Sources */,
-				CEA89CA62EBA590E0079A579 /* habitDetailView.swift in Sources */,
+				CE812F042EEEA4B40074617E /* HabitRepository.swift in Sources */,
+				CE812F062EEEA4BF0074617E /* QuoteRepositoryProtocol.swift in Sources */,
+				CE812F082EEEA4D30074617E /* QuoteRepository.swift in Sources */,
+				CE812EFE2EEEA3B80074617E /* AddHabitViewModel.swift in Sources */,
+				CE812F022EEEA4150074617E /* HabitRepositoryProtocol.swift in Sources */,
+				CEA89CA62EBA590E0079A579 /* HabitDetailView.swift in Sources */,
+				CE812EFA2EEEA3930074617E /* HabitListViewModel.swift in Sources */,
+				CE812F0C2EEEA5070074617E /* QuoteCacheActor.swift in Sources */,
+				CE812F0E2EEEA5200074617E /* QuoteAPIService.swift in Sources */,
+				CE812EF82EEEA3280074617E /* Quote.swift in Sources */,
+				CE812F0A2EEEA4FA0074617E /* HabitStorageActor.swift in Sources */,
 				FDD486E12EA24BCF00238CA8 /* habitBuddyApp.swift in Sources */,
+				CE812EFC2EEEA3A50074617E /* HabitDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

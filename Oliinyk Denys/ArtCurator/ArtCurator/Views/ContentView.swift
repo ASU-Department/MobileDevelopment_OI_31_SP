@@ -9,40 +9,33 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @StateObject private var artworkService = ArtworkService.shared
-    @Environment(\.modelContext) private var modelContext
-    @Query private var savedArtworks: [Artwork]
-
-    @State private var searchQuery = ""
-    @State private var filterFavorites = false
+    @StateObject private var viewModel: ArtworkListViewModel
     @State private var showErrorAlert = false
     
-    init() {
-        _filterFavorites = State(initialValue: UserDefaults.standard.bool(forKey: "filterFavorites"))
-        _searchQuery = State(initialValue: UserDefaults.standard.string(forKey: "searchQuery") ?? "")
-    }
+    private let coordinator: AppCoordinator
     
-    private var filteredArtworks: [Artwork] {
-        artworkService.artworks.filter { !filterFavorites || $0.isFavorite }
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+        _viewModel = StateObject(wrappedValue: ArtworkListViewModel(repository: coordinator.repository))
     }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 SearchBar(
-                    searchQuery: $searchQuery,
-                    filterFavorites: $filterFavorites,
-                    isLoading: artworkService.isLoading,
-                    onSearch: performAPISearch
+                    searchQuery: $viewModel.searchQuery,
+                    filterFavorites: $viewModel.filterFavorites,
+                    isLoading: viewModel.isLoading,
+                    onSearch: { Task { await viewModel.fetchArtworks() } }
                 )
-                .onChange(of: filterFavorites) { _, newValue in
+                .onChange(of: viewModel.filterFavorites) { _, newValue in
                     UserDefaults.standard.set(newValue, forKey: "filterFavorites")
                 }
                 
-                if let errorMessage = artworkService.errorMessage {
+                if let errorMessage = viewModel.errorMessage {
                     HStack {
-                        Image(systemName: artworkService.isOffline ? "wifi.slash" : "exclamationmark.triangle")
-                            .foregroundColor(artworkService.isOffline ? .orange : .red)
+                        Image(systemName: viewModel.isOffline ? "wifi.slash" : "exclamationmark.triangle")
+                            .foregroundColor(viewModel.isOffline ? .orange : .red)
                         Text(errorMessage)
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -55,18 +48,18 @@ struct ContentView: View {
                     .padding(.top, 8)
                 }
                 
-                if artworkService.isLoading {
+                if viewModel.isLoading {
                     VStack(spacing: 16) {
                         Spacer()
                         CustomIndicator(isAnimating: .constant(true), style: .large)
-                        Text("Searching for \(searchQuery.isEmpty ? "artworks" : "'\(searchQuery)'")...")
+                        Text("Searching for \(viewModel.searchQuery.isEmpty ? "artworks" : "'\(viewModel.searchQuery)'")...")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         Spacer()
                     }
-                } else if filteredArtworks.isEmpty {
+                } else if viewModel.filteredArtworks.isEmpty {
                     VStack(spacing: 16) {
                         Spacer()
                         Image(systemName: "photo.artframe")
@@ -84,27 +77,23 @@ struct ContentView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 12) {
-                            ForEach(filteredArtworks) { artwork in
-                                if let index = artworkService.artworks.firstIndex(where: {
-                                    $0.id == artwork.id
-                                }) {
+                            ForEach(viewModel.filteredArtworks) { artwork in
+                                if let index = viewModel.artworks.firstIndex(where: { $0.id == artwork.id }) {
                                     NavigationLink(destination: ArtworkDetails(
-                                        artwork: $artworkService.artworks[index])
+                                        viewModel: coordinator.makeArtworkDetailViewModel(artwork: viewModel.artworks[index]))
                                     ) {
-                                        ArtworkItem(artwork: $artworkService.artworks[index])
+                                        ArtworkItem(artwork: $viewModel.artworks[index])
                                     }
                                     .buttonStyle(PlainButtonStyle())
                                     .onAppear {
-                                        if artwork.id == filteredArtworks.last?.id && artworkService.hasMorePages {
-                                            Task {
-                                                await artworkService.loadMoreArtworks(modelContext: modelContext)
-                                            }
+                                        if artwork.id == viewModel.filteredArtworks.last?.id && viewModel.hasMorePages {
+                                            Task { await viewModel.loadMoreArtworks() }
                                         }
                                     }
                                 }
                             }
                             
-                            if artworkService.isLoadingMore {
+                            if viewModel.isLoadingMore {
                                 HStack(spacing: 8) {
                                     CustomIndicator(isAnimating: .constant(true), style: .medium)
                                     Text("Loading more...")
@@ -118,32 +107,21 @@ struct ContentView: View {
                         .padding(.top, 8)
                     }
                     .refreshable {
-                        await artworkService.fetchArtworks(modelContext: modelContext, query: searchQuery)
+                        await viewModel.fetchArtworks()
                     }
                 }
             }
             .navigationTitle("Art Gallery")
             .task {
-                if artworkService.artworks.isEmpty {
-                    await artworkService.fetchArtworks(modelContext: modelContext, query: searchQuery)
+                if viewModel.artworks.isEmpty {
+                    await viewModel.fetchArtworks()
                 }
             }
             .alert("Error", isPresented: $showErrorAlert) {
                 Button("OK", role: .cancel) {}
             } message: {
-                Text(artworkService.errorMessage ?? "Unknown error")
+                Text(viewModel.errorMessage ?? "Unknown error")
             }
         }
     }
-    
-    private func performAPISearch() {
-        Task {
-            await artworkService.fetchArtworks(modelContext: modelContext, query: searchQuery)
-        }
-    }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Artwork.self, inMemory: true)
 }
