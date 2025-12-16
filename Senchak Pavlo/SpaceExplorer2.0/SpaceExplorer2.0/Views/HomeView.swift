@@ -3,22 +3,7 @@ import SwiftData
 
 struct HomeView: View {
 
-    enum Route: Hashable {
-        case detail(APODResponse)
-    }
-
-    @Environment(\.modelContext) private var context
-    @Query(sort: \CachedAPOD.savedAt, order: .reverse) private var cachedApods: [CachedAPOD]
-
-    private let service = APODService()
-
-    @State private var counter: Int = 0
-    @State private var showToast: Bool = false
-    @State private var isRefreshing = false
-
-    @State private var apod: APODResponse?
-    @State private var isLoading: Bool = true
-    @State private var errorMessage: String?
+    @StateObject var viewModel: HomeViewModel
 
     var body: some View {
         NavigationStack {
@@ -29,36 +14,32 @@ struct HomeView: View {
                             .font(.largeTitle.bold())
                             .padding(.top, 16)
                             .padding(.vertical, 20)
-                        
-                        if isLoading {
+
+                        if viewModel.isLoading {
                             ProgressView("Loading NASA Picture...")
                                 .padding()
                         }
 
-                        if let errorMessage {
+                        if let error = viewModel.errorMessage {
                             VStack(spacing: 6) {
                                 Text("❌ Error loading APOD")
                                     .foregroundColor(.red)
 
-                                Text(errorMessage)
+                                Text(error)
                                     .font(.caption)
                                     .foregroundColor(.gray)
-
-                                Button("Retry") {
-                                    Task { await loadAPOD() }
-                                }
-                                .padding(.top, 4)
                             }
                             .padding(.bottom, 12)
                         }
 
-                        if let apod {
+                        if let apod = viewModel.apod {
                             Text(apod.title)
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
 
-                            AsyncImage(url: URL(string: apod.url)) { img in
-                                img.resizable()
+                            AsyncImage(url: URL(string: apod.url)) { image in
+                                image
+                                    .resizable()
                                     .scaledToFit()
                                     .frame(width: 250, height: 200)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -74,16 +55,16 @@ struct HomeView: View {
 
                         HStack {
                             Button {
-                                if counter > 0 { counter -= 1 }
+                                viewModel.counter = max(0, viewModel.counter - 1)
                             } label: {
                                 Image(systemName: "minus.circle")
                             }
 
-                            Text("\(counter)")
+                            Text("\(viewModel.counter)")
                                 .frame(width: 60)
 
                             Button {
-                                if counter < 10 { counter += 1 }
+                                viewModel.counter = min(10, viewModel.counter + 1)
                             } label: {
                                 Image(systemName: "plus.circle")
                             }
@@ -93,11 +74,7 @@ struct HomeView: View {
                         .padding(.vertical, 20)
 
                         Button("Send") {
-                            showToast = true
-                            counter = 0
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                withAnimation { showToast = false }
-                            }
+                            viewModel.sendRating()
                         }
                         .font(.title2.bold())
                         .padding(.all, 10)
@@ -107,8 +84,10 @@ struct HomeView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .padding(.bottom, 20)
 
-                        if let apod {
-                            NavigationLink(value: Route.detail(apod)) {
+                        if let apod = viewModel.apod {
+                            NavigationLink {
+                                PictureDetailView(apod: apod)
+                            } label: {
                                 Text("Go to Picture Info →")
                                     .font(.headline)
                                     .padding(.top, 10)
@@ -119,11 +98,8 @@ struct HomeView: View {
                     }
                     .padding()
                 }
-                .refreshable {
-                    await loadAPOD()
-                }
 
-                if showToast {
+                if viewModel.showToast {
                     VStack {
                         Spacer()
                         Text("✅ Rating sent successfully")
@@ -134,72 +110,12 @@ struct HomeView: View {
                             .padding(.bottom, 60)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
-                    .animation(.easeInOut(duration: 0.3), value: showToast)
-                }
-            }
-            .navigationDestination(for: Route.self) { route in
-                switch route {
-                case .detail(let apod):
-                    PictureDetailView(apod: apod)
-                }
-            }
-            .onAppear {
-                if apod == nil {
-                    Task { await loadAPOD() }
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.showToast)
                 }
             }
         }
-    }
-
-    private func loadAPOD() async {
-        if isRefreshing { return }
-
-        isRefreshing = true
-        isLoading = true
-        errorMessage = nil
-
-        defer { isRefreshing = false }
-
-        do {
-            let result = try await service.fetchAPOD()
-
-            await MainActor.run {
-                self.apod = result
-
-                for item in cachedApods {
-                    context.delete(item)
-                }
-
-                let cached = CachedAPOD(
-                    title: result.title,
-                    explanation: result.explanation,
-                    url: result.url,
-                    mediaType: result.media_type
-                )
-                context.insert(cached)
-
-                isLoading = false
-            }
-
-        } catch {
-            if (error as? URLError)?.code == .cancelled {
-                print("⚠️ Request cancelled — ignoring")
-                return
-            }
-
-            if let local = cachedApods.first {
-                await MainActor.run {
-                    self.apod = local.toResponse()
-                    self.errorMessage = "Showing offline version"
-                    self.isLoading = false
-                }
-            } else {
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
-            }
+        .task {
+            await viewModel.loadAPOD()
         }
     }
 }
-

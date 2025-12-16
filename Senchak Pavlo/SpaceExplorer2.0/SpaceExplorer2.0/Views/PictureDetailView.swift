@@ -3,19 +3,16 @@ import SwiftUI
 struct PictureDetailView: View {
 
     let apod: APODResponse
-
-    @State private var textSize: Double = 16
+    @StateObject private var viewModel = PictureDetailViewModel()
     @State private var showSafari = false
-
-    private let settings = SettingsService()
-
+    
     var firstSentence: String {
         apod.explanation.split(separator: ".").first.map { "\($0)." } ?? apod.explanation
     }
-
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack {
                 Text(apod.title)
                     .font(.title2.bold())
                     .padding(.top, 16)
@@ -32,13 +29,12 @@ struct PictureDetailView: View {
                 VStack(spacing: 4) {
                     Text("Adjust text size")
                         .font(.headline)
-
-                    Slider(value: $textSize, in: 12...30, step: 1)
+                    Slider(value: $viewModel.textSize, in: 12...30, step: 1)
                         .padding(.horizontal, 30)
                 }
 
                 Text(firstSentence + "..")
-                    .font(.system(size: textSize))
+                    .font(.system(size: viewModel.textSize))
                     .multilineTextAlignment(.leading)
                     .padding(.horizontal)
 
@@ -51,19 +47,15 @@ struct PictureDetailView: View {
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .sheet(isPresented: $showSafari) {
-                    SafariView(url: URL(string: "https://apod.nasa.gov/apod/astropix.html")!)
+                    SafariView(url: URL(string: "https://apod.nasa.gov")!)
                 }
 
                 Spacer()
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            textSize = settings.loadTextSize()
-        }
-        .onChange(of: textSize) { newValue in
-            settings.saveTextSize(newValue)
-        }
-    }
-}
-
+         }
+         .navigationBarTitleDisplayMode(.inline)
+         .onChange(of: viewModel.textSize) { _ in
+             viewModel.save()
+         }
+     }
+ }
