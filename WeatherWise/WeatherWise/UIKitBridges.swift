@@ -9,35 +9,6 @@ import SwiftUI
 import UIKit
 import MapKit
 
-struct MapViewRepresentable: UIViewRepresentable {
-    
-    let cityName: String
-    let scale: Double
-    
-    private let cityCoordinates: [String: CLLocationCoordinate2D] = [
-        "Львів": CLLocationCoordinate2D(latitude: 49.8397, longitude: 24.0297),
-        "Київ": CLLocationCoordinate2D(latitude: 50.4501, longitude: 30.5234),
-        "Одеса": CLLocationCoordinate2D(latitude: 46.4825, longitude: 30.7233)
-    ]
-    
-    func makeUIView(context: Context) -> MKMapView {
-        MKMapView()
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        
-        let coordinate = cityCoordinates[cityName]
-        ?? CLLocationCoordinate2D(latitude: 49.8397, longitude: 24.0297)
-        
-        let span = MKCoordinateSpan(latitudeDelta: scale, longitudeDelta: scale)
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        
-        DispatchQueue.main.async {
-                uiView.setRegion(region, animated: true)
-            }
-    }
-}
-
 class ScaleSliderViewController: UIViewController {
     
     var onValueChanged: ((Double) -> Void)?
