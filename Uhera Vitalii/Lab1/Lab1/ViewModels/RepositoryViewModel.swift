@@ -10,28 +10,44 @@ import Foundation
 import SwiftUI
 
 final class RepositoryViewModel: ObservableObject {
-    @AppStorage("lastUsername") var lastUsername = "octocat"
-    @AppStorage("useSliderMode") var lastUseSliderMode = true
-    @AppStorage("sortMode") var sortModeRaw = RepoSortMode.stars.rawValue
+    @AppStorage("lastUsername") private var storedUsername = "octocat"
+    @AppStorage("useSliderMode") private var storedUseSliderMode = true
+    @AppStorage("sortMode") private var storedSortModeRaw = RepoSortMode.stars.rawValue
+    @AppStorage("minStars") var storedMinStars: Double = 0
+    @AppStorage("minIssues") var storedMinIssues: Double = 0
+    @AppStorage("minWatchers") var storedMinWatchers: Double = 0
+    @AppStorage("showOnlyStarred") var storedShowOnlyStarred = false
     
-    @Published var username: String = "octocat"
+    @Published var username: String = "octocat" {
+        didSet { storedUsername = username }
+    }
+
+    @Published var useSliderMode: Bool = true {
+        didSet { storedUseSliderMode = useSliderMode }
+    }
+
+    @Published var sortMode: RepoSortMode = .stars {
+        didSet { storedSortModeRaw = sortMode.rawValue }
+    }
+    
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isOffline = false
 
+    @Published var searchText: String = ""
     @Published var showAdvancedFilters = false
-
-    @Published var useSliderMode = true  // switch between slider + manual
-    @Published var minStars: Double = 0
-
     @Published var languageFilter: String = "Any"
     @Published var showOnlyStarred = false
     @Published var showOnlyWithIssues = false
-    @Published var sortMode: RepoSortMode = .stars
-
-    @Published var searchText: String = ""
-    @Published var minWatchers: Double = 0
-    @Published var minIssues: Double = 0
+    @Published var minStars: Double = 0 {
+        didSet { storedMinStars = minStars }
+    }
+    @Published var minWatchers: Double = 0 {
+        didSet { storedMinWatchers = minWatchers }
+    }
+    @Published var minIssues: Double = 0 {
+        didSet { storedMinIssues = minIssues }
+    }
 
     @Published private(set) var repositories: [Repository] = []
     @Published private(set) var developers: [DeveloperProfile] = []
@@ -47,6 +63,14 @@ final class RepositoryViewModel: ObservableObject {
     ) {
         self.api = api
         self.persistence = persistence
+        _username = Published(initialValue: storedUsername)
+        _useSliderMode = Published(initialValue: storedUseSliderMode)
+        _sortMode = Published(
+            initialValue: RepoSortMode(rawValue: storedSortModeRaw) ?? .stars
+        )
+        _minStars = Published(initialValue: storedMinStars)
+        _minWatchers = Published(initialValue: storedMinWatchers)
+        _minIssues = Published(initialValue: storedMinIssues)
     }
 
     func load() async {
@@ -120,7 +144,11 @@ final class RepositoryViewModel: ObservableObject {
     private func loadFromCache() {
         let cached: [CachedRepository] = persistence.fetch()
 
-        repositories = cached.map {
+        let filtered = cached.filter {
+            $0.ownerLogin.lowercased() == username.lowercased()
+        }
+
+        repositories = filtered.map {
             Repository(
                 id: $0.id,
                 name: $0.name,
@@ -141,6 +169,10 @@ final class RepositoryViewModel: ObservableObject {
                     location: nil
                 )
             )
+        }
+
+        if filtered.isEmpty {
+            errorMessage = "No cached data for user \(username)"
         }
     }
 }

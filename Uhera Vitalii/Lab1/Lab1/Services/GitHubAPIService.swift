@@ -21,6 +21,7 @@ final class GitHubAPIService: GitHubAPIServiceProtocol {
         var request = URLRequest(url: url)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         request.setValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+        request.timeoutInterval = 15.0
 
         if let token = ProcessInfo.processInfo.environment["GITHUB_TOKEN"] {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
