@@ -3,6 +3,7 @@ import SwiftData
 import Testing
 @testable import SportsHubDemo
 
+@MainActor
 @Suite("DefaultGamesRepository")
 struct DefaultGamesRepositoryTests {
     @Test
@@ -62,20 +63,4 @@ private final class MockAPI: BalldontlieAPIProtocol {
         }
     }
 }
-
-extension NetworkError: Equatable {
-    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
-        switch (lhs, rhs) {
-        case (.badURL, .badURL), (.missingAPIKey, .missingAPIKey), (.unknown, .unknown):
-            return true
-        case let (.badStatus(a), .badStatus(b)):
-            return a == b
-        case let (.decoding(a), .decoding(b)):
-            return (a as NSError).domain == (b as NSError).domain && (a as NSError).code == (b as NSError).code
-        case let (.transport(a), .transport(b)):
-            return (a as NSError).domain == (b as NSError).domain && (a as NSError).code == (b as NSError).code
-        default:
-            return false
-        }
-    }
-}
+	
