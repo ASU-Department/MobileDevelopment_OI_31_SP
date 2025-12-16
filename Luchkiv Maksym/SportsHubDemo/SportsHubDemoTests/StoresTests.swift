@@ -1,6 +1,7 @@
 import XCTest
 @testable import SportsHubDemo
 
+@MainActor
 final class StoresTests: XCTestCase {
     func testFavoriteStorePersistsTeams() {
         let suiteName = "favorite-store-\(UUID().uuidString)"

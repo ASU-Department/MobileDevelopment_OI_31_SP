@@ -1,6 +1,7 @@
 import XCTest
 @testable import SportsHubDemo
 
+@MainActor
 final class GameDetailViewModelTests: XCTestCase {
     func testShareTextIncludesScoresAndPrediction() {
         let game = SampleData.games[0]

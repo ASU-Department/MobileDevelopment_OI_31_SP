@@ -2,6 +2,7 @@ import XCTest
 import SwiftData
 @testable import SportsHubDemo
 
+@MainActor
 final class GameCacheActorTests: XCTestCase {
     func testSaveAndLoadRoundTrip() async throws {
         let container = try TestHelpers.makeInMemoryContainer()
@@ -47,7 +48,7 @@ final class GameCacheActorTests: XCTestCase {
 
         let snapshot = await actor.loadGames()
         XCTAssertFalse(snapshot.isEmpty)
-        wait(for: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 2.0)
         let final = await actor.loadGames()
         XCTAssertEqual(final.count, 1)
     }

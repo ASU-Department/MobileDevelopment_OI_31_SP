@@ -1,6 +1,7 @@
 import XCTest
 @testable import SportsHubDemo
 
+@MainActor
 final class TeamDetailViewModelTests: XCTestCase {
     func testDefaultsUseSeasonScope() {
         let viewModel = TeamDetailViewModel(team: SampleData.warriors)
