@@ -6,12 +6,31 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		BF9E10142F00000000000015 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF5A074A2EA4455300173CD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF5A07512EA4455300173CD9;
+			remoteInfo = SportsHubDemo;
+		};
+		BF9E10152F00000000000016 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF5A074A2EA4455300173CD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF5A07512EA4455300173CD9;
+			remoteInfo = SportsHubDemo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		BF5A07522EA4455300173CD9 /* SportsHubDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportsHubDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF9E10002F00000000000001 /* SportsHubDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportsHubDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF9E10012F00000000000002 /* SportsHubDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportsHubDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BF57B1EB2ECCECF0002738D9 /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */ = {
+		BF4881A72EE721BA004EB68E /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,15 +43,39 @@
 		BF5A07542EA4455300173CD9 /* SportsHubDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				BF57B1EB2ECCECF0002738D9 /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */,
+				BF4881A72EE721BA004EB68E /* Exceptions for "SportsHubDemo" folder in "SportsHubDemo" target */,
 			);
 			path = SportsHubDemo;
+			sourceTree = "<group>";
+		};
+		BF9E10102F00000000000011 /* SportsHubDemoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SportsHubDemoTests;
+			sourceTree = "<group>";
+		};
+		BF9E10112F00000000000012 /* SportsHubDemoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SportsHubDemoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BF5A074F2EA4455300173CD9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF9E10042F00000000000005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF9E10072F00000000000008 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				BF5A07542EA4455300173CD9 /* SportsHubDemo */,
+				BF9E10102F00000000000011 /* SportsHubDemoTests */,
+				BF9E10112F00000000000012 /* SportsHubDemoUITests */,
 				BF5A07532EA4455300173CD9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				BF5A07522EA4455300173CD9 /* SportsHubDemo.app */,
+				BF9E10002F00000000000001 /* SportsHubDemoTests.xctest */,
+				BF9E10012F00000000000002 /* SportsHubDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +130,52 @@
 			productReference = BF5A07522EA4455300173CD9 /* SportsHubDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BF9E10022F00000000000003 /* SportsHubDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF9E100A2F0000000000000B /* Build configuration list for PBXNativeTarget "SportsHubDemoTests" */;
+			buildPhases = (
+				BF9E10052F00000000000006 /* Sources */,
+				BF9E10042F00000000000005 /* Frameworks */,
+				BF9E10062F00000000000007 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF9E10162F00000000000017 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BF9E10102F00000000000011 /* SportsHubDemoTests */,
+			);
+			name = SportsHubDemoTests;
+			packageProductDependencies = (
+			);
+			productName = SportsHubDemoTests;
+			productReference = BF9E10002F00000000000001 /* SportsHubDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BF9E10032F00000000000004 /* SportsHubDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF9E100B2F0000000000000C /* Build configuration list for PBXNativeTarget "SportsHubDemoUITests" */;
+			buildPhases = (
+				BF9E10082F00000000000009 /* Sources */,
+				BF9E10072F00000000000008 /* Frameworks */,
+				BF9E10092F0000000000000A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF9E10172F00000000000018 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BF9E10112F00000000000012 /* SportsHubDemoUITests */,
+			);
+			name = SportsHubDemoUITests;
+			packageProductDependencies = (
+			);
+			productName = SportsHubDemoUITests;
+			productReference = BF9E10012F00000000000002 /* SportsHubDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -94,6 +187,13 @@
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					BF5A07512EA4455300173CD9 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					BF9E10022F00000000000003 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = BF5A07512EA4455300173CD9;
+					};
+					BF9E10032F00000000000004 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
@@ -113,12 +213,28 @@
 			projectRoot = "";
 			targets = (
 				BF5A07512EA4455300173CD9 /* SportsHubDemo */,
+				BF9E10022F00000000000003 /* SportsHubDemoTests */,
+				BF9E10032F00000000000004 /* SportsHubDemoUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BF5A07502EA4455300173CD9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF9E10062F00000000000007 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF9E10092F0000000000000A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +251,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BF9E10052F00000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF9E10082F00000000000009 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BF9E10162F00000000000017 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF5A07512EA4455300173CD9 /* SportsHubDemo */;
+			targetProxy = BF9E10142F00000000000015 /* PBXContainerItemProxy */;
+		};
+		BF9E10172F00000000000018 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF5A07512EA4455300173CD9 /* SportsHubDemo */;
+			targetProxy = BF9E10152F00000000000016 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BF5A075B2EA4455600173CD9 /* Debug */ = {
@@ -265,6 +408,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SportsHubDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -284,7 +428,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -297,6 +441,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SportsHubDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -316,7 +462,91 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BF9E100C2F0000000000000D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SportsHubDemo";
+				TEST_TARGET_NAME = SportsHubDemo;
+			};
+			name = Debug;
+		};
+		BF9E100D2F0000000000000E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SportsHubDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SportsHubDemo";
+				TEST_TARGET_NAME = SportsHubDemo;
+			};
+			name = Release;
+		};
+		BF9E100E2F0000000000000F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BF9E100F2F00000000000010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -338,6 +568,24 @@
 			buildConfigurations = (
 				BF5A075E2EA4455600173CD9 /* Debug */,
 				BF5A075F2EA4455600173CD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF9E100A2F0000000000000B /* Build configuration list for PBXNativeTarget "SportsHubDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF9E100C2F0000000000000D /* Debug */,
+				BF9E100D2F0000000000000E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF9E100B2F0000000000000C /* Build configuration list for PBXNativeTarget "SportsHubDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF9E100E2F0000000000000F /* Debug */,
+				BF9E100F2F00000000000010 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

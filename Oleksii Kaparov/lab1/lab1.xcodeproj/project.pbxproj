@@ -21,11 +21,25 @@
 		B15322852ECA63B8004AF46E /* ExerciseAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322842ECA63B8004AF46E /* ExerciseAPIModel.swift */; };
 		B153228D2ECCF8A4004AF46E /* FitTrackerRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153228C2ECCF8A4004AF46E /* FitTrackerRootView.swift */; };
 		B153228F2ECD032B004AF46E /* ExerciseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153228E2ECD032B004AF46E /* ExerciseItem.swift */; };
+		B15322912EE829BC004AF46E /* ExerciseSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322902EE829BC004AF46E /* ExerciseSearchResponse.swift */; };
+		B15322932EE82B42004AF46E /* WorkoutStorageActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322922EE82B42004AF46E /* WorkoutStorageActor.swift */; };
+		B15322952EE82B84004AF46E /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322942EE82B84004AF46E /* WorkoutRepository.swift */; };
+		B15322972EE82BC8004AF46E /* DefaultWorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */; };
+		B15322992EE82CCE004AF46E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322982EE82CCE004AF46E /* AppCoordinator.swift */; };
+		B153229B2EEB5A11004AF46E /* WorkoutCoreDataActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */; };
+		B153229D2EEB5AA0004AF46E /* WorkoutEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */; };
+		B153229F2EEB5E1A004AF46E /* CoreDataEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */; };
+		B15322A12EEB5E5E004AF46E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322A02EEB5E5E004AF46E /* PersistenceController.swift */; };
+		B15322A32EEB6148004AF46E /* ExerciseAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */; };
+		B15322AA2EF19431004AF46E /* MockWorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322A92EF19431004AF46E /* MockWorkoutRepository.swift */; };
+		B15322AC2EF19485004AF46E /* WorkoutViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322AB2EF19485004AF46E /* WorkoutViewModelTests.swift */; };
+		B15322AE2EF19507004AF46E /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322AD2EF19507004AF46E /* TestError.swift */; };
+		B15322B02EF1959E004AF46E /* ActorBehaviorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322AF2EF1959E004AF46E /* ActorBehaviorTests.swift */; };
+		B15322B32EF198FA004AF46E /* SavedToDetailUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322B22EF198FA004AF46E /* SavedToDetailUITests.swift */; };
+		B15322B52EF19B14004AF46E /* WorkoutBuilderFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322B42EF19B14004AF46E /* WorkoutBuilderFlowUITests.swift */; };
+		B15322B72EF1A3B1004AF46E /* XCTestCase+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15322B62EF1A3B1004AF46E /* XCTestCase+Helpers.swift */; };
 		B19EE5CD2E9C332C0090F6E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */; };
 		B19EE5D02E9C332C0090F6E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */; };
-		B19EE5DA2E9C332D0090F6E3 /* lab1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */; };
-		B19EE5E42E9C332D0090F6E3 /* lab1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5E32E9C332D0090F6E3 /* lab1UITests.swift */; };
-		B19EE5E62E9C332D0090F6E3 /* lab1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19EE5E52E9C332D0090F6E3 /* lab1UITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,14 +74,29 @@
 		B15322842ECA63B8004AF46E /* ExerciseAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAPIModel.swift; sourceTree = "<group>"; };
 		B153228C2ECCF8A4004AF46E /* FitTrackerRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitTrackerRootView.swift; sourceTree = "<group>"; };
 		B153228E2ECD032B004AF46E /* ExerciseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseItem.swift; sourceTree = "<group>"; };
+		B15322902EE829BC004AF46E /* ExerciseSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSearchResponse.swift; sourceTree = "<group>"; };
+		B15322922EE82B42004AF46E /* WorkoutStorageActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStorageActor.swift; sourceTree = "<group>"; };
+		B15322942EE82B84004AF46E /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
+		B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWorkoutRepository.swift; sourceTree = "<group>"; };
+		B15322982EE82CCE004AF46E /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCoreDataActor.swift; sourceTree = "<group>"; };
+		B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEntity.swift; sourceTree = "<group>"; };
+		B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataEntities.swift; sourceTree = "<group>"; };
+		B15322A02EEB5E5E004AF46E /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAPIService.swift; sourceTree = "<group>"; };
+		B15322A92EF19431004AF46E /* MockWorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWorkoutRepository.swift; sourceTree = "<group>"; };
+		B15322AB2EF19485004AF46E /* WorkoutViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModelTests.swift; sourceTree = "<group>"; };
+		B15322AD2EF19507004AF46E /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
+		B15322AF2EF1959E004AF46E /* ActorBehaviorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorBehaviorTests.swift; sourceTree = "<group>"; };
+		B15322B12EF198F9004AF46E /* lab1UITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "lab1UITests-Bridging-Header.h"; sourceTree = "<group>"; };
+		B15322B22EF198FA004AF46E /* SavedToDetailUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedToDetailUITests.swift; sourceTree = "<group>"; };
+		B15322B42EF19B14004AF46E /* WorkoutBuilderFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutBuilderFlowUITests.swift; sourceTree = "<group>"; };
+		B15322B62EF1A3B1004AF46E /* XCTestCase+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Helpers.swift"; sourceTree = "<group>"; };
 		B19EE5C52E9C33250090F6E3 /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19EE5CC2E9C332C0090F6E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B19EE5CF2E9C332C0090F6E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B19EE5D52E9C332D0090F6E3 /* lab1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lab1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lab1Tests.swift; sourceTree = "<group>"; };
 		B19EE5DF2E9C332D0090F6E3 /* lab1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lab1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B19EE5E32E9C332D0090F6E3 /* lab1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lab1UITests.swift; sourceTree = "<group>"; };
-		B19EE5E52E9C332D0090F6E3 /* lab1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lab1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +163,16 @@
 				B15322822EB78DAC004AF46E /* WorkoutDetailView.swift */,
 				B15322842ECA63B8004AF46E /* ExerciseAPIModel.swift */,
 				B153228C2ECCF8A4004AF46E /* FitTrackerRootView.swift */,
+				B15322902EE829BC004AF46E /* ExerciseSearchResponse.swift */,
+				B15322922EE82B42004AF46E /* WorkoutStorageActor.swift */,
+				B15322942EE82B84004AF46E /* WorkoutRepository.swift */,
+				B15322962EE82BC8004AF46E /* DefaultWorkoutRepository.swift */,
+				B15322982EE82CCE004AF46E /* AppCoordinator.swift */,
+				B153229A2EEB5A11004AF46E /* WorkoutCoreDataActor.swift */,
+				B153229C2EEB5AA0004AF46E /* WorkoutEntity.swift */,
+				B153229E2EEB5E1A004AF46E /* CoreDataEntities.swift */,
+				B15322A02EEB5E5E004AF46E /* PersistenceController.swift */,
+				B15322A22EEB6148004AF46E /* ExerciseAPIService.swift */,
 			);
 			path = lab1;
 			sourceTree = "<group>";
@@ -149,7 +188,10 @@
 		B19EE5D82E9C332D0090F6E3 /* lab1Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B19EE5D92E9C332D0090F6E3 /* lab1Tests.swift */,
+				B15322A92EF19431004AF46E /* MockWorkoutRepository.swift */,
+				B15322AB2EF19485004AF46E /* WorkoutViewModelTests.swift */,
+				B15322AD2EF19507004AF46E /* TestError.swift */,
+				B15322AF2EF1959E004AF46E /* ActorBehaviorTests.swift */,
 			);
 			path = lab1Tests;
 			sourceTree = "<group>";
@@ -157,8 +199,10 @@
 		B19EE5E22E9C332D0090F6E3 /* lab1UITests */ = {
 			isa = PBXGroup;
 			children = (
-				B19EE5E32E9C332D0090F6E3 /* lab1UITests.swift */,
-				B19EE5E52E9C332D0090F6E3 /* lab1UITestsLaunchTests.swift */,
+				B15322B22EF198FA004AF46E /* SavedToDetailUITests.swift */,
+				B15322B12EF198F9004AF46E /* lab1UITests-Bridging-Header.h */,
+				B15322B42EF19B14004AF46E /* WorkoutBuilderFlowUITests.swift */,
+				B15322B62EF1A3B1004AF46E /* XCTestCase+Helpers.swift */,
 			);
 			path = lab1UITests;
 			sourceTree = "<group>";
@@ -234,10 +278,12 @@
 					};
 					B19EE5D42E9C332D0090F6E3 = {
 						CreatedOnToolsVersion = 13.2;
+						LastSwiftMigration = 1320;
 						TestTargetID = B19EE5C42E9C33250090F6E3;
 					};
 					B19EE5DE2E9C332D0090F6E3 = {
 						CreatedOnToolsVersion = 13.2;
+						LastSwiftMigration = 1320;
 						TestTargetID = B19EE5C42E9C33250090F6E3;
 					};
 				};
@@ -293,18 +339,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B153229B2EEB5A11004AF46E /* WorkoutCoreDataActor.swift in Sources */,
+				B15322A12EEB5E5E004AF46E /* PersistenceController.swift in Sources */,
+				B153229D2EEB5AA0004AF46E /* WorkoutEntity.swift in Sources */,
 				B153227B2EB76BA8004AF46E /* AppDelegate.swift in Sources */,
 				B153226D2EB63DE2004AF46E /* lab1App.swift in Sources */,
 				B15322792EB64089004AF46E /* Workout.swift in Sources */,
+				B15322A32EEB6148004AF46E /* ExerciseAPIService.swift in Sources */,
+				B15322952EE82B84004AF46E /* WorkoutRepository.swift in Sources */,
 				B153227F2EB78B21004AF46E /* ActivityViewControllerRepresentable.swift in Sources */,
 				B153228D2ECCF8A4004AF46E /* FitTrackerRootView.swift in Sources */,
 				B15322812EB78D70004AF46E /* SavedWorkoutsView.swift in Sources */,
 				B153228F2ECD032B004AF46E /* ExerciseItem.swift in Sources */,
+				B15322912EE829BC004AF46E /* ExerciseSearchResponse.swift in Sources */,
+				B153229F2EEB5E1A004AF46E /* CoreDataEntities.swift in Sources */,
 				B15322712EB64064004AF46E /* WorkoutViewModel.swift in Sources */,
 				B15322832EB78DAC004AF46E /* WorkoutDetailView.swift in Sources */,
 				B15322752EB64080004AF46E /* ExerciseRow.swift in Sources */,
 				B15322732EB6407D004AF46E /* WorkoutHeader.swift in Sources */,
 				B153226F2EB6402A004AF46E /* FitTrackerView.swift in Sources */,
+				B15322932EE82B42004AF46E /* WorkoutStorageActor.swift in Sources */,
+				B15322992EE82CCE004AF46E /* AppCoordinator.swift in Sources */,
+				B15322972EE82BC8004AF46E /* DefaultWorkoutRepository.swift in Sources */,
 				B15322852ECA63B8004AF46E /* ExerciseAPIModel.swift in Sources */,
 				B153227D2EB784E6004AF46E /* IntensitySliderRepresentable.swift in Sources */,
 			);
@@ -314,7 +370,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19EE5DA2E9C332D0090F6E3 /* lab1Tests.swift in Sources */,
+				B15322AE2EF19507004AF46E /* TestError.swift in Sources */,
+				B15322AC2EF19485004AF46E /* WorkoutViewModelTests.swift in Sources */,
+				B15322B02EF1959E004AF46E /* ActorBehaviorTests.swift in Sources */,
+				B15322AA2EF19431004AF46E /* MockWorkoutRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,8 +381,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19EE5E62E9C332D0090F6E3 /* lab1UITestsLaunchTests.swift in Sources */,
-				B19EE5E42E9C332D0090F6E3 /* lab1UITests.swift in Sources */,
+				B15322B72EF1A3B1004AF46E /* XCTestCase+Helpers.swift in Sources */,
+				B15322B32EF198FA004AF46E /* SavedToDetailUITests.swift in Sources */,
+				B15322B52EF19B14004AF46E /* WorkoutBuilderFlowUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,14 +580,22 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.university.lab.lab1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lab1.app/lab1";
@@ -539,14 +607,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.university.lab.lab1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lab1.app/lab1";
@@ -557,13 +632,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.university.lab.lab1UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "lab1UITests/lab1UITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = lab1;
@@ -574,13 +657,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.university.lab.lab1UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "lab1UITests/lab1UITests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = lab1;

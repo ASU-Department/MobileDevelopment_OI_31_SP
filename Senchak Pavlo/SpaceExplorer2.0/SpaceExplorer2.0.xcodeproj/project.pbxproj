@@ -10,9 +10,36 @@
 		461F5D402EA58A0B002A2A2A /* .gitignore in Sources */ = {isa = PBXBuildFile; fileRef = 461F5D3E2EA58A00002A2A2A /* .gitignore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4698AC8E2EEF064100D5BD65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 461F5D282EA58425002A2A2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 461F5D2F2EA58425002A2A2A;
+			remoteInfo = SpaceExplorer2.0;
+		};
+		4698AC9B2EEF06A000D5BD65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 461F5D282EA58425002A2A2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 461F5D2F2EA58425002A2A2A;
+			remoteInfo = SpaceExplorer2.0;
+		};
+		4698ACAA2EEF06DE00D5BD65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 461F5D282EA58425002A2A2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 461F5D2F2EA58425002A2A2A;
+			remoteInfo = SpaceExplorer2.0;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		461F5D302EA58425002A2A2A /* SpaceExplorer2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceExplorer2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		461F5D3E2EA58A00002A2A2A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		4698AC8A2EEF064100D5BD65 /* SpaceExplorer2.0Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceExplorer2.0Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4698AC972EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceExplorer2.0SwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4698ACA42EEF06DE00D5BD65 /* SpaceExplorer2.0UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceExplorer2.0UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -34,10 +61,46 @@
 			path = SpaceExplorer2.0;
 			sourceTree = "<group>";
 		};
+		4698AC8B2EEF064100D5BD65 /* SpaceExplorer2.0Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SpaceExplorer2.0Tests;
+			sourceTree = "<group>";
+		};
+		4698AC982EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SpaceExplorer2.0SwiftTests;
+			sourceTree = "<group>";
+		};
+		4698ACA52EEF06DE00D5BD65 /* SpaceExplorer2.0UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SpaceExplorer2.0UITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		461F5D2D2EA58425002A2A2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698AC872EEF064100D5BD65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698AC942EEF06A000D5BD65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698ACA12EEF06DE00D5BD65 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -51,6 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				461F5D322EA58425002A2A2A /* SpaceExplorer2.0 */,
+				4698AC8B2EEF064100D5BD65 /* SpaceExplorer2.0Tests */,
+				4698AC982EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests */,
+				4698ACA52EEF06DE00D5BD65 /* SpaceExplorer2.0UITests */,
 				461F5D312EA58425002A2A2A /* Products */,
 				461F5D3E2EA58A00002A2A2A /* .gitignore */,
 			);
@@ -60,6 +126,9 @@
 			isa = PBXGroup;
 			children = (
 				461F5D302EA58425002A2A2A /* SpaceExplorer2.0.app */,
+				4698AC8A2EEF064100D5BD65 /* SpaceExplorer2.0Tests.xctest */,
+				4698AC972EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests.xctest */,
+				4698ACA42EEF06DE00D5BD65 /* SpaceExplorer2.0UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,6 +158,75 @@
 			productReference = 461F5D302EA58425002A2A2A /* SpaceExplorer2.0.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4698AC892EEF064100D5BD65 /* SpaceExplorer2.0Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4698AC922EEF064100D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0Tests" */;
+			buildPhases = (
+				4698AC862EEF064100D5BD65 /* Sources */,
+				4698AC872EEF064100D5BD65 /* Frameworks */,
+				4698AC882EEF064100D5BD65 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4698AC8F2EEF064100D5BD65 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4698AC8B2EEF064100D5BD65 /* SpaceExplorer2.0Tests */,
+			);
+			name = SpaceExplorer2.0Tests;
+			packageProductDependencies = (
+			);
+			productName = SpaceExplorer2.0Tests;
+			productReference = 4698AC8A2EEF064100D5BD65 /* SpaceExplorer2.0Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4698AC962EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4698AC9D2EEF06A000D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0SwiftTests" */;
+			buildPhases = (
+				4698AC932EEF06A000D5BD65 /* Sources */,
+				4698AC942EEF06A000D5BD65 /* Frameworks */,
+				4698AC952EEF06A000D5BD65 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4698AC9C2EEF06A000D5BD65 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4698AC982EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests */,
+			);
+			name = SpaceExplorer2.0SwiftTests;
+			packageProductDependencies = (
+			);
+			productName = SpaceExplorer2.0SwiftTests;
+			productReference = 4698AC972EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4698ACA32EEF06DE00D5BD65 /* SpaceExplorer2.0UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4698ACAC2EEF06DE00D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0UITests" */;
+			buildPhases = (
+				4698ACA02EEF06DE00D5BD65 /* Sources */,
+				4698ACA12EEF06DE00D5BD65 /* Frameworks */,
+				4698ACA22EEF06DE00D5BD65 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4698ACAB2EEF06DE00D5BD65 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4698ACA52EEF06DE00D5BD65 /* SpaceExplorer2.0UITests */,
+			);
+			name = SpaceExplorer2.0UITests;
+			packageProductDependencies = (
+			);
+			productName = SpaceExplorer2.0UITests;
+			productReference = 4698ACA42EEF06DE00D5BD65 /* SpaceExplorer2.0UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -101,6 +239,18 @@
 				TargetAttributes = {
 					461F5D2F2EA58425002A2A2A = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					4698AC892EEF064100D5BD65 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 461F5D2F2EA58425002A2A2A;
+					};
+					4698AC962EEF06A000D5BD65 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 461F5D2F2EA58425002A2A2A;
+					};
+					4698ACA32EEF06DE00D5BD65 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 461F5D2F2EA58425002A2A2A;
 					};
 				};
 			};
@@ -119,12 +269,36 @@
 			projectRoot = "";
 			targets = (
 				461F5D2F2EA58425002A2A2A /* SpaceExplorer2.0 */,
+				4698AC892EEF064100D5BD65 /* SpaceExplorer2.0Tests */,
+				4698AC962EEF06A000D5BD65 /* SpaceExplorer2.0SwiftTests */,
+				4698ACA32EEF06DE00D5BD65 /* SpaceExplorer2.0UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		461F5D2E2EA58425002A2A2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698AC882EEF064100D5BD65 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698AC952EEF06A000D5BD65 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698ACA22EEF06DE00D5BD65 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -142,7 +316,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4698AC862EEF064100D5BD65 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698AC932EEF06A000D5BD65 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4698ACA02EEF06DE00D5BD65 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4698AC8F2EEF064100D5BD65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 461F5D2F2EA58425002A2A2A /* SpaceExplorer2.0 */;
+			targetProxy = 4698AC8E2EEF064100D5BD65 /* PBXContainerItemProxy */;
+		};
+		4698AC9C2EEF06A000D5BD65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 461F5D2F2EA58425002A2A2A /* SpaceExplorer2.0 */;
+			targetProxy = 4698AC9B2EEF06A000D5BD65 /* PBXContainerItemProxy */;
+		};
+		4698ACAB2EEF06DE00D5BD65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 461F5D2F2EA58425002A2A2A /* SpaceExplorer2.0 */;
+			targetProxy = 4698ACAA2EEF06DE00D5BD65 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		461F5D392EA5842C002A2A2A /* Debug */ = {
@@ -271,6 +484,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -302,6 +516,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -326,6 +541,130 @@
 			};
 			name = Release;
 		};
+		4698AC902EEF064100D5BD65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpaceExplorer2.0.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SpaceExplorer2.0";
+			};
+			name = Debug;
+		};
+		4698AC912EEF064100D5BD65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpaceExplorer2.0.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SpaceExplorer2.0";
+			};
+			name = Release;
+		};
+		4698AC9E2EEF06A000D5BD65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0SwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpaceExplorer2.0.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SpaceExplorer2.0";
+			};
+			name = Debug;
+		};
+		4698AC9F2EEF06A000D5BD65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0SwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpaceExplorer2.0.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SpaceExplorer2.0";
+			};
+			name = Release;
+		};
+		4698ACAD2EEF06DE00D5BD65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SpaceExplorer2.0;
+			};
+			name = Debug;
+		};
+		4698ACAE2EEF06DE00D5BD65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BFW37AJLQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lab1ios.SpaceExplorer2-0UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SpaceExplorer2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -343,6 +682,33 @@
 			buildConfigurations = (
 				461F5D3C2EA5842C002A2A2A /* Debug */,
 				461F5D3D2EA5842C002A2A2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4698AC922EEF064100D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4698AC902EEF064100D5BD65 /* Debug */,
+				4698AC912EEF064100D5BD65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4698AC9D2EEF06A000D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0SwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4698AC9E2EEF06A000D5BD65 /* Debug */,
+				4698AC9F2EEF06A000D5BD65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4698ACAC2EEF06DE00D5BD65 /* Build configuration list for PBXNativeTarget "SpaceExplorer2.0UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4698ACAD2EEF06DE00D5BD65 /* Debug */,
+				4698ACAE2EEF06DE00D5BD65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
