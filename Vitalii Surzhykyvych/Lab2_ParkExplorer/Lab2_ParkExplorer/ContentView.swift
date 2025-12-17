@@ -49,6 +49,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("National Parks")
+            .toolbar {
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gear")
+                }
+            }
             .searchable(text: $searchText)
         }
     }
