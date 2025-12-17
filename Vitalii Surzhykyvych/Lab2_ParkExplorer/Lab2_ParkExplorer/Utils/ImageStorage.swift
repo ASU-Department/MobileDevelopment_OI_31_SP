@@ -22,4 +22,8 @@ enum ImageStorage {
 
         return UIImage(data: data)
     }
+    
+    static func deleteImage(for parkId: UUID) {
+        UserDefaults.standard.removeObject(forKey: parkId.uuidString)
+    }
 }

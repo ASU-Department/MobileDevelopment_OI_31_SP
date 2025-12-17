@@ -17,7 +17,7 @@ struct ParkDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-
+                
                 HStack {
                     Text(park.name)
                         .font(.largeTitle)
@@ -25,22 +25,31 @@ struct ParkDetailView: View {
                     Spacer()
                     FavoriteButton(isFavorite: $park.isFavorite)
                 }
-
+                
                 Text(park.description)
-
+                
                 UIKitMapView(coordinate: park.coordinate)
                     .frame(height: 250)
                     .cornerRadius(12)
                 
-                if let image = image {
-                    Image(uiImage: image)
+                if let selectedImage  = image {
+                    Image(uiImage: selectedImage)
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(12)
-                }
-
-                Button("Add Park Photo") {
-                    showPicker = true
+                    
+                    Button(role: .destructive) {
+                        ImageStorage.deleteImage(for: park.id)
+                        image = nil
+                    } label: {
+                        Label("Delete Photo", systemImage: "trash")
+                    }
+                } else {
+                    Button {
+                        showPicker = true
+                    } label: {
+                        Label("Add Park Photo", systemImage: "photo")
+                    }
                 }
             }
             .padding()
