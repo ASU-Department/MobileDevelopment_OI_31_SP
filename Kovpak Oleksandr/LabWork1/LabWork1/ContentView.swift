@@ -7,7 +7,7 @@ struct ContentView: View {
     // --- ДАНІ ---
     @Environment(\.modelContext) private var modelContext
     
-    // 🔥 ВИПРАВЛЕНО: Сортуємо за НАЗВОЮ (symbol), щоб список не скакав
+    // Сортуємо за НАЗВОЮ (symbol), щоб список не скакав
     @Query(sort: \StockItem.symbol, order: .forward) private var savedStocks: [StockItem]
     
     // --- НАЛАШТУВАННЯ ---
@@ -54,7 +54,7 @@ struct ContentView: View {
                                     .padding(.vertical, 4)
                                 }
                             }
-                            // 🔥 СВАЙП ДЛЯ ВИДАЛЕННЯ
+                            // СВАЙП ДЛЯ ВИДАЛЕННЯ
                             .onDelete(perform: deleteItems)
                         }
                     }
@@ -97,14 +97,14 @@ struct ContentView: View {
             }
             .navigationTitle("MarketPulse 🌐")
             .toolbar {
-                // ЗЛІВА ЗВЕРХУ -> ОНОВИТИ
+                //ОНОВИТИ
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: { Task { await updateExistingStocks() } }) {
                         Image(systemName: "arrow.clockwise")
                     }
                 }
                 
-                // СПРАВА ЗВЕРХУ -> ПРОФІЛЬ
+                //  ПРОФІЛЬ
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: { showingProfile = true }) {
                         Image(systemName: "person.circle.fill")
@@ -171,7 +171,7 @@ struct ContentView: View {
     func saveToDatabase(symbol: String, price: Double) {
         if let existingStock = savedStocks.first(where: { $0.symbol == symbol }) {
             existingStock.price = price
-            // Оновлюємо час, але це не вплине на порядок, бо сортуємо по symbol
+            // Оновлюємо час,
             existingStock.timestamp = Date()
         } else {
             modelContext.insert(StockItem(symbol: symbol, price: price))
@@ -187,7 +187,7 @@ struct ContentView: View {
     }
 }
 
-// --- ЕКРАН ДЕТАЛЕЙ (БЕЗ ЗМІН) ---
+// --- ЕКРАН ДЕТАЛЕЙ  ---
 struct ChartPoint: Identifiable {
     let id = UUID()
     let date: Date
@@ -259,14 +259,14 @@ struct StockDetailView: View {
     }
 }
 
-// --- МОДЕЛІ ДЛЯ JSON (БЕЗ ЗМІН) ---
+// --- МОДЕЛІ ДЛЯ JSON  ---
 struct HistoricalYahooResponse: Codable { let chart: HistoricalChartData }
 struct HistoricalChartData: Codable { let result: [HistoricalStockResult] }
 struct HistoricalStockResult: Codable { let timestamp: [Int]?; let indicators: HistoricalIndicators }
 struct HistoricalIndicators: Codable { let quote: [HistoricalQuote] }
 struct HistoricalQuote: Codable { let close: [Double?]? }
 
-// --- ЕКРАН ПРОФІЛЮ (БЕЗ ЗМІН) ---
+// --- ЕКРАН ПРОФІЛЮ ---
 struct UserProfileView: View {
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
