@@ -13,12 +13,17 @@ struct WorkoutDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text(workout.name)
-                        .font(.largeTitle).bold()
+                        .font(.largeTitle)
+                        .bold()
+                        .accessibilityIdentifier("detailWorkoutTitle")
+
                     Text("Intensity: \(Int(workout.intensity * 100))%")
                         .font(.headline)
                         .foregroundColor(.secondary)
+
                     Text("Date: \(workout.date.formatted(date: .abbreviated, time: .shortened))")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -28,10 +33,14 @@ struct WorkoutDetailView: View {
                 Divider().padding(.horizontal)
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Exercises").font(.title3).bold()
+                    Text("Exercises")
+                        .font(.title3)
+                        .bold()
+
                     ForEach(workout.exercises) { ex in
                         HStack {
-                            Text(ex.name).font(.headline)
+                            Text(ex.name)
+                                .font(.headline)
                             Spacer()
                             Text("\(ex.sets)x\(ex.reps)")
                                 .monospacedDigit()
@@ -42,20 +51,23 @@ struct WorkoutDetailView: View {
                 }
                 .padding(.horizontal)
 
-                Button { showShare = true } label: {
+                Button {
+                    showShare = true
+                } label: {
                     Label("Share Workout", systemImage: "square.and.arrow.up")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.green)
                 .padding(.horizontal)
+                .accessibilityIdentifier("shareWorkoutButton")
             }
             .padding(.top)
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showShare) {
-            ActivityViewControllerRepresentable(items: [shareText()]) { _ in }
+            ActivityViewControllerRepresentable(items: [shareText()])
         }
     }
 
