@@ -51,9 +51,10 @@ struct ContentView: View {
                         Toggle(isOn: Binding(
                             get: { viewModel.showLiveOnly },
                             set: { viewModel.setShowLiveOnly($0) }
-                        )) {
+                        ), label: {
                             Text("Live only")
-                        }
+                        })
+                        .accessibilityIdentifier("LiveOnlyToggleIdentifier")
                         .toggleStyle(SwitchToggleStyle())
                     }
                     .padding(.horizontal)

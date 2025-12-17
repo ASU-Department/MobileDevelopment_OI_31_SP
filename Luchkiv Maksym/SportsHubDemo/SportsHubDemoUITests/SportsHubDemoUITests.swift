@@ -27,34 +27,32 @@ final class SportsHubDemoUITests: XCTestCase {
         XCTAssertTrue(manageFavorites.waitForExistence(timeout: 2))
         manageFavorites.tap()
 
-        let favoritesTable = app.tables.firstMatch
-        XCTAssertTrue(favoritesTable.waitForExistence(timeout: 2))
-        favoritesTable.cells.staticTexts["Los Angeles Lakers"].tap()
+        let staticTextsQuery = app.staticTexts
+        let atlantaHawksElementsQuery = staticTextsQuery.matching(identifier: "Los Angeles Lakers")
+        XCTAssertTrue(manageFavorites.waitForExistence(timeout: 2))
+        atlantaHawksElementsQuery.element(boundBy: 0).tap()
 
         let doneButton = app.buttons["favoritesDoneButton"]
         XCTAssertTrue(doneButton.waitForExistence(timeout: 2))
         doneButton.tap()
 
-        XCTAssertTrue(app.staticTexts["LAL"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["Los Angeles Lakers favorite"].waitForExistence(timeout: 2))
 
-        let liveToggle = app.switches["Live only"]
+        let liveToggle = app.switches["LiveOnlyToggleIdentifier"]
         XCTAssertTrue(liveToggle.waitForExistence(timeout: 2))
-        if let value = liveToggle.value as? String, value == "1" {
-            liveToggle.tap() // show all games
-        }
 
-        let finalGameRow = app.descendants(matching: .any).matching(identifier: "gameRow_BKN_BOS").firstMatch
+        let finalGameRow = app.staticTexts["Brooklyn Nets @ New York Knicks"].firstMatch
         XCTAssertTrue(finalGameRow.waitForExistence(timeout: 2))
 
-        liveToggle.tap() // filter live only
+        app.switches["1"].firstMatch.tap() // filter live only
         XCTAssertFalse(finalGameRow.waitForExistence(timeout: 2))
 
         let searchField = app.searchFields.firstMatch
         XCTAssertTrue(searchField.waitForExistence(timeout: 2))
         searchField.tap()
-        searchField.typeText("Mavs")
+        searchField.typeText("Bull")
 
-        let filteredRow = app.descendants(matching: .any).matching(identifier: "gameRow_DAL_PHX").firstMatch
+        let filteredRow = app.staticTexts["Miami Heat @ Chicago Bulls"].firstMatch
         XCTAssertTrue(filteredRow.waitForExistence(timeout: 2))
     }
 
