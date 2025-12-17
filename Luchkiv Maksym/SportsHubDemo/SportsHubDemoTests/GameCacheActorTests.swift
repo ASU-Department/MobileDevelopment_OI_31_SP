@@ -1,3 +1,9 @@
+//
+//  GameCacheActorTests.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import XCTest
 import SwiftData
 @testable import SportsHubDemo

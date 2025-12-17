@@ -1,3 +1,9 @@
+//
+//  SportsHubDemoUITests.swift
+//  SportsHubDemoUITests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import XCTest
 
 @MainActor

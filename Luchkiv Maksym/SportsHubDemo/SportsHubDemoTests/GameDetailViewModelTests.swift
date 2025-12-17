@@ -1,9 +1,15 @@
+//
+//  GameDetailViewModel.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import XCTest
 @testable import SportsHubDemo
 
 @MainActor
 final class GameDetailViewModelTests: XCTestCase {
-    func testShareTextIncludesScoresAndPrediction() {
+    func testShareTextIncludesScoresAndPrediction() async {
         let game = SampleData.games[0]
         let viewModel = GameDetailViewModel(game: game, isFavoriteHome: true, isFavoriteAway: false)
         viewModel.predictedHomeMargin = 12
@@ -15,7 +21,7 @@ final class GameDetailViewModelTests: XCTestCase {
         XCTAssertTrue(text.contains(game.statusText))
     }
 
-    func testShareSheetFlagToggles() {
+    func testShareSheetFlagToggles() async {
         let viewModel = GameDetailViewModel(game: SampleData.games[1], isFavoriteHome: false, isFavoriteAway: false)
 
         XCTAssertFalse(viewModel.showShareSheet)

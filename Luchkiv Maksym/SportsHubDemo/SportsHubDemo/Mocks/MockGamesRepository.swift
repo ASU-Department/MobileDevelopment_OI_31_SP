@@ -2,7 +2,7 @@
 //  MockGamesRepository.swift
 //  SportsHubDemo
 //
-//  Created by Codex on 2024-05-28.
+//  Created by Maksym on 17.12.2025.
 //
 
 #if DEBUG

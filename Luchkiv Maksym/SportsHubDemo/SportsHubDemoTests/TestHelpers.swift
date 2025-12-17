@@ -1,3 +1,9 @@
+//
+//  TestHelpers.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import Foundation
 import SwiftData
 @testable import SportsHubDemo

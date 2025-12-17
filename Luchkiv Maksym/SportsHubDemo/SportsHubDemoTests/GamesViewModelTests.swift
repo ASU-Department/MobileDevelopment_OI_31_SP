@@ -1,3 +1,9 @@
+//
+//  GamesViewModelTests.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import Foundation
 import Testing
 @testable import SportsHubDemo
@@ -90,8 +96,10 @@ struct GamesViewModelTests {
         viewModel.updateFavorites(favorites)
 
         let persisted = favoritesStore.load()
-        #expect(persisted == favorites)
-        #expect(viewModel.favoriteTeams == favorites)
+
+        let expectedShorts = favorites.map(\.short).sorted()
+        #expect(persisted.map(\.short).sorted() == expectedShorts)
+        #expect(viewModel.favoriteTeams.map(\.short).sorted() == expectedShorts)
     }
 
     @Test

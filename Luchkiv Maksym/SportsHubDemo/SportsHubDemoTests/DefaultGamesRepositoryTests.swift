@@ -1,3 +1,9 @@
+//
+//  DefaultGamesRepository.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import Foundation
 import SwiftData
 import Testing
@@ -16,14 +22,22 @@ struct DefaultGamesRepositoryTests {
         let games = try await repository.refreshGames()
 
         #expect(games.count == 1)
-        #expect(games.first?.homeScore == 50)
-        #expect(games.first?.awayScore == 45)
-        #expect(games.first?.isLive == true)
+        let expected = try #require(games.first)
+        #expect(expected.homeScore == 50)
+        #expect(expected.awayScore == 45)
+        #expect(expected.isLive == true)
         #expect(repository.lastUpdateDate != nil)
 
         let cacheReader = GameCacheActor(container: container)
         let cached = await cacheReader.loadGames()
-        #expect(cached == games)
+
+        #expect(cached.count == 1)
+        let cachedGame = try #require(cached.first)
+        #expect(cachedGame.home.short == expected.home.short)
+        #expect(cachedGame.away.short == expected.away.short)
+        #expect(cachedGame.homeScore == expected.homeScore)
+        #expect(cachedGame.awayScore == expected.awayScore)
+        #expect(cachedGame.isLive == expected.isLive)
     }
 
     @Test

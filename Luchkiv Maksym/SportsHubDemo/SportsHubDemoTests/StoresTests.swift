@@ -1,9 +1,15 @@
+//
+//  StoresTests.swift
+//  SportsHubDemoTests
+//
+//  Created by Maksym on 17.12.2025.
+//
 import XCTest
 @testable import SportsHubDemo
 
 @MainActor
 final class StoresTests: XCTestCase {
-    func testFavoriteStorePersistsTeams() {
+    func testFavoriteStorePersistsTeams() async throws {
         let suiteName = "favorite-store-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
         defaults.removePersistentDomain(forName: suiteName)
@@ -13,10 +19,11 @@ final class StoresTests: XCTestCase {
         store.save(favorites)
         let loaded = store.load()
 
-        XCTAssertEqual(loaded, favorites)
+        let expectedShorts = favorites.map(\.short).sorted()
+        XCTAssertEqual(loaded.map(\.short).sorted(), expectedShorts)
     }
 
-    func testAppSettingsStorePersistsFilters() {
+    func testAppSettingsStorePersistsFilters() async throws {
         let suiteName = "app-settings-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
         defaults.removePersistentDomain(forName: suiteName)

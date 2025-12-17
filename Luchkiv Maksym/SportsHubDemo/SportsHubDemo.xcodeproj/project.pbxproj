@@ -195,7 +195,6 @@
 					};
 					BF9E10032F00000000000004 = {
 						CreatedOnToolsVersion = 26.0.1;
-						TestTargetID = BF5A07512EA4455300173CD9;
 					};
 				};
 			};
@@ -526,9 +525,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SportsHubDemo;
 			};
 			name = Debug;
 		};
@@ -546,9 +545,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LPNU.SportsHubDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SportsHubDemo;
 			};
 			name = Release;
 		};
