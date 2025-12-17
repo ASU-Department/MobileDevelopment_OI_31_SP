@@ -15,19 +15,22 @@ struct UIKitMapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
+        mapView.mapType = .standard
         return mapView
     }
 
     func updateUIView(_ mapView: MKMapView, context: Context) {
+        mapView.removeAnnotations(mapView.annotations)
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "Park location"
+        mapView.addAnnotation(annotation)
+
         let region = MKCoordinateRegion(
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         )
         mapView.setRegion(region, animated: true)
-
-        mapView.removeAnnotations(mapView.annotations)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
     }
 }
