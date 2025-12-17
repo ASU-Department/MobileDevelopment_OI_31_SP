@@ -52,6 +52,17 @@
                ReferencedContainer = "container:Task1.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1521BCDD2EF32FE800E1AD3A"
+               BuildableName = "XCUITest.xctest"
+               BlueprintName = "XCUITest"
+               ReferencedContainer = "container:Task1.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
