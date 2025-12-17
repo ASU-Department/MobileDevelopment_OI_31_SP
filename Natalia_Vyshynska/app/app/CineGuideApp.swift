@@ -3,27 +3,28 @@ import SwiftData
 
 @main
 struct CineGuideApp: App {
-    let container: ModelContainer
+    @State private var dependencies: AppDependencyContainer?
     
     init() {
         do {
-            container = try ModelContainer(for: FavoriteMovie.self)
+            let container = try AppDependencyContainer()
+            self._dependencies = State(initialValue: container)
         } catch {
-            print("Критична помилка створення БД: \(error)")
-            fatalError("Не вдалося створити базу даних")
+            print("Критична помилка ініціалізації залежностей: \(error)")
+            fatalError("Не вдалося ініціалізувати додаток")
         }
-    }
-
-    var favoriteRepository: FavoriteMovieRepository {
-        let actor = FavoriteMovieActor(modelContext: container.mainContext)
-        return FavoriteMovieRepository(actor: actor)
     }
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.favoriteRepository, favoriteRepository)
-                .modelContainer(container)
+            if let deps = dependencies {
+                ContentView()
+                    .environment(\.favoriteRepository, deps.favoriteRepository)
+                    .modelContainer(deps.modelContainer)
+            } else {
+                ProgressView("Завантаження...")
+                    .progressViewStyle(.circular)
+            }
         }
     }
 }

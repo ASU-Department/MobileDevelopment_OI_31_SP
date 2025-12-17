@@ -1,6 +1,6 @@
 import Foundation
 
-actor TMDBService {
+final class TMDBService {
     private let apiKey = "b80075191d4ca07dabffb55edf3c4b52"
     
     func fetchPopularMovies() async throws -> [TMDBMovie] {

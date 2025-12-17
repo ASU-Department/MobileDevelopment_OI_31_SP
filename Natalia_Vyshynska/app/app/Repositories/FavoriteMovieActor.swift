@@ -1,29 +1,31 @@
 import SwiftData
 
-actor FavoriteMovieActor {
-    private let modelContext: ModelContext
+actor FavoriteMovieActor: ModelActor {
+    let modelContainer: ModelContainer
+    nonisolated let modelExecutor: any ModelExecutor
     
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
+    init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+        let context = ModelContext(modelContainer)
+        self.modelExecutor = DefaultSerialModelExecutor(modelContext: context)
     }
     
+    
     func toggleFavorite(tmdbId: Int) async throws {
-        if let existing = try await fetchFavorite(tmdbId: tmdbId) {
+        let all = try modelContext.fetch(FetchDescriptor<FavoriteMovie>())
+        if let existing = all.first(where: { $0.tmdbId == tmdbId }) {
             modelContext.delete(existing)
         } else {
-            let favorite = FavoriteMovie(tmdbId: tmdbId)
-            modelContext.insert(favorite)
+            let newFavorite = FavoriteMovie(tmdbId: tmdbId)
+            modelContext.insert(newFavorite)
         }
+        
         try modelContext.save()
     }
     
     func isFavorite(tmdbId: Int) async throws -> Bool {
-        try await fetchFavorite(tmdbId: tmdbId) != nil
-    }
-    
-    func fetchFavorite(tmdbId: Int) async throws -> FavoriteMovie? {
         let all = try modelContext.fetch(FetchDescriptor<FavoriteMovie>())
-        return all.first { $0.tmdbId == tmdbId }
+        return all.contains { $0.tmdbId == tmdbId }
     }
     
     func allFavorites() async throws -> [FavoriteMovie] {
