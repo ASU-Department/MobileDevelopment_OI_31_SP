@@ -4,16 +4,8 @@ import SwiftData
 @main
 struct CineGuideApp: App {
     @State private var dependencies: AppDependencyContainer?
-    
-    init() {
-        do {
-            let container = try AppDependencyContainer()
-            self._dependencies = State(initialValue: container)
-        } catch {
-            print("Критична помилка ініціалізації залежностей: \(error)")
-            fatalError("Не вдалося ініціалізувати додаток")
-        }
-    }
+    @State private var isLoading = true
+    @State private var errorMessage: String?
     
     var body: some Scene {
         WindowGroup {
@@ -21,9 +13,33 @@ struct CineGuideApp: App {
                 ContentView()
                     .environment(\.favoriteRepository, deps.favoriteRepository)
                     .modelContainer(deps.modelContainer)
+            } else if let error = errorMessage {
+                VStack {
+                    Text("Помилка запуску")
+                        .font(.title)
+                    Text(error)
+                    Button("Спробувати ще") {
+                        loadDependencies()
+                    }
+                }
             } else {
-                ProgressView("Завантаження...")
+                ProgressView("Запуск додатка...")
                     .progressViewStyle(.circular)
+                    .scaleEffect(1.5)
+                    .onAppear(perform: loadDependencies)
+            }
+        }
+    }
+    
+    private func loadDependencies() {
+        Task { @MainActor in
+            do {
+                let container = try AppDependencyContainer()
+                self.dependencies = container
+                self.isLoading = false
+            } catch {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
             }
         }
     }
