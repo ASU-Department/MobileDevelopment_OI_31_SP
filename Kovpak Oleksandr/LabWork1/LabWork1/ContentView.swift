@@ -1,100 +1,177 @@
 import SwiftUI
 
-// --- ЧАСТИНА 1: Дочірній View (View Decomposition) ---
-struct FollowButton: View {
-    // @Binding дозволяє змінювати змінну, яка живе в ContentView
-    @Binding var isFollowing: Bool
+struct ContentView: View {
+    // Стан для завантаження (Activity Indicator)
+    @State private var isLoading = false
+    // Стан для навігації
+    @State private var showingProfile = false
+    
+    // Дані для списку акцій
+    let stocks = ["Apple (AAPL)", "Tesla (TSLA)", "Nvidia (NVDA)", "Google (GOOGL)"]
 
     var body: some View {
-        Button(action: {
-            // Перемикаємо стан (True/False)
-            isFollowing.toggle()
-        }) {
-            HStack {
-                Image(systemName: isFollowing ? "checkmark.circle.fill" : "plus.circle")
-                Text(isFollowing ? "Ви стежите" : "Стежити")
+        NavigationStack {
+            ZStack {
+                // Основний список
+                List {
+                    Section(header: Text("Watchlist")) {
+                        ForEach(stocks, id: \.self) { stock in
+                            // Навігація на деталі (NavigationLink)
+                            NavigationLink(destination: StockDetailView(stockName: stock)) {
+                                HStack {
+                                    Image(systemName: "chart.line.uptrend.xyaxis")
+                                        .foregroundColor(.green)
+                                    Text(stock)
+                                        .font(.headline)
+                                }
+                                .padding(.vertical, 8)
+                            }
+                        }
+                    }
+                }
+                
+                // Якщо йде завантаження - показуємо наш UIKit Spinner
+                if isLoading {
+                    Color.black.opacity(0.4).edgesIgnoringSafeArea(.all)
+                    VStack {
+                        LoadingView(isAnimating: $isLoading, style: .large) // Наш UIKit компонент
+                            .frame(width: 50, height: 50)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                        Text("Updating prices...")
+                            .foregroundColor(.white)
+                            .padding(.top)
+                    }
+                }
             }
-            .padding()
-            .frame(width: 200)
-            .background(isFollowing ? Color.green : Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .shadow(radius: 5)
+            .navigationTitle("MarketPulse 📈")
+            .toolbar {
+                // Кнопка оновлення
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: loadData) {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                // Кнопка профілю
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showingProfile = true }) {
+                        Image(systemName: "person.circle.fill")
+                            .font(.title2)
+                    }
+                }
+            }
+            // Перехід на екран профілю (Modal)
+            .sheet(isPresented: $showingProfile) {
+                UserProfileView()
+            }
+        }
+    }
+    
+    func loadData() {
+        isLoading = true
+        // Імітація затримки мережі
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            isLoading = false
         }
     }
 }
 
-// --- ЧАСТИНА 2: Головний View (Parent) ---
-struct ContentView: View {
-    // @State — це "джерело правди". Змінна живе тут.
-    @State private var isFavorite: Bool = false
-
+// Екран деталей (Куди переходимо по кліку)
+struct StockDetailView: View {
+    let stockName: String
+    @State private var isFollowing = false
+    
     var body: some View {
-        ZStack { // Вимога: використати ZStack
-            Color.black.opacity(0.05).edgesIgnoringSafeArea(.all) // Фон
+        VStack(spacing: 20) {
+            Text(stockName)
+                .font(.largeTitle)
+                .bold()
             
-            VStack(spacing: 20) { // Вимога: використати VStack
-                
-                Text("MarketPulse")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                
-                // Картка акції
-                VStack(alignment: .leading, spacing: 15) {
-                    HStack { // Вимога: використати HStack
-                        Image(systemName: "apple.logo")
-                            .font(.system(size: 40))
-                        
-                        VStack(alignment: .leading) {
-                            Text("AAPL")
-                                .font(.title)
-                                .bold()
-                            Text("Apple Inc.")
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("$225.50")
-                            .font(.title2)
-                            .bold()
-                    }
-                    
-                    Divider()
-                    
-                    Text("Зміна за день: +1.2%")
-                        .foregroundColor(.green)
-                        .font(.subheadline)
-                    
-                    // Тут ми використовуємо наш окремий компонент і передаємо Binding ($)
-                    HStack {
-                        Spacer()
-                        FollowButton(isFollowing: $isFavorite)
-                        Spacer()
-                    }
-                    .padding(.top, 10)
+            Image(systemName: "chart.bar.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 200)
+                .foregroundColor(.blue)
+            
+            // Наша кнопка з минулої лаби (спрощена)
+            Button(action: { isFollowing.toggle() }) {
+                HStack {
+                    Image(systemName: isFollowing ? "checkmark" : "plus")
+                    Text(isFollowing ? "Following" : "Follow")
                 }
                 .padding()
-                .background(Color.white)
-                .cornerRadius(20)
-                .shadow(radius: 10)
-                .padding(.horizontal)
-                
-                Spacer()
-                
-                // Цей текст з'являється тільки якщо натиснута кнопка (Reactive UI)
-                if isFavorite {
-                    Text("🔔 Повідомлення про ціну увімкнено")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .padding(.bottom)
-                }
+                .background(isFollowing ? Color.green : Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
+            
+            Spacer()
         }
+        .padding()
+        .navigationTitle("Details")
     }
 }
 
-#Preview {
-    ContentView()
+// Екран профілю (тут буде UIViewControllerRepresentable - ImagePicker)
+struct UserProfileView: View {
+    @State private var inputImage: UIImage?
+    @State private var showingImagePicker = false
+    @Environment(\.presentationMode) var presentationMode
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                ZStack {
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 150, height: 150)
+                    
+                    if let inputImage = inputImage {
+                        Image(uiImage: inputImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                            .clipShape(Circle())
+                    } else {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 80))
+                            .foregroundColor(.gray)
+                    }
+                    
+                    // Кнопка редагування поверх аватарки
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: { showingImagePicker = true }) {
+                                Image(systemName: "camera.fill")
+                                    .foregroundColor(.white)
+                                    .padding(8)
+                                    .background(Color.blue)
+                                    .clipShape(Circle())
+                            }
+                        }
+                    }
+                    .frame(width: 150, height: 150)
+                }
+                .padding()
+                
+                Text("User Profile")
+                    .font(.title)
+                
+                Spacer()
+            }
+            .navigationTitle("Settings")
+            .toolbar {
+                Button("Done") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            // Виклик нашого UIKit контролера
+            .sheet(isPresented: $showingImagePicker) {
+                ImagePicker(image: $inputImage)
+            }
+        }
+    }
 }
