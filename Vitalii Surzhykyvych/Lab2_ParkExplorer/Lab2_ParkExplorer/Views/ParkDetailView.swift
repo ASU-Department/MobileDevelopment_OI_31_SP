@@ -10,6 +10,9 @@ import MapKit
 
 struct ParkDetailView: View {
     @Binding var park: Park
+    
+    @State private var image: UIImage?
+    @State private var showPicker = false
 
     var body: some View {
         ScrollView {
@@ -28,6 +31,21 @@ struct ParkDetailView: View {
                 UIKitMapView(coordinate: park.coordinate)
                     .frame(height: 250)
                     .cornerRadius(12)
+                
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(12)
+                }
+
+                Button("Add Park Photo") {
+                    showPicker = true
+                }
+                .sheet(isPresented: $showPicker) {
+                    ImagePicker(image: $image)
+                }
+                .padding(.top, 8)
             }
             .padding()
         }
