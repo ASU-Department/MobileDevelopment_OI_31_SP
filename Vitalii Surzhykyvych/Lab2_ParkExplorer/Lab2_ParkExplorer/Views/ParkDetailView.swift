@@ -32,17 +32,27 @@ struct ParkDetailView: View {
                     .frame(height: 250)
                     .cornerRadius(12)
                 
-                if let selectedImage  = image {
+                if let selectedImage = image {
                     Image(uiImage: selectedImage)
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(12)
-                    
-                    Button(role: .destructive) {
-                        ImageStorage.deleteImage(for: park.id)
-                        image = nil
-                    } label: {
-                        Label("Delete Photo", systemImage: "trash")
+
+                    HStack {
+                        Button {
+                            showPicker = true
+                        } label: {
+                            Label("Replace Photo", systemImage: "arrow.triangle.2.circlepath")
+                        }
+
+                        Spacer()
+
+                        Button(role: .destructive) {
+                            ImageStorage.deleteImage(for: park.id)
+                            image = nil
+                        } label: {
+                            Label("Delete Photo", systemImage: "trash")
+                        }
                     }
                 } else {
                     Button {
