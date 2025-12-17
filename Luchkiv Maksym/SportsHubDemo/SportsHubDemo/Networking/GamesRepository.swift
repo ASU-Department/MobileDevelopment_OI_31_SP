@@ -8,6 +8,12 @@
 import Foundation
 import SwiftData
 
+protocol BalldontlieAPIProtocol {
+    func fetchGames(season: Int, perPage: Int) async throws -> [BDLGame]
+}
+
+extension BalldontlieClient: BalldontlieAPIProtocol {}
+
 protocol GamesRepositoryProtocol {
     var lastUpdateDate: Date? { get }
     func loadCachedGames() async -> [Game]
@@ -15,17 +21,18 @@ protocol GamesRepositoryProtocol {
 }
 
 final class DefaultGamesRepository: GamesRepositoryProtocol {
-    private let api: BalldontlieClient
+    private let api: any BalldontlieAPIProtocol
     private let cache: GameCacheActor
     private let settings: AppSettingsStore
 
     init(
-        api: BalldontlieClient = .shared,
+        api: any BalldontlieAPIProtocol = BalldontlieClient.shared,
         container: ModelContainer,
-        settings: AppSettingsStore = .shared
+        settings: AppSettingsStore = .shared,
+        cache: GameCacheActor? = nil
     ) {
         self.api = api
-        self.cache = GameCacheActor(container: container)
+        self.cache = cache ?? GameCacheActor(container: container)
         self.settings = settings
     }
 
