@@ -11,12 +11,39 @@ struct RepoHubSearchView: View {
     @StateObject private var viewModel = RepositoryViewModel()
     @State private var selectedRepository: Repository?
     @State private var selectedDeveloper: DeveloperProfile?
-    @State private var loading: Bool = false
     @State private var showShareSheet = false
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
+                if viewModel.isOffline {
+                    HStack {
+                        Image(systemName: "wifi.slash")
+                        Text("Offline mode — showing cached data")
+                            .font(.caption)
+                            .bold()
+                    }
+                    .foregroundColor(.white)
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.orange)
+                    .transition(.move(edge: .top))
+                }
+                
+                HStack {
+                    TextField("GitHub username", text: $viewModel.username)
+                        .textFieldStyle(.roundedBorder)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+
+                    Button("Load") {
+                        Task {
+                            await viewModel.load()
+                        }
+                    }
+                }
+                .padding(.horizontal)
+                
                 HStack {
                     UISearchBarRepresentable(
                         text: $viewModel.searchText,
@@ -25,12 +52,6 @@ struct RepoHubSearchView: View {
                     .padding(.horizontal)
                 }
                 
-                HStack {
-                    Spacer()
-                    ActivityIndicatorView(isAnimating: $loading, style: .medium)
-                    Spacer()
-                }
-
                 VStack(spacing: 0) {
                     Button {
                         withAnimation(.spring) {
@@ -103,7 +124,17 @@ struct RepoHubSearchView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
                 }
-
+                
+                if viewModel.isLoading {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                }
+                
                 List(viewModel.filteredRepositories) { repo in
                     RepositoryRow(
                         repository: repo,
@@ -116,14 +147,21 @@ struct RepoHubSearchView: View {
                     .listRowBackground(GitHubTheme.elevated)
                 }
                 .listStyle(.plain)
+                .refreshable {
+                    await viewModel.load()
+                }
+                
+                if viewModel.isOffline && viewModel.repositories.isEmpty {
+                    Text("No cached repositories for this user.")
+                        .foregroundColor(.secondary)
+                        .padding()
+                }
             }
             .navigationTitle("DevHub")
             .toolbarBackground(GitHubTheme.background, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .task {
-                loading = true
                 await viewModel.load()
-                loading = false
             }
             .navigationDestination(item: $selectedRepository) { repo in
                 let dev = viewModel.developer(for: repo.owner.login)

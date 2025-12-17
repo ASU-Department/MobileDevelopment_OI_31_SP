@@ -9,7 +9,7 @@ import SwiftUI
 import NukeUI
 
 struct CryptoRowView: View {
-    @Bindable var coin: Coin
+    let coin: CoinEntity
     
     var onFavoriteToggle: () -> Void
     
@@ -28,6 +28,7 @@ struct CryptoRowView: View {
                 .font(.title3)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("favorite_button_\(coin.id)")
 
             LazyImage(url: URL(string: coin.image)) { state in
                 if let image = state.image {

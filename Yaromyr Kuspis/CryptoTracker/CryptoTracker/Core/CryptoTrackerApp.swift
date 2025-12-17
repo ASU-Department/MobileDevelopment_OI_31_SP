@@ -14,8 +14,22 @@ struct CryptoTrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LaunchView()
+            RootView(container: appDelegate.container)
         }
         .modelContainer(for: Coin.self)
+    }
+}
+
+struct RootView: View {
+    let repository: CoinRepositoryProtocol
+    
+    init(container: ModelContainer) {
+        let actor = CoinPersistenceActor(modelContainer: container)
+        let service = CoinGeckoService()
+        self.repository = CoinRepository(service: service, actor: actor)
+    }
+    
+    var body: some View {
+        LaunchView(repository: repository)
     }
 }

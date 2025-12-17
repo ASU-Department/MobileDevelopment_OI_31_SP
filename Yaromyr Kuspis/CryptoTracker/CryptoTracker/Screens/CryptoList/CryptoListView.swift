@@ -6,73 +6,51 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct CryptoListView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Coin.currentPrice, order: .reverse) private var allCoins: [Coin]
+    @StateObject private var viewModel: CryptoListViewModel
     
-    @State private var showPortfolioOnly = false
-    @State private var isLoading = false
-    @State private var errorAlert: ErrorAlert?
-    
-    @State private var showThrottledMessage = false
-    @State private var lastManualRefreshTime: Date? = nil
-    
-    @State private var lastUpdateTime: Date? = nil
-
-    private let coinService = CoinGeckoService()
-    
-    private let lastUpdateDateKey = "lastUpdateDate"
-    private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
-    private let refreshCooldown: TimeInterval = 15 // 15 seconds
-
-    private var filteredCoins: [Coin] {
-        if showPortfolioOnly {
-            return allCoins.filter { $0.isFavorite }
-        } else {
-            return allCoins
-        }
+    init(repository: CoinRepositoryProtocol) {
+        _viewModel = StateObject(wrappedValue: CryptoListViewModel(repository: repository))
     }
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredCoins) { coin in
+                ForEach(viewModel.filteredCoins) { coin in
                     NavigationLink(value: coin) {
                         CryptoRowView(coin: coin) {
-                            toggleFavorite(for: coin)
+                            Task {
+                                await viewModel.toggleFavorite(for: coin)
+                            }
                         }
                     }
                 }
             }
             .listStyle(PlainListStyle())
             .refreshable {
-                await refreshData()
+                await viewModel.refreshData()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     VStack {
                         Text("CryptoTracker").font(.headline)
-                        if let lastUpdateTime {
-                            Text("Last Updated: \(lastUpdateTime.formatted(date: .omitted, time: .standard))")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
+
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         withAnimation(.spring()) {
-                            showPortfolioOnly.toggle()
+                            viewModel.showPortfolioOnly.toggle()
                         }
                     }) {
-                        Image(systemName: showPortfolioOnly ? "star.fill" : "star")
+                        Image(systemName: viewModel.showPortfolioOnly ? "star.fill" : "star")
                             .font(.headline)
                             .foregroundColor(.yellow)
                     }
+                    .accessibilityIdentifier("portfolio_filter_button")
                 }
             }
             .safeAreaInset(edge: .bottom, alignment: .center) {
@@ -94,21 +72,18 @@ struct CryptoListView: View {
                 .padding(.bottom, 4)
             }
             .task {
-                if let storedDate = UserDefaults.standard.object(forKey: lastUpdateDateKey) as? Date {
-                    self.lastUpdateTime = storedDate
-                }
-                await loadData(force: false)
+                await viewModel.loadData()
             }
             .navigationDestination(for: Coin.self) { coin in
                 CoinDetailView(coin: coin)
             }
-            .alert(item: $errorAlert) { alert in
+            .alert(item: $viewModel.errorAlert) { alert in
                 Alert(title: Text("Network Error"),
                       message: Text(alert.message),
                       dismissButton: .default(Text("OK")))
             }
             .overlay(alignment: .top) {
-                if showThrottledMessage {
+                if viewModel.showThrottledMessage {
                     Text("Please wait a moment before refreshing again.")
                         .font(.caption)
                         .fontWeight(.semibold)
@@ -119,88 +94,6 @@ struct CryptoListView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .padding(.top, 4)
                 }
-            }
-        }
-    }
-    
-    private func toggleFavorite(for coin: Coin) {
-        withAnimation {
-            coin.isFavorite.toggle()
-        }
-    }
-    
-    @MainActor
-    private func refreshData() async {
-        if let lastRefresh = lastManualRefreshTime, Date().timeIntervalSince(lastRefresh) < refreshCooldown {
-            print("Refresh throttled.")
-            
-            try? await Task.sleep(for: .seconds(0.75))
-            
-            withAnimation {
-                showThrottledMessage = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                withAnimation {
-                    showThrottledMessage = false
-                }
-            }
-            return
-        }
-        
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.loadData(force: true)
-            }
-            group.addTask {
-                try? await Task.sleep(for: .seconds(0.75))
-            }
-        }
-        
-        lastManualRefreshTime = Date()
-    }
-    
-    @MainActor
-    private func loadData(force: Bool) async {
-        guard !isLoading else { return }
-        
-        let lastFetchTime = (UserDefaults.standard.object(forKey: lastUpdateDateKey) as? Date) ?? .distantPast
-        let now = Date()
-        
-        let needsUpdate = force || now.timeIntervalSince(lastFetchTime) > cacheInterval
-        guard needsUpdate else { return }
-        
-        isLoading = true
-        defer { isLoading = false }
-        
-        do {
-            let cryptoModels = try await coinService.fetchCoins()
-            updateDatabase(with: cryptoModels)
-            
-            let updateTime = Date()
-            self.lastUpdateTime = updateTime
-            UserDefaults.standard.set(updateTime, forKey: lastUpdateDateKey)
-            
-        } catch {
-            self.errorAlert = ErrorAlert(message: error.localizedDescription)
-        }
-    }
-    
-    private func updateDatabase(with cryptoModels: [Crypto]) {
-        for coinModel in cryptoModels {
-            let id = coinModel.id
-            let predicate = #Predicate<Coin> { $0.id == id }
-            let fetchDescriptor = FetchDescriptor(predicate: predicate)
-            
-            do {
-                if let existingCoin = try modelContext.fetch(fetchDescriptor).first {
-                    existingCoin.currentPrice = coinModel.currentPrice
-                    existingCoin.priceChangePercentage24h = coinModel.priceChangePercentage24h ?? 0.0
-                } else {
-                    let newCoin = Coin(from: coinModel)
-                    modelContext.insert(newCoin)
-                }
-            } catch {
-                print("Failed to fetch or update coin: \(error)")
             }
         }
     }
