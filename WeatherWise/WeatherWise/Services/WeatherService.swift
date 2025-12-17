@@ -2,7 +2,7 @@
 //  WeatherService.swift
 //  WeatherWise
 //
-//  Created by vburdyk on 07.12.2025.
+//  Created by vburdyk on 15.12.2025.
 //
 
 import Foundation

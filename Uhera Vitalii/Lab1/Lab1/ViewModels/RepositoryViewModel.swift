@@ -7,38 +7,96 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 final class RepositoryViewModel: ObservableObject {
+    @AppStorage("lastUsername") private var storedUsername = "octocat"
+    @AppStorage("useSliderMode") private var storedUseSliderMode = true
+    @AppStorage("sortMode") private var storedSortModeRaw = RepoSortMode.stars.rawValue
+    @AppStorage("minStars") var storedMinStars: Double = 0
+    @AppStorage("minIssues") var storedMinIssues: Double = 0
+    @AppStorage("minWatchers") var storedMinWatchers: Double = 0
+    @AppStorage("showOnlyStarred") var storedShowOnlyStarred = false
+    
+    @Published var username: String = "octocat" {
+        didSet { storedUsername = username }
+    }
+
+    @Published var useSliderMode: Bool = true {
+        didSet { storedUseSliderMode = useSliderMode }
+    }
+
+    @Published var sortMode: RepoSortMode = .stars {
+        didSet { storedSortModeRaw = sortMode.rawValue }
+    }
+    
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var isOffline = false
+
+    @Published var searchText: String = ""
     @Published var showAdvancedFilters = false
-
-    @Published var useSliderMode = true  // switch between slider + manual
-    @Published var minStars: Double = 0
-
     @Published var languageFilter: String = "Any"
     @Published var showOnlyStarred = false
     @Published var showOnlyWithIssues = false
-    @Published var sortMode: RepoSortMode = .stars
-
-    @Published var searchText: String = ""
-    @Published var minWatchers: Double = 0
-    @Published var minIssues: Double = 0
+    @Published var minStars: Double = 0 {
+        didSet { storedMinStars = minStars }
+    }
+    @Published var minWatchers: Double = 0 {
+        didSet { storedMinWatchers = minWatchers }
+    }
+    @Published var minIssues: Double = 0 {
+        didSet { storedMinIssues = minIssues }
+    }
 
     @Published private(set) var repositories: [Repository] = []
     @Published private(set) var developers: [DeveloperProfile] = []
 
     @Published private(set) var starredRepoIds: Set<Int> = []
 
-    private let service: RepositoryServiceProtocol
+    private let api: GitHubAPIServiceProtocol
+    private let persistence: PersistenceStore
 
-    init(service: RepositoryServiceProtocol = MockRepositoryService.shared) {
-        self.service = service
+    init(
+        api: GitHubAPIServiceProtocol = GitHubAPIService(),
+        persistence: PersistenceStore = .shared
+    ) {
+        self.api = api
+        self.persistence = persistence
+        _username = Published(initialValue: storedUsername)
+        _useSliderMode = Published(initialValue: storedUseSliderMode)
+        _sortMode = Published(
+            initialValue: RepoSortMode(rawValue: storedSortModeRaw) ?? .stars
+        )
+        _minStars = Published(initialValue: storedMinStars)
+        _minWatchers = Published(initialValue: storedMinWatchers)
+        _minIssues = Published(initialValue: storedMinIssues)
     }
 
     func load() async {
-        let repos = await service.fetchRepositories()
-        let devs = await service.fetchDevelopers()
-        self.repositories = repos
-        self.developers = devs
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let userDTO = try await api.fetchUser(username: username)
+            let repoDTOs = try await api.fetchRepositories(username: username)
+
+            let developer = DeveloperProfile(dto: userDTO)
+            let repos = repoDTOs.map { Repository(dto: $0) }
+
+            self.developers = [developer]
+            self.repositories = repos
+
+            persistence.save(repositories: repos, developers: [developer])
+            isOffline = false
+
+        } catch {
+            isOffline = true
+            errorMessage = error.localizedDescription
+            loadFromCache()
+        }
+
+        isLoading = false
     }
 
     func toggleStar(_ repo: Repository) {
@@ -81,5 +139,40 @@ final class RepositoryViewModel: ObservableObject {
 
     func developer(for ownerLogin: String) -> DeveloperProfile? {
         developers.first(where: { $0.username == ownerLogin })
+    }
+
+    private func loadFromCache() {
+        let cached: [CachedRepository] = persistence.fetch()
+
+        let filtered = cached.filter {
+            $0.ownerLogin.lowercased() == username.lowercased()
+        }
+
+        repositories = filtered.map {
+            Repository(
+                id: $0.id,
+                name: $0.name,
+                fullName: $0.fullName,
+                description: nil,
+                htmlUrl: nil,
+                language: $0.language,
+                stargazersCount: $0.stars,
+                watchersCount: $0.watchers,
+                forksCount: 0,
+                openIssuesCount: $0.issues,
+                defaultBranch: "main",
+                createdAt: Date(),
+                updatedAt: Date(),
+                owner: RepositoryOwner(
+                    login: $0.ownerLogin,
+                    avatarUrl: nil,
+                    location: nil
+                )
+            )
+        }
+
+        if filtered.isEmpty {
+            errorMessage = "No cached data for user \(username)"
+        }
     }
 }

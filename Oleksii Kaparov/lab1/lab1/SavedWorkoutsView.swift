@@ -28,6 +28,7 @@ struct SavedWorkoutsView: View {
                 viewModel.deleteWorkout(at: indexSet)
             }
         }
+        .accessibilityIdentifier("savedWorkoutsList")
         .navigationTitle("Saved Workouts")
         .toolbar { EditButton() }
     }
