@@ -4,7 +4,9 @@ import Charts
 
 struct ContentView: View {
     @StateObject private var viewModel: StockListViewModel
-    private let modelContainer: ModelContainer
+    
+    // Зберігаємо сам репозиторій, щоб передавати далі
+    private let repository: StockRepository
     
     @State private var showingAddAlert = false
     @State private var newTickerName = ""
@@ -12,18 +14,17 @@ struct ContentView: View {
     @AppStorage("showExactTime") private var showExactTime = false
     
     init(modelContext: ModelContainer) {
-        self.modelContainer = modelContext
-        _viewModel = StateObject(wrappedValue: StockListViewModel(modelContainer: modelContext))
+        // Створюємо репозиторій тут
+        let repo = StockRepository(container: modelContext)
+        self.repository = repo
+        _viewModel = StateObject(wrappedValue: StockListViewModel(repository: repo))
     }
 
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
-                
                 List {
-                    Section {
-                        Toggle("Show Update Time", isOn: $showExactTime)
-                    }
+                    Section { Toggle("Show Update Time", isOn: $showExactTime) }
                     
                     Section(header: Text("Stocks")) {
                         if viewModel.stocks.isEmpty && viewModel.isLoading {
@@ -32,22 +33,17 @@ struct ContentView: View {
                             Text("No data. Pull to refresh.")
                         } else {
                             ForEach(viewModel.stocks) { stock in
-                                NavigationLink(destination: StockDetailView(stockName: stock.symbol, container: modelContainer)) {
+                                // Передаємо репозиторій у деталі
+                                NavigationLink(destination: StockDetailView(stockName: stock.symbol, repository: repository)) {
                                     HStack {
                                         VStack(alignment: .leading) {
-                                            Text(stock.symbol)
-                                                .font(.headline)
-                                                .bold()
+                                            Text(stock.symbol).font(.headline).bold()
                                             if showExactTime {
-                                                Text("Updated: \(stock.timestamp.formatted(date: .omitted, time: .shortened))")
-                                                    .font(.caption)
-                                                    .foregroundColor(.gray)
+                                                Text("Updated: \(stock.timestamp.formatted(date: .omitted, time: .shortened))").font(.caption).foregroundColor(.gray)
                                             }
                                         }
                                         Spacer()
-                                        Text("$\(String(format: "%.2f", stock.price))")
-                                            .foregroundColor(.green)
-                                            .bold()
+                                        Text("$\(String(format: "%.2f", stock.price))").foregroundColor(.green).bold()
                                     }
                                 }
                             }
@@ -55,75 +51,33 @@ struct ContentView: View {
                         }
                     }
                 }
-                .refreshable {
-                    viewModel.loadData()
-                }
+                .refreshable { viewModel.loadData() }
                 
                 Button(action: { showingAddAlert = true }) {
                     Image(systemName: "plus")
-                        .font(.title.weight(.semibold))
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                        .shadow(radius: 4, x: 0, y: 4)
+                        .font(.title.weight(.semibold)).padding().background(Color.blue).foregroundColor(.white).clipShape(Circle()).shadow(radius: 4, x: 0, y: 4)
                 }
-                .padding(.trailing, 20)
-                .padding(.bottom, 20)
+                .padding(.trailing, 20).padding(.bottom, 20)
             }
             .navigationTitle("MarketPulse")
-            
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { viewModel.loadData() }) {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showingProfile = true }) {
-                        Image(systemName: "person.circle")
-                            .font(.title3)
-                    }
-                }
+                ToolbarItem(placement: .navigationBarLeading) { Button(action: { viewModel.loadData() }) { Image(systemName: "arrow.clockwise") } }
+                ToolbarItem(placement: .navigationBarTrailing) { Button(action: { showingProfile = true }) { Image(systemName: "person.circle").font(.title3) } }
             }
-            
-            .sheet(isPresented: $showingProfile) {
-                UserProfileView()
-            }
+            .sheet(isPresented: $showingProfile) { UserProfileView() }
             .alert("Add Stock", isPresented: $showingAddAlert) {
                 TextField("Symbol (e.g. NVDA)", text: $newTickerName)
-                Button("Add") {
-                    viewModel.addTicker(newTickerName)
-                    newTickerName = ""
-                }
+                Button("Add") { viewModel.addTicker(newTickerName); newTickerName = "" }
                 Button("Cancel", role: .cancel) { }
             }
-            .alert("Error", isPresented: Binding(get: { viewModel.errorMessage != nil }, set: { _ in viewModel.errorMessage = nil })) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text(viewModel.errorMessage ?? "")
-            }
-            .overlay {
-                if viewModel.isLoading {
-                    ZStack {
-                        Color.black.opacity(0.2).ignoresSafeArea()
-                        ProgressView()
-                            .padding()
-                            .background(.white)
-                            .cornerRadius(10)
-                    }
-                }
-            }
-            .onAppear {
-                if viewModel.stocks.isEmpty {
-                    viewModel.loadData()
-                }
-            }
+            .alert("Error", isPresented: Binding(get: { viewModel.errorMessage != nil }, set: { _ in viewModel.errorMessage = nil })) { Button("OK", role: .cancel) { } } message: { Text(viewModel.errorMessage ?? "") }
+            .overlay { if viewModel.isLoading { ZStack { Color.black.opacity(0.2).ignoresSafeArea(); ProgressView().padding().background(.white).cornerRadius(10) } } }
+            .onAppear { if viewModel.stocks.isEmpty { viewModel.loadData() } }
         }
     }
 }
 
+// --- ЕКРАН ПРОФІЛЮ ---
 struct UserProfileView: View {
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
@@ -184,48 +138,32 @@ struct UserProfileView: View {
     }
 }
 
+// --- ЕКРАН ДЕТАЛЕЙ ---
 struct StockDetailView: View {
     @StateObject private var viewModel: StockDetailViewModel
     
-    init(stockName: String, container: SwiftData.ModelContainer) {
-        _viewModel = StateObject(wrappedValue: StockDetailViewModel(symbol: stockName, modelContainer: container))
+    // Тепер приймає репозиторій
+    init(stockName: String, repository: StockRepositoryProtocol) {
+        _viewModel = StateObject(wrappedValue: StockDetailViewModel(symbol: stockName, repository: repository))
     }
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(viewModel.symbol)
-                .font(.largeTitle)
-                .bold()
-            
-            if viewModel.isLoading {
-                ProgressView()
-            } else {
-                Text("$\(String(format: "%.2f", viewModel.currentPrice))")
-                    .font(.title)
-                    .foregroundColor(.green)
-                
+            Text(viewModel.symbol).font(.largeTitle).bold()
+            if viewModel.isLoading { ProgressView() } else {
+                Text("$\(String(format: "%.2f", viewModel.currentPrice))").font(.title).foregroundColor(.green)
                 if !viewModel.priceHistory.isEmpty {
                     Chart {
                         ForEach(Array(viewModel.priceHistory.enumerated()), id: \.offset) { index, price in
-                            LineMark(
-                                x: .value("Day", index),
-                                y: .value("Price", price)
-                            )
-                            .foregroundStyle(.green)
+                            LineMark(x: .value("Day", index), y: .value("Price", price)).foregroundStyle(.green)
                         }
                     }
-                    .frame(height: 250)
-                    .padding()
-                } else {
-                    Text("No chart data available")
-                        .foregroundColor(.gray)
-                }
+                    .frame(height: 250).padding()
+                } else { Text("No chart data available").foregroundColor(.gray) }
             }
             Spacer()
         }
         .navigationTitle("Analysis")
-        .onAppear {
-            viewModel.loadDetails()
-        }
+        .onAppear { viewModel.loadDetails() }
     }
 }

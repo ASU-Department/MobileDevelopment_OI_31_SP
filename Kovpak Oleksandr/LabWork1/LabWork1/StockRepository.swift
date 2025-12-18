@@ -1,7 +1,16 @@
 import Foundation
 import SwiftData
 
-class StockRepository {
+// 1. Створюємо контракт (Протокол)
+protocol StockRepositoryProtocol {
+    func fetchStockData(symbol: String) async throws -> (price: Double, history: [Double])
+    func fetchLocalStocks() -> [StockItem]
+    func deleteStock(_ item: StockItem)
+    func addStockStub(symbol: String) // Для тестів
+}
+
+// 2. Реальний репозиторій підписується під протокол
+class StockRepository: StockRepositoryProtocol {
     private let actor: StockDataActor
     private let context: ModelContext
     
@@ -38,5 +47,9 @@ class StockRepository {
     func deleteStock(_ item: StockItem) {
         context.delete(item)
         try? context.save()
+    }
+    
+    func addStockStub(symbol: String) {
+        // Пуста реалізація для реального репо, потрібна для протоколу
     }
 }
