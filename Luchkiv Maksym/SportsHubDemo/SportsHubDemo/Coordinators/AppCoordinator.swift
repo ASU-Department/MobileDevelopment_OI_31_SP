@@ -23,10 +23,10 @@ enum AppRoute: Hashable {
 @MainActor
 final class AppCoordinator: ObservableObject {
     @Published var path = NavigationPath()
-    private let repository: GamesRepositoryProtocol
+    private let repository: any GamesRepositoryProtocol
     private(set) var latestTeams: [Team] = []
 
-    init(container: ModelContainer, repository: GamesRepositoryProtocol? = nil) {
+    init(container: ModelContainer, repository: (any GamesRepositoryProtocol)? = nil) {
         self.repository = repository ?? DefaultGamesRepository(container: container)
     }
     
