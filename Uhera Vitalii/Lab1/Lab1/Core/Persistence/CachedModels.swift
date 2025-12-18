@@ -18,7 +18,7 @@ final class CachedRepository {
     var issues: Int
     var language: String?
     var ownerLogin: String
-    
+
     init(
         id: Int,
         name: String,
@@ -60,5 +60,14 @@ final class CachedUser {
         self.avatarUrl = avatarUrl
         self.followers = followers
         self.following = following
+    }
+}
+
+@Model
+final class CachedStar {
+    @Attribute(.unique) var repoId: Int
+
+    init(repoId: Int) {
+        self.repoId = repoId
     }
 }

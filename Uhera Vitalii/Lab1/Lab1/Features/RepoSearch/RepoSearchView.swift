@@ -170,11 +170,3 @@ extension Binding where Value == Int {
         )
     }
 }
-
-//#Preview {
-//    RepoSearchView(
-//        viewModel: RepoSearchViewModel(
-//            repository: MockGitHubRepository(), coordinator: AppCoordinator(MockGitRepository())
-//        )
-//    )
-//}

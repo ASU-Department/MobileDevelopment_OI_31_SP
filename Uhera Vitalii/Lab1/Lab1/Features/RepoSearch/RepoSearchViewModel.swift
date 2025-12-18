@@ -11,23 +11,23 @@ import SwiftUI
 
 @MainActor
 final class RepoSearchViewModel: ObservableObject {
-    // MARK: - Dependencies
     private let repository: GitHubRepositoryProtocol
     private let coordinator: AppCoordinator
 
-    // MARK: - Persisted Settings
-    @AppStorage("lastUsername") private var storedUsername = "octocat"
-    @AppStorage("useSliderMode") private var storedUseSliderMode = true
-    @AppStorage("sortMode") private var storedSortModeRaw = RepoSortMode.stars
-        .rawValue
+    @AppStorage("lastUsername")
+    private var storedUsername = "octocat"
 
-    // MARK: - UI State
-    @Published var username: String = "octocat"
+    @AppStorage("useSliderMode")
+    private var storedUseSliderMode = true
+
+    @AppStorage("sortMode")
+    private var storedSortModeRaw = RepoSortMode.stars.rawValue
+
+    @Published var username: String = ""
     @Published var isLoading = false
     @Published var isOffline = false
     @Published var errorMessage: String?
 
-    // Filters
     @Published var searchText = ""
     @Published var useSliderMode: Bool = true
     @Published var sortMode: RepoSortMode = .stars
@@ -36,13 +36,13 @@ final class RepoSearchViewModel: ObservableObject {
     @Published var minStars: Double = 0
     @Published var minIssues: Double = 0
     @Published var minWatchers: Double = 0
+
     @Published var showOnlyStarred = false
     @Published var showOnlyWithIssues = false
 
-    // Data
     @Published private(set) var repositories: [Repository] = []
     @Published private(set) var developer: DeveloperProfile?
-    private var starredRepoIds: Set<Int> = []
+    @Published private(set) var starredRepoIds: Set<Int> = []
 
     init(
         repository: GitHubRepositoryProtocol,
@@ -51,23 +51,36 @@ final class RepoSearchViewModel: ObservableObject {
         self.repository = repository
         self.coordinator = coordinator
 
-        self.username = storedUsername
-        self.useSliderMode = storedUseSliderMode
-        self.sortMode = RepoSortMode(rawValue: storedSortModeRaw) ?? .stars
+        self.username = ""
+        
+        let initialUsername = storedUsername
+        let initialUseSliderMode = storedUseSliderMode
+        let initialSortMode =
+            RepoSortMode(rawValue: storedSortModeRaw) ?? .stars
+
+        self.username = initialUsername
+        self.useSliderMode = initialUseSliderMode
+        self.sortMode = initialSortMode
     }
 
     func load() async {
         isLoading = true
         errorMessage = nil
 
+        storedUsername = username
+        storedUseSliderMode = useSliderMode
+        storedSortModeRaw = sortMode.rawValue
+
         do {
             let dev = try await repository.loadUser(username: username)
             let repos = try await repository.loadRepositories(
                 username: username
             )
+            let starred = await repository.loadStarredRepoIds()
 
-            self.developer = dev
-            self.repositories = repos
+            developer = dev
+            repositories = repos
+            starredRepoIds = starred
 
             await repository.save(
                 repositories: repos,
@@ -80,6 +93,7 @@ final class RepoSearchViewModel: ObservableObject {
             isOffline = true
             repositories = await repository.loadCachedRepositories()
             developer = await repository.loadCachedDeveloper()
+            starredRepoIds = await repository.loadStarredRepoIds()
             errorMessage = "Offline — showing cached data"
         }
 
@@ -87,19 +101,42 @@ final class RepoSearchViewModel: ObservableObject {
     }
 
     var filteredRepositories: [Repository] {
-        let filtered = repositories.filter { repo in
-            searchText.isEmpty
-                || repo.name.localizedCaseInsensitiveContains(searchText)
-                || repo.fullName.localizedCaseInsensitiveContains(searchText)
-        }
+        repositories
+            .filter(matchesSearch)
+            .filter(matchesStars)
+            .filter(matchesIssues)
+            .filter(matchesSliderFilters)
+            .sorted(by: sortRule)
+    }
 
+    private func matchesSearch(_ repo: Repository) -> Bool {
+        searchText.isEmpty
+            || repo.name.localizedCaseInsensitiveContains(searchText)
+            || repo.fullName.localizedCaseInsensitiveContains(searchText)
+    }
+
+    private func matchesStars(_ repo: Repository) -> Bool {
+        !showOnlyStarred || starredRepoIds.contains(repo.id)
+    }
+
+    private func matchesIssues(_ repo: Repository) -> Bool {
+        !showOnlyWithIssues || repo.openIssuesCount > 0
+    }
+
+    private func matchesSliderFilters(_ repo: Repository) -> Bool {
+        repo.stargazersCount >= Int(minStars)
+            && repo.openIssuesCount >= Int(minIssues)
+            && repo.watchersCount >= Int(minWatchers)
+    }
+
+    private func sortRule(_ lhs: Repository, _ rhs: Repository) -> Bool {
         switch sortMode {
         case .stars:
-            return filtered.sorted { $0.stargazersCount > $1.stargazersCount }
+            lhs.stargazersCount > rhs.stargazersCount
         case .issues:
-            return filtered.sorted { $0.openIssuesCount > $1.openIssuesCount }
+            lhs.openIssuesCount > rhs.openIssuesCount
         case .alphabet:
-            return filtered.sorted { $0.name < $1.name }
+            lhs.name.localizedCompare(rhs.name) == .orderedAscending
         }
     }
 
@@ -107,20 +144,14 @@ final class RepoSearchViewModel: ObservableObject {
         coordinator.openRepository(repo, developer: developer)
     }
 
-    func isStarred(_ repo: Repository) -> Bool {
-        starredRepoIds.contains(repo.id)
-    }
-
     func toggleStar(_ repo: Repository) {
-        if starredRepoIds.contains(repo.id) {
-            starredRepoIds.remove(repo.id)
-        } else {
-            starredRepoIds.insert(repo.id)
+        Task {
+            await repository.toggleStar(repoId: repo.id)
+            starredRepoIds = await repository.loadStarredRepoIds()
         }
     }
 
-    @ViewBuilder
-    func makeDestination(_ route: AppRoute) -> some View {
-        coordinator.destination(for: route)
+    func isStarred(_ repo: Repository) -> Bool {
+        starredRepoIds.contains(repo.id)
     }
 }

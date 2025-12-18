@@ -5,8 +5,10 @@
 //  Created by UnseenHand on 15.12.2025.
 //
 
+import Foundation
 import SwiftData
 
+@MainActor
 final class PersistenceStore {
     static let shared = PersistenceStore()
 
@@ -15,7 +17,8 @@ final class PersistenceStore {
     init() {
         container = try! ModelContainer(
             for: CachedRepository.self,
-            CachedUser.self
+            CachedUser.self,
+            CachedStar.self
         )
     }
 
@@ -48,15 +51,36 @@ final class PersistenceStore {
         )
     }
 
+    func toggleStar(repoId: Int) {
+        let context = container.mainContext
+
+        let descriptor = FetchDescriptor<CachedStar>(
+            predicate: #Predicate { $0.repoId == repoId }
+        )
+
+        if let existing = try? context.fetch(descriptor).first {
+            context.delete(existing)
+        } else {
+            context.insert(CachedStar(repoId: repoId))
+        }
+    }
+
     func fetchRepos() -> [CachedRepository] {
         let context = container.mainContext
         let descriptor = FetchDescriptor<CachedRepository>()
         return (try? context.fetch(descriptor)) ?? []
     }
-    
+
     func fetchDev() -> CachedUser? {
         let context = container.mainContext
         let descriptor = FetchDescriptor<CachedUser>()
         return (try? context.fetch(descriptor).first)
+    }
+
+    func fetchStarredRepoIds() -> Set<Int> {
+        let context = container.mainContext
+        let descriptor = FetchDescriptor<CachedStar>()
+        let stars = (try? context.fetch(descriptor)) ?? []
+        return Set(stars.map { $0.repoId })
     }
 }

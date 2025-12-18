@@ -47,4 +47,12 @@ final class GitHubRepository: GitHubRepositoryProtocol {
             developer: developer
         )
     }
+
+    func toggleStar(repoId: Int) async {
+        await persistenceActor.toggleStar(repoId: repoId)
+    }
+
+    func loadStarredRepoIds() async -> Set<Int> {
+        await persistenceActor.fetchStarredRepoIds()
+    }
 }

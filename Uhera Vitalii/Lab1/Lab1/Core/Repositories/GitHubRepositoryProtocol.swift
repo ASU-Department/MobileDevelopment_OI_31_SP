@@ -13,4 +13,6 @@ protocol GitHubRepositoryProtocol {
     func loadCachedRepositories() async -> [Repository]
     func loadCachedDeveloper() async -> DeveloperProfile?
     func save(repositories: [Repository], developer: DeveloperProfile) async
+    func toggleStar(repoId: Int) async
+    func loadStarredRepoIds() async -> Set<Int>
 }
