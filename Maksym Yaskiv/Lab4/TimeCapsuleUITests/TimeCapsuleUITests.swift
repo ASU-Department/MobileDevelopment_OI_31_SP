@@ -1,3 +1,10 @@
+//
+//  Lab5_TimeCapsuleUITests.swift
+//  Lab5_TimeCapsule
+//
+//  Created by User on 17.12.2025.
+//
+
 import XCTest
 
 final class Lab5_TimeCapsuleUITests: XCTestCase {
