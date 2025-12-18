@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  SportsHubDemo
+//
+//  Created by Maksym on 19.10.2025.
+//
+
 import SwiftUI
 import SwiftData
 
@@ -44,9 +51,10 @@ struct ContentView: View {
                         Toggle(isOn: Binding(
                             get: { viewModel.showLiveOnly },
                             set: { viewModel.setShowLiveOnly($0) }
-                        )) {
+                        ), label: {
                             Text("Live only")
-                        }
+                        })
+                        .accessibilityIdentifier("LiveOnlyToggleIdentifier")
                         .toggleStyle(SwitchToggleStyle())
                     }
                     .padding(.horizontal)
@@ -132,6 +140,12 @@ struct ContentView: View {
                     ),
                     allTeams: viewModel.allTeams
                 )
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done") { showFavoritesManager = false }
+                            .accessibilityIdentifier("favoritesDoneButton")
+                    }
+                }
             }
         }
         .task {
@@ -153,4 +167,3 @@ struct ContentView: View {
     }
     .modelContainer(PreviewContainer.shared)
 }
-
