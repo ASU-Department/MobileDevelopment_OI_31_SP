@@ -6,84 +6,101 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct CryptoListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CoinEntity.currentPrice, ascending: false)],
-        animation: .default)
-    private var allCoins: FetchedResults<CoinEntity>
-
-    @State private var portfolioCoins: [String: Bool] = [
-        "bitcoin": true, "ethereum": true, "ripple": true, "solana": true
-    ]
-    @State private var showPortfolioOnly = false
-    @State private var isLoading = false
+    @StateObject private var viewModel: CryptoListViewModel
     
-    private let coinService = CoinGeckoService()
-    
-    private let lastFetchKey = "lastFetchTime"
-    private let cacheInterval: TimeInterval = 5 * 60 // 5 minutes
-
-    private var filteredCoins: [CoinEntity] {
-        if showPortfolioOnly {
-            return allCoins.filter { portfolioCoins[$0.id ?? "", default: false] }
-        } else {
-            return Array(allCoins)
-        }
+    init(repository: CoinRepositoryProtocol) {
+        _viewModel = StateObject(wrappedValue: CryptoListViewModel(repository: repository))
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Toggle(isOn: $showPortfolioOnly) {
-                    Text("Show Portfolio Only")
-                        .font(.headline)
-                }
-                .padding(.horizontal)
-                .padding(.top)
-
-                if isLoading && allCoins.isEmpty {
-                    ProgressView("Loading Coins...")
-                } else {
-                    List(filteredCoins, id: \.self) { coin in
-                        CryptoRowView(coin: coin)
+        NavigationStack {
+            List {
+                ForEach(viewModel.filteredCoins) { coin in
+                    NavigationLink(value: coin) {
+                        CryptoRowView(coin: coin) {
+                            Task {
+                                await viewModel.toggleFavorite(for: coin)
+                            }
+                        }
                     }
-                    .listStyle(PlainListStyle())
                 }
             }
-            .navigationTitle("CryptoTracker")
+            .listStyle(PlainListStyle())
+            .refreshable {
+                await viewModel.refreshData()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("CryptoTracker").font(.headline)
+
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            viewModel.showPortfolioOnly.toggle()
+                        }
+                    }) {
+                        Image(systemName: viewModel.showPortfolioOnly ? "star.fill" : "star")
+                            .font(.headline)
+                            .foregroundColor(.yellow)
+                    }
+                    .accessibilityIdentifier("portfolio_filter_button")
+                }
+            }
+            .safeAreaInset(edge: .bottom, alignment: .center) {
+                Link(destination: URL(string: "https://www.coingecko.com?utm_source=CryptoTracker&utm_medium=referral")!) {
+                    HStack(spacing: 4) {
+                        Text("Data powered by")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                        
+                        Image("coingecko_logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 15)
+                    }
+                    .padding(8)
+                    .background(.thinMaterial)
+                    .cornerRadius(10)
+                }
+                .padding(.bottom, 4)
+            }
             .task {
-                await loadDataIfNeeded()
+                await viewModel.loadData()
+            }
+            .navigationDestination(for: Coin.self) { coin in
+                CoinDetailView(coin: coin)
+            }
+            .alert(item: $viewModel.errorAlert) { alert in
+                Alert(title: Text("Network Error"),
+                      message: Text(alert.message),
+                      dismissButton: .default(Text("OK")))
+            }
+            .overlay(alignment: .top) {
+                if viewModel.showThrottledMessage {
+                    Text("Please wait a moment before refreshing again.")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(10)
+                        .background(.thinMaterial)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 4)
+                }
             }
         }
     }
-    
-    private func loadDataIfNeeded() async {
-        guard !isLoading else { return }
-        
-        let lastFetchTime = UserDefaults.standard.double(forKey: lastFetchKey)
-        let now = Date().timeIntervalSince1970
-        
-        // Check if the data needs to be refreshed from the API.
-        let needsUpdate = (now - lastFetchTime > cacheInterval) || allCoins.isEmpty
-        
-        if needsUpdate {
-            // Set the loading flag to prevent concurrent fetches.
-            self.isLoading = true
-            
-            do {
-                let cryptoModels = try await coinService.fetchCoins()
-                PersistenceController.shared.saveCoins(from: cryptoModels)
-                UserDefaults.standard.set(now, forKey: lastFetchKey)
-            } catch {
-                print("Failed to load coins: \(error.localizedDescription)")
-            }
-            
-            // Reset the loading flag after the operation completes.
-            self.isLoading = false
-        }
-    }
+}
+
+
+struct ErrorAlert: Identifiable {
+    let id = UUID()
+    let message: String
 }
