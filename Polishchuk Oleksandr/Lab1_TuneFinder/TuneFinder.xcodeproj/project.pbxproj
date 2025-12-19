@@ -6,11 +6,80 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		9398ACD82EF286DF00C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398ACE52EF286FB00C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398ACF22EF2871300C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398AD012EF2872D00C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398AD102EF2874600C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398AD1D2EF2882E00C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+		9398AD322EF288C200C1CDD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93DD99832ED475F300807DE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93DD998A2ED475F300807DE4;
+			remoteInfo = TuneFinder;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		932A845B2EF29A8100A73D40 /* FavoritesViewModel_XCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = FavoritesViewModel_XCTest.xctest; path = "/Users/alexpoliscuk/Documents/GitHub/MobileDevelopment_OI_31_SP/Polishchuk Oleksandr/Lab1_TuneFinder/build/Debug-iphoneos/TuneFinder.app/PlugIns/FavoritesViewModel_XCTest.xctest"; sourceTree = "<absolute>"; };
+		932A845C2EF29A8100A73D40 /* SearchViewModel_SwiftTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SearchViewModel_SwiftTesting.xctest; path = "/Users/alexpoliscuk/Documents/GitHub/MobileDevelopment_OI_31_SP/Polishchuk Oleksandr/Lab1_TuneFinder/build/Debug-iphoneos/TuneFinder.app/PlugIns/SearchViewModel_SwiftTesting.xctest"; sourceTree = "<absolute>"; };
+		932A845D2EF29A8100A73D40 /* Actors_SwiftTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Actors_SwiftTesting.xctest; path = "/Users/alexpoliscuk/Documents/GitHub/MobileDevelopment_OI_31_SP/Polishchuk Oleksandr/Lab1_TuneFinder/build/Debug-iphoneos/TuneFinder.app/PlugIns/Actors_SwiftTesting.xctest"; sourceTree = "<absolute>"; };
+		932A845E2EF29A8100A73D40 /* SearchFlow_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SearchFlow_UITests.xctest; path = "/Users/alexpoliscuk/Documents/GitHub/MobileDevelopment_OI_31_SP/Polishchuk Oleksandr/Lab1_TuneFinder/build/Debug-iphoneos/SearchFlow_UITests-Runner.app/PlugIns/SearchFlow_UITests.xctest"; sourceTree = "<absolute>"; };
+		932A845F2EF29A8100A73D40 /* FavoritesFlow_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = FavoritesFlow_UITests.xctest; path = "/Users/alexpoliscuk/Documents/GitHub/MobileDevelopment_OI_31_SP/Polishchuk Oleksandr/Lab1_TuneFinder/build/Debug-iphoneos/FavoritesFlow_UITests-Runner.app/PlugIns/FavoritesFlow_UITests.xctest"; sourceTree = "<absolute>"; };
 		9377B02B2ED583850046855C /* TuneFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuneFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9398AD192EF2882E00C1CDD5 /* TunerFinderUnit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TunerFinderUnit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9398AD2C2EF288C200C1CDD5 /* TunerFinderUI_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TunerFinderUI_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9398AD1A2EF2882E00C1CDD5 /* TunerFinderUnit_Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TunerFinderUnit_Tests;
+			sourceTree = "<group>";
+		};
+		9398AD2D2EF288C200C1CDD5 /* TunerFinderUI_Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TunerFinderUI_Tests;
+			sourceTree = "<group>";
+		};
 		93DD998D2ED475F300807DE4 /* TuneFinde_lab_1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = TuneFinde_lab_1;
@@ -19,6 +88,55 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9398ACD12EF286DF00C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACDE2EF286FB00C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACEB2EF2871300C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACF82EF2872D00C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD072EF2874600C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD162EF2882E00C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD292EF288C200C1CDD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		93DD99882ED475F300807DE4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -34,12 +152,162 @@
 			children = (
 				93DD998D2ED475F300807DE4 /* TuneFinde_lab_1 */,
 				9377B02B2ED583850046855C /* TuneFinder.app */,
+				9398AD192EF2882E00C1CDD5 /* TunerFinderUnit_Tests.xctest */,
+				9398AD1A2EF2882E00C1CDD5 /* TunerFinderUnit_Tests */,
+				9398AD2C2EF288C200C1CDD5 /* TunerFinderUI_Tests.xctest */,
+				9398AD2D2EF288C200C1CDD5 /* TunerFinderUI_Tests */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9398ACD32EF286DF00C1CDD5 /* FavoritesViewModel_XCTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398ACDA2EF286DF00C1CDD5 /* Build configuration list for PBXNativeTarget "FavoritesViewModel_XCTest" */;
+			buildPhases = (
+				9398ACD02EF286DF00C1CDD5 /* Sources */,
+				9398ACD12EF286DF00C1CDD5 /* Frameworks */,
+				9398ACD22EF286DF00C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398ACD92EF286DF00C1CDD5 /* PBXTargetDependency */,
+			);
+			name = FavoritesViewModel_XCTest;
+			packageProductDependencies = (
+			);
+			productName = FavoritesViewModel_XCTest;
+			productReference = 932A845B2EF29A8100A73D40 /* FavoritesViewModel_XCTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9398ACE02EF286FB00C1CDD5 /* SearchViewModel_SwiftTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398ACE72EF286FB00C1CDD5 /* Build configuration list for PBXNativeTarget "SearchViewModel_SwiftTesting" */;
+			buildPhases = (
+				9398ACDD2EF286FB00C1CDD5 /* Sources */,
+				9398ACDE2EF286FB00C1CDD5 /* Frameworks */,
+				9398ACDF2EF286FB00C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398ACE62EF286FB00C1CDD5 /* PBXTargetDependency */,
+			);
+			name = SearchViewModel_SwiftTesting;
+			packageProductDependencies = (
+			);
+			productName = SearchViewModel_SwiftTesting;
+			productReference = 932A845C2EF29A8100A73D40 /* SearchViewModel_SwiftTesting.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9398ACED2EF2871300C1CDD5 /* Actors_SwiftTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398ACF42EF2871300C1CDD5 /* Build configuration list for PBXNativeTarget "Actors_SwiftTesting" */;
+			buildPhases = (
+				9398ACEA2EF2871300C1CDD5 /* Sources */,
+				9398ACEB2EF2871300C1CDD5 /* Frameworks */,
+				9398ACEC2EF2871300C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398ACF32EF2871300C1CDD5 /* PBXTargetDependency */,
+			);
+			name = Actors_SwiftTesting;
+			packageProductDependencies = (
+			);
+			productName = Actors_SwiftTesting;
+			productReference = 932A845D2EF29A8100A73D40 /* Actors_SwiftTesting.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9398ACFA2EF2872D00C1CDD5 /* SearchFlow_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398AD032EF2872E00C1CDD5 /* Build configuration list for PBXNativeTarget "SearchFlow_UITests" */;
+			buildPhases = (
+				9398ACF72EF2872D00C1CDD5 /* Sources */,
+				9398ACF82EF2872D00C1CDD5 /* Frameworks */,
+				9398ACF92EF2872D00C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398AD022EF2872D00C1CDD5 /* PBXTargetDependency */,
+			);
+			name = SearchFlow_UITests;
+			packageProductDependencies = (
+			);
+			productName = SearchFlow_UITests;
+			productReference = 932A845E2EF29A8100A73D40 /* SearchFlow_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		9398AD092EF2874600C1CDD5 /* FavoritesFlow_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398AD122EF2874600C1CDD5 /* Build configuration list for PBXNativeTarget "FavoritesFlow_UITests" */;
+			buildPhases = (
+				9398AD062EF2874600C1CDD5 /* Sources */,
+				9398AD072EF2874600C1CDD5 /* Frameworks */,
+				9398AD082EF2874600C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398AD112EF2874600C1CDD5 /* PBXTargetDependency */,
+			);
+			name = FavoritesFlow_UITests;
+			packageProductDependencies = (
+			);
+			productName = FavoritesFlow_UITests;
+			productReference = 932A845F2EF29A8100A73D40 /* FavoritesFlow_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		9398AD182EF2882E00C1CDD5 /* TunerFinderUnit_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398AD1F2EF2882E00C1CDD5 /* Build configuration list for PBXNativeTarget "TunerFinderUnit_Tests" */;
+			buildPhases = (
+				9398AD152EF2882E00C1CDD5 /* Sources */,
+				9398AD162EF2882E00C1CDD5 /* Frameworks */,
+				9398AD172EF2882E00C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398AD1E2EF2882E00C1CDD5 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9398AD1A2EF2882E00C1CDD5 /* TunerFinderUnit_Tests */,
+			);
+			name = TunerFinderUnit_Tests;
+			packageProductDependencies = (
+			);
+			productName = TunerFinderUnit_Tests;
+			productReference = 9398AD192EF2882E00C1CDD5 /* TunerFinderUnit_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9398AD2B2EF288C200C1CDD5 /* TunerFinderUI_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9398AD342EF288C200C1CDD5 /* Build configuration list for PBXNativeTarget "TunerFinderUI_Tests" */;
+			buildPhases = (
+				9398AD282EF288C200C1CDD5 /* Sources */,
+				9398AD292EF288C200C1CDD5 /* Frameworks */,
+				9398AD2A2EF288C200C1CDD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9398AD332EF288C200C1CDD5 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9398AD2D2EF288C200C1CDD5 /* TunerFinderUI_Tests */,
+			);
+			name = TunerFinderUI_Tests;
+			packageProductDependencies = (
+			);
+			productName = TunerFinderUI_Tests;
+			productReference = 9398AD2C2EF288C200C1CDD5 /* TunerFinderUI_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		93DD998A2ED475F300807DE4 /* TuneFinder */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 93DD99962ED4760900807DE4 /* Build configuration list for PBXNativeTarget "TuneFinder" */;
@@ -72,6 +340,34 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					9398ACD32EF286DF00C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398ACE02EF286FB00C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398ACED2EF2871300C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398ACFA2EF2872D00C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398AD092EF2874600C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398AD182EF2882E00C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
+					9398AD2B2EF288C200C1CDD5 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 93DD998A2ED475F300807DE4;
+					};
 					93DD998A2ED475F300807DE4 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -92,11 +388,67 @@
 			projectRoot = "";
 			targets = (
 				93DD998A2ED475F300807DE4 /* TuneFinder */,
+				9398ACD32EF286DF00C1CDD5 /* FavoritesViewModel_XCTest */,
+				9398ACE02EF286FB00C1CDD5 /* SearchViewModel_SwiftTesting */,
+				9398ACED2EF2871300C1CDD5 /* Actors_SwiftTesting */,
+				9398ACFA2EF2872D00C1CDD5 /* SearchFlow_UITests */,
+				9398AD092EF2874600C1CDD5 /* FavoritesFlow_UITests */,
+				9398AD182EF2882E00C1CDD5 /* TunerFinderUnit_Tests */,
+				9398AD2B2EF288C200C1CDD5 /* TunerFinderUI_Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9398ACD22EF286DF00C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACDF2EF286FB00C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACEC2EF2871300C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACF92EF2872D00C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD082EF2874600C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD172EF2882E00C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD2A2EF288C200C1CDD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		93DD99892ED475F300807DE4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -107,6 +459,55 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9398ACD02EF286DF00C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACDD2EF286FB00C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACEA2EF2871300C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398ACF72EF2872D00C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD062EF2874600C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD152EF2882E00C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9398AD282EF288C200C1CDD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		93DD99872ED475F300807DE4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -116,7 +517,319 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9398ACD92EF286DF00C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398ACD82EF286DF00C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398ACE62EF286FB00C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398ACE52EF286FB00C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398ACF32EF2871300C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398ACF22EF2871300C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398AD022EF2872D00C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398AD012EF2872D00C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398AD112EF2874600C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398AD102EF2874600C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398AD1E2EF2882E00C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398AD1D2EF2882E00C1CDD5 /* PBXContainerItemProxy */;
+		};
+		9398AD332EF288C200C1CDD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93DD998A2ED475F300807DE4 /* TuneFinder */;
+			targetProxy = 9398AD322EF288C200C1CDD5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		9398ACDB2EF286DF00C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.FavoritesViewModel-XCTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Debug;
+		};
+		9398ACDC2EF286DF00C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.FavoritesViewModel-XCTest";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Release;
+		};
+		9398ACE82EF286FB00C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.SearchViewModel-SwiftTesting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Debug;
+		};
+		9398ACE92EF286FB00C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.SearchViewModel-SwiftTesting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Release;
+		};
+		9398ACF52EF2871300C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.Actors-SwiftTesting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Debug;
+		};
+		9398ACF62EF2871300C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.Actors-SwiftTesting";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Release;
+		};
+		9398AD042EF2872E00C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.SearchFlow-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Debug;
+		};
+		9398AD052EF2872E00C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.SearchFlow-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Release;
+		};
+		9398AD132EF2874600C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.FavoritesFlow-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Debug;
+		};
+		9398AD142EF2874600C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.FavoritesFlow-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Release;
+		};
+		9398AD202EF2882E00C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.TunerFinderUnit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Debug;
+		};
+		9398AD212EF2882E00C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.TunerFinderUnit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TuneFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TuneFinder";
+			};
+			name = Release;
+		};
+		9398AD352EF288C200C1CDD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.TunerFinderUI-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Debug;
+		};
+		9398AD362EF288C200C1CDD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Oleksandr-Polishchuk.TunerFinderUI-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TuneFinder;
+			};
+			name = Release;
+		};
 		93DD99942ED4760900807DE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -301,6 +1014,69 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9398ACDA2EF286DF00C1CDD5 /* Build configuration list for PBXNativeTarget "FavoritesViewModel_XCTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398ACDB2EF286DF00C1CDD5 /* Debug */,
+				9398ACDC2EF286DF00C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398ACE72EF286FB00C1CDD5 /* Build configuration list for PBXNativeTarget "SearchViewModel_SwiftTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398ACE82EF286FB00C1CDD5 /* Debug */,
+				9398ACE92EF286FB00C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398ACF42EF2871300C1CDD5 /* Build configuration list for PBXNativeTarget "Actors_SwiftTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398ACF52EF2871300C1CDD5 /* Debug */,
+				9398ACF62EF2871300C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398AD032EF2872E00C1CDD5 /* Build configuration list for PBXNativeTarget "SearchFlow_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398AD042EF2872E00C1CDD5 /* Debug */,
+				9398AD052EF2872E00C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398AD122EF2874600C1CDD5 /* Build configuration list for PBXNativeTarget "FavoritesFlow_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398AD132EF2874600C1CDD5 /* Debug */,
+				9398AD142EF2874600C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398AD1F2EF2882E00C1CDD5 /* Build configuration list for PBXNativeTarget "TunerFinderUnit_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398AD202EF2882E00C1CDD5 /* Debug */,
+				9398AD212EF2882E00C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9398AD342EF288C200C1CDD5 /* Build configuration list for PBXNativeTarget "TunerFinderUI_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9398AD352EF288C200C1CDD5 /* Debug */,
+				9398AD362EF288C200C1CDD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		93DD99862ED475F300807DE4 /* Build configuration list for PBXProject "TuneFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

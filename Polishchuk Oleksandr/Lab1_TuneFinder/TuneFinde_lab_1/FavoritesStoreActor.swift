@@ -3,11 +3,11 @@ import SwiftData
 
 actor FavoritesStoreActor {
 
-    /// Один спільний інстанс на весь застосунок
     static let shared = FavoritesStoreActor()
 
     private let container: ModelContainer
 
+    // Default init: реальний контейнер
     private init() {
         do {
             container = try ModelContainer(for: FavoriteSongEntity.self)
@@ -16,21 +16,22 @@ actor FavoritesStoreActor {
         }
     }
 
-    private var context: ModelContext {
-        ModelContext(container)
+    // Test init: in-memory контейнер
+    init(testContainer: ModelContainer) {
+        self.container = testContainer
     }
 
-    // MARK: - CRUD
+    private var context: ModelContext { ModelContext(container) }
 
-    /// Повертає всі обрані треки
+    // MARK: - CRUD
     func fetchAll() throws -> [FavoriteSongEntity] {
+        // ✅ явний тип у keyPath
         let descriptor = FetchDescriptor<FavoriteSongEntity>(
-            sortBy: [SortDescriptor(\.addedAt, order: .reverse)]
+            sortBy: [SortDescriptor(\FavoriteSongEntity.addedAt, order: .reverse)]
         )
         return try context.fetch(descriptor)
     }
 
-    /// Знаходить один обраний трек за id
     func find(byID id: Int) throws -> FavoriteSongEntity? {
         let predicate = #Predicate<FavoriteSongEntity> { entity in
             entity.id == id
@@ -39,30 +40,24 @@ actor FavoritesStoreActor {
         return try context.fetch(descriptor).first
     }
 
-    /// Додає трек до обраних (якщо його ще нема)
     func add(from song: Song) throws {
-        if try find(byID: song.id) != nil {
-            return // уже в обраних
-        }
+        let songId = song.id // (прибере попередження про main-actor, якщо воно є)
+        if try find(byID: songId) != nil { return }
 
         let entity = FavoriteSongEntity(from: song)
         context.insert(entity)
         try context.save()
     }
 
-    /// Видаляє трек з обраних
     func remove(id: Int) throws {
         guard let entity = try find(byID: id) else { return }
         context.delete(entity)
         try context.save()
     }
 
-    /// Очищає всі обрані
     func removeAll() throws {
         let all = try fetchAll()
-        for item in all {
-            context.delete(item)
-        }
+        for item in all { context.delete(item) }
         try context.save()
     }
-}	
+}

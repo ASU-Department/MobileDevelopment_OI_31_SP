@@ -2,7 +2,8 @@ import SwiftUI
 
 @main
 struct TuneFinderApp: App {
-    private let coordinator = AppCoordinator()
+
+    @State private var coordinator = AppCoordinator()
 
     var body: some Scene {
         WindowGroup {

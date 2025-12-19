@@ -7,7 +7,14 @@ final class AppCoordinator {
 
     @MainActor
     init(repository: SongsRepositoryProtocol? = nil) {
-        self.repository = repository ?? TuneFinderRepository.shared
+        if let repository {
+            self.repository = repository
+        } else if ProcessInfo.processInfo.arguments.contains("-ui-testing") {
+            // Для XCUITest: без мережі/SwiftData
+            self.repository = MockSongsRepository()
+        } else {
+            self.repository = TuneFinderRepository.shared
+        }
     }
 
     @ViewBuilder
@@ -16,14 +23,14 @@ final class AppCoordinator {
             SearchView(viewModel: SearchViewModel(repository: repository))
                 .toolbar {
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        // 1) Перехід до Favorites (MVVM)
+
                         NavigationLink {
                             FavoritesView(viewModel: FavoritesViewModel(repository: repository))
                         } label: {
                             Image(systemName: "heart")
                         }
+                        .accessibilityIdentifier("navFavoritesButton")
 
-                        // 2) Перехід до ізольованої TCA-фічі
                         NavigationLink {
                             let store = SimpleStore(
                                 initialState: TCASettingsState(),
@@ -33,11 +40,10 @@ final class AppCoordinator {
                         } label: {
                             Image(systemName: "gearshape")
                         }
+                        .accessibilityIdentifier("navSettingsButton")
                     }
                 }
                 .navigationTitle("TuneFinder")
         }
     }
 }
-
-
