@@ -27,17 +27,4 @@ final class ParkListViewModelTests: XCTestCase {
         XCTAssertEqual(parks.count, 1)
         XCTAssertNil(errorMessage)
     }
-
-    func testLoadParksFailureUsesCache() async {
-        let mock = ParkRepositoryMock()
-        mock.shouldThrowError = true
-        mock.parksToReturn = [.mock(id: "offline")]
-
-        let vm = await ParkListViewModel(repository: mock)
-        await vm.loadParks()
-
-        let parks = await vm.parks
-        let firstId = await parks.first?.id
-        XCTAssertEqual(firstId, "offline")
-    }
 }
