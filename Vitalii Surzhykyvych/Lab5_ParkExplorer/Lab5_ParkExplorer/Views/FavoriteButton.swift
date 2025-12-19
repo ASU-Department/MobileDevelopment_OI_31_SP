@@ -17,5 +17,8 @@ struct FavoriteButton: View {
                 .imageScale(.large)
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier(
+            isFavorite ? "favorite_on" : "favorite_off"
+        )
     }
 }
