@@ -13,13 +13,16 @@ struct ContentView: View {
 
     @StateObject private var viewModel: ParkListViewModel
     @State private var searchText = ""
+    @State private var favoriteParks: Set<String> = []
 
     init() {
         let context = PersistenceController.shared.container.mainContext
         let storage = ParkStorageActor(context: context)
         let repository = ParkRepository(api: NPSService.shared, storage: storage)
 
-        _viewModel = StateObject(wrappedValue: ParkListViewModel(repository: repository))
+        _viewModel = StateObject(
+            wrappedValue: ParkListViewModel(repository: repository)
+        )
     }
 
     private var filteredParks: [ParkAPIModel] {
@@ -43,34 +46,57 @@ struct ContentView: View {
                         Text(error)
                             .foregroundColor(.secondary)
                         Button("Retry") {
-                            Task { await viewModel.loadParks() }
+                            Task {
+                                await viewModel.loadParks()
+                            }
                         }
                     }
                 } else {
                     List(filteredParks) { park in
                         NavigationLink {
-                            ParkDetailViewAPI(park: park)
+                            ParkDetailViewAPI(
+                                park: park,
+                                favoriteParks: $favoriteParks
+                            )
                         } label: {
-                            VStack(alignment: .leading) {
-                                Text(park.fullName)
-                                    .font(.headline)
-                                Text(park.states)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(park.fullName)
+                                        .font(.headline)
+                                    Text(park.states)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                FavoriteButton(
+                                    isFavorite: Binding(
+                                        get: { favoriteParks.contains(park.id) },
+                                        set: { isFav in
+                                            if isFav { favoriteParks.insert(park.id) }
+                                            else { favoriteParks.remove(park.id) }
+                                        }
+                                    )
+                                )
                             }
                         }
                     }
-                    .refreshable { await viewModel.loadParks() }
+                    .refreshable {
+                        await viewModel.loadParks()
+                    }
                 }
             }
             .navigationTitle("National Parks")
             .searchable(text: $searchText)
             .toolbar {
-                NavigationLink(destination: SettingsView()) {
+                NavigationLink {
+                    SettingsView()
+                } label: {
                     Image(systemName: "gear")
                 }
             }
-            .task { await viewModel.loadParks() }
+            .task {
+                await viewModel.loadParks()
+            }
         }
     }
 }
