@@ -31,12 +31,13 @@ struct RepoSearchView: View {
                     .textFieldStyle(.roundedBorder)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .accessibilityIdentifier("usernameField")
 
                 Button("Load") {
                     Task {
                         await viewModel.load()
                     }
-                }
+                }.accessibilityIdentifier("loadButton")
             }
             .padding(.horizontal)
 
@@ -142,6 +143,7 @@ struct RepoSearchView: View {
                     }
                 )
                 .listRowBackground(GitHubTheme.elevated)
+                .accessibilityIdentifier("repoRow_\(repo.id)")
             }
             .listStyle(.plain)
             .refreshable {

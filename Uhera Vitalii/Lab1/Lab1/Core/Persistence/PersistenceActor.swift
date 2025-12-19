@@ -9,9 +9,9 @@ import Foundation
 
 actor PersistenceActor {
 
-    private let store: PersistenceStore
+    private let store: AnyPersistenceStore
 
-    init(store: PersistenceStore = .shared) {
+    init(store: AnyPersistenceStore = PersistenceStore.shared) {
         self.store = store
     }
 

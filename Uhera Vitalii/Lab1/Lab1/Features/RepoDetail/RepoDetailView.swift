@@ -18,6 +18,7 @@ struct RepositoryDetailView: View {
                     Text(viewModel.repository.name)
                         .font(.title)
                         .bold()
+                        .accessibilityIdentifier("repoTitle")
 
                     if let description = viewModel.repository.description {
                         Text(description)
@@ -73,6 +74,7 @@ struct RepositoryDetailView: View {
                             systemImage: "person.circle"
                         )
                     }
+                    .accessibilityIdentifier("openDeveloperButton")
 
                     Button {
                         viewModel.shareTapped()
@@ -87,6 +89,7 @@ struct RepositoryDetailView: View {
                                 ?? viewModel.repository.fullName
                         ])
                     }
+                    .accessibilityIdentifier("shareButton")
                 }
             }
             .padding()

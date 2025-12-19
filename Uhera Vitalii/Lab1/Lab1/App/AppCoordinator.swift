@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-final class AppCoordinator: ObservableObject {
+final class AppCoordinator: ObservableObject, AppCoordinating {
 
     @Published var path = NavigationPath()
 

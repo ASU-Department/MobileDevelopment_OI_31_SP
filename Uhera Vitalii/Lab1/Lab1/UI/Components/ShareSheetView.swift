@@ -13,7 +13,15 @@ struct ShareSheetView: UIViewControllerRepresentable {
     let items: [Any]
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
+        let vc = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        let label = UILabel()
+        label.text = "SheetContent"
+        label.accessibilityIdentifier = "ShareSheetDetails"
+        
+        vc.view.addSubview(label)
+        
+        return vc
     }
 
     func updateUIViewController(_ vc: UIActivityViewController, context: Context) {}
