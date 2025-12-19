@@ -11,18 +11,15 @@ import SwiftData
 
 struct ContentView: View {
 
-    @Environment(\.modelContext) private var modelContext
-
     @StateObject private var viewModel: ParkListViewModel
-
     @State private var searchText = ""
 
     init() {
-        _viewModel = StateObject(
-            wrappedValue: ParkListViewModel(
-                modelContext: PersistenceController.shared.container.mainContext
-            )
-        )
+        let context = PersistenceController.shared.container.mainContext
+        let storage = ParkStorageActor(context: context)
+        let repository = ParkRepository(api: NPSService.shared, storage: storage)
+
+        _viewModel = StateObject(wrappedValue: ParkListViewModel(repository: repository))
     }
 
     private var filteredParks: [ParkAPIModel] {
@@ -46,9 +43,7 @@ struct ContentView: View {
                         Text(error)
                             .foregroundColor(.secondary)
                         Button("Retry") {
-                            Task {
-                                await viewModel.loadParks()
-                            }
+                            Task { await viewModel.loadParks() }
                         }
                     }
                 } else {
@@ -65,23 +60,17 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .refreshable {
-                        await viewModel.loadParks()
-                    }
+                    .refreshable { await viewModel.loadParks() }
                 }
             }
             .navigationTitle("National Parks")
             .searchable(text: $searchText)
             .toolbar {
-                NavigationLink {
-                    SettingsView()
-                } label: {
+                NavigationLink(destination: SettingsView()) {
                     Image(systemName: "gear")
                 }
             }
-            .task {
-                await viewModel.loadParks()
-            }
+            .task { await viewModel.loadParks() }
         }
     }
 }
