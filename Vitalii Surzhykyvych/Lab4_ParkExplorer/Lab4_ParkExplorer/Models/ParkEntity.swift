@@ -21,3 +21,17 @@ class ParkEntity {
         self.descriptionText = api.description
     }
 }
+
+extension ParkEntity {
+    func toAPIModel() -> ParkAPIModel {
+        ParkAPIModel(
+            id: id,
+            fullName: name,
+            states: state,
+            description: descriptionText,
+            latitude: nil,
+            longitude: nil,
+            images: []
+        )
+    }
+}
