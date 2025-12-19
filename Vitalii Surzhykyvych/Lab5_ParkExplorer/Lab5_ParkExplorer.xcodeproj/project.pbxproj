@@ -6,11 +6,40 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		7AC4A04D2EF5488B007FB670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7ADA31192EF537CA0018D202 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7ADA31202EF537CA0018D202;
+			remoteInfo = Lab5_ParkExplorer;
+		};
+		7AC4A05C2EF548EF007FB670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7ADA31192EF537CA0018D202 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7ADA31202EF537CA0018D202;
+			remoteInfo = Lab5_ParkExplorer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		7AC4A0492EF5488B007FB670 /* Lab5_ParkExplorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lab5_ParkExplorerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC4A0562EF548EF007FB670 /* Lab5_ParkExplorerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lab5_ParkExplorerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADA31212EF537CA0018D202 /* Lab5_ParkExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab5_ParkExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		7AC4A04A2EF5488B007FB670 /* Lab5_ParkExplorerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Lab5_ParkExplorerTests;
+			sourceTree = "<group>";
+		};
+		7AC4A0572EF548EF007FB670 /* Lab5_ParkExplorerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Lab5_ParkExplorerUITests;
+			sourceTree = "<group>";
+		};
 		7ADA31232EF537CA0018D202 /* Lab5_ParkExplorer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Lab5_ParkExplorer;
@@ -19,6 +48,20 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7AC4A0462EF5488B007FB670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC4A0532EF548EF007FB670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ADA311E2EF537CA0018D202 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				7ADA31232EF537CA0018D202 /* Lab5_ParkExplorer */,
+				7AC4A04A2EF5488B007FB670 /* Lab5_ParkExplorerTests */,
+				7AC4A0572EF548EF007FB670 /* Lab5_ParkExplorerUITests */,
 				7ADA31222EF537CA0018D202 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				7ADA31212EF537CA0018D202 /* Lab5_ParkExplorer.app */,
+				7AC4A0492EF5488B007FB670 /* Lab5_ParkExplorerTests.xctest */,
+				7AC4A0562EF548EF007FB670 /* Lab5_ParkExplorerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +95,52 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7AC4A0482EF5488B007FB670 /* Lab5_ParkExplorerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AC4A04F2EF5488B007FB670 /* Build configuration list for PBXNativeTarget "Lab5_ParkExplorerTests" */;
+			buildPhases = (
+				7AC4A0452EF5488B007FB670 /* Sources */,
+				7AC4A0462EF5488B007FB670 /* Frameworks */,
+				7AC4A0472EF5488B007FB670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AC4A04E2EF5488B007FB670 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7AC4A04A2EF5488B007FB670 /* Lab5_ParkExplorerTests */,
+			);
+			name = Lab5_ParkExplorerTests;
+			packageProductDependencies = (
+			);
+			productName = Lab5_ParkExplorerTests;
+			productReference = 7AC4A0492EF5488B007FB670 /* Lab5_ParkExplorerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7AC4A0552EF548EF007FB670 /* Lab5_ParkExplorerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AC4A05E2EF548EF007FB670 /* Build configuration list for PBXNativeTarget "Lab5_ParkExplorerUITests" */;
+			buildPhases = (
+				7AC4A0522EF548EF007FB670 /* Sources */,
+				7AC4A0532EF548EF007FB670 /* Frameworks */,
+				7AC4A0542EF548EF007FB670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AC4A05D2EF548EF007FB670 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7AC4A0572EF548EF007FB670 /* Lab5_ParkExplorerUITests */,
+			);
+			name = Lab5_ParkExplorerUITests;
+			packageProductDependencies = (
+			);
+			productName = Lab5_ParkExplorerUITests;
+			productReference = 7AC4A0562EF548EF007FB670 /* Lab5_ParkExplorerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		7ADA31202EF537CA0018D202 /* Lab5_ParkExplorer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7ADA312C2EF537D10018D202 /* Build configuration list for PBXNativeTarget "Lab5_ParkExplorer" */;
@@ -80,6 +173,14 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					7AC4A0482EF5488B007FB670 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 7ADA31202EF537CA0018D202;
+					};
+					7AC4A0552EF548EF007FB670 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 7ADA31202EF537CA0018D202;
+					};
 					7ADA31202EF537CA0018D202 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -100,11 +201,27 @@
 			projectRoot = "";
 			targets = (
 				7ADA31202EF537CA0018D202 /* Lab5_ParkExplorer */,
+				7AC4A0482EF5488B007FB670 /* Lab5_ParkExplorerTests */,
+				7AC4A0552EF548EF007FB670 /* Lab5_ParkExplorerUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7AC4A0472EF5488B007FB670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC4A0542EF548EF007FB670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ADA311F2EF537CA0018D202 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +232,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7AC4A0452EF5488B007FB670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC4A0522EF548EF007FB670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ADA311D2EF537CA0018D202 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +255,98 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7AC4A04E2EF5488B007FB670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7ADA31202EF537CA0018D202 /* Lab5_ParkExplorer */;
+			targetProxy = 7AC4A04D2EF5488B007FB670 /* PBXContainerItemProxy */;
+		};
+		7AC4A05D2EF548EF007FB670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7ADA31202EF537CA0018D202 /* Lab5_ParkExplorer */;
+			targetProxy = 7AC4A05C2EF548EF007FB670 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7AC4A0502EF5488B007FB670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vitaliksurzhykyvych.Lab5-ParkExplorerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lab5_ParkExplorer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Lab5_ParkExplorer";
+			};
+			name = Debug;
+		};
+		7AC4A0512EF5488B007FB670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vitaliksurzhykyvych.Lab5-ParkExplorerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lab5_ParkExplorer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Lab5_ParkExplorer";
+			};
+			name = Release;
+		};
+		7AC4A05F2EF548EF007FB670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vitaliksurzhykyvych.Lab5-ParkExplorerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lab5_ParkExplorer;
+			};
+			name = Debug;
+		};
+		7AC4A0602EF548EF007FB670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vitaliksurzhykyvych.Lab5-ParkExplorerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lab5_ParkExplorer;
+			};
+			name = Release;
+		};
 		7ADA312A2EF537D10018D202 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +531,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7AC4A04F2EF5488B007FB670 /* Build configuration list for PBXNativeTarget "Lab5_ParkExplorerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC4A0502EF5488B007FB670 /* Debug */,
+				7AC4A0512EF5488B007FB670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AC4A05E2EF548EF007FB670 /* Build configuration list for PBXNativeTarget "Lab5_ParkExplorerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC4A05F2EF548EF007FB670 /* Debug */,
+				7AC4A0602EF548EF007FB670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7ADA311C2EF537CA0018D202 /* Build configuration list for PBXProject "Lab5_ParkExplorer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
