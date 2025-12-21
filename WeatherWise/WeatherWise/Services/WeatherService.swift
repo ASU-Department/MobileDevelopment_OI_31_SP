@@ -19,7 +19,7 @@ struct CurrentWeather: Codable {
     let weathercode: Int
 }
 
-final class WeatherService {
+final class WeatherService: WeatherServiceProtocol {
     
     func fetchWeather(lat: Double, lon: Double) async throws -> WeatherResponse {
         let urlString =

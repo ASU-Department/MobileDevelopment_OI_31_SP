@@ -12,7 +12,7 @@ struct PokemonListView: View {
                     PokemonRow(pokemon: pokemon)
                 }
             }
-        }
+        }.accessibilityIdentifier("pokemon_list")
     }
     
     private func binding(for pokemon: Pokemon) -> Binding<Pokemon> {

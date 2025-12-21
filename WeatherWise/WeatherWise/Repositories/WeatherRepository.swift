@@ -8,9 +8,26 @@
 import Foundation
 import SwiftData
 
-final class WeatherRepository {
+final class WeatherRepository: WeatherRepositoryProtocol {
     
     private let service = WeatherService()
+    
+    private let coordinatesByCity: [String: (Double, Double)] = [
+        "Львів": (49.8397, 24.0297),
+        "Київ": (50.4501, 30.5234),
+        "Одеса": (46.4825, 30.7233)
+    ]
+    
+    func loadWeather(for city: String) async throws -> (temperature: Double, wind: Double) {
+        let coordinates = coordinatesByCity[city] ?? (49.8397, 24.0297)
+        let (lat, lon) = coordinates
+        
+        let response = try await service.fetchWeather(lat: lat, lon: lon)
+        let temp = response.current_weather.temperature
+        let wind = response.current_weather.windspeed
+        
+        return (temperature: temp, wind: wind)
+    }
     
     func loadWeather(for city: String,
                      coordinates: (Double, Double),

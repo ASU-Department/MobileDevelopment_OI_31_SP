@@ -4,6 +4,12 @@
 //
 //  Created by paul on 17.10.2025.
 //
+//
+//  ContentView.swift
+//  habitBuddy
+//
+//  Created by paul on 17.10.2025.
+//
     
 import SwiftUI
 
@@ -49,6 +55,7 @@ struct ContentView: View {
                         } label: {
                             HStack {
                                 Text(habit.name)
+                                    .accessibilityIdentifier("habitCell_\(habit.name)")
                                 Spacer()
                                 Text("\(habit.streak)")
                                     .foregroundColor(.secondary)
@@ -72,6 +79,7 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityIdentifier("contentAddHabitButton")
             }
             .sheet(isPresented: $showAddHabit) {
                 AddHabitView(

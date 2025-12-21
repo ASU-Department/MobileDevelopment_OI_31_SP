@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "B9E01CCC-92C7-4FF2-B117-AF691E319B18",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:lab1.xcodeproj",
+        "identifier" : "EAF404752EF1F8150027F4D9",
+        "name" : "lab1TestsUi"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:lab1.xcodeproj",
+        "identifier" : "EAF404652EF1F7E30027F4D9",
+        "name" : "lab1TestsU"
+      }
+    }
+  ],
+  "version" : 1
+}

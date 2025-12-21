@@ -1,187 +1,148 @@
 import SwiftUI
-import SwiftData
 
 struct SearchView: View {
-    @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel: SearchViewModel
+    @StateObject private var player: AudioPlayerManager
 
-    @StateObject private var viewModel = SearchViewModel()
-    @StateObject private var player = AudioPlayerManager()
-
-    /// простий стан у UserDefaults (вимога лаби)
-    @AppStorage("showOnlyFavoritesInSearch") private var showOnlyFavorites: Bool = false
-
-    @Query(sort: \FavoriteSongEntity.addedAt, order: .reverse)
-    private var favoriteEntities: [FavoriteSongEntity]
-
-    // Локальний стан для миттєвого оновлення сердечок
-    @State private var favoriteIds: Set<Int> = []
+    @AppStorage("showOnlyFavoritesInSearch")
+    private var showOnlyFavorites: Bool = false
 
     @State private var showErrorAlert = false
 
+    // DI: ViewModel приходить ззовні (від координатора)
+    init(
+        viewModel: SearchViewModel,
+        player: AudioPlayerManager = AudioPlayerManager()
+    ) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _player = StateObject(wrappedValue: player)
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            header
+        VStack(spacing: 12) {
+            searchBar
 
-            searchField
-
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-                    .padding(.top, 8)
-            } else if viewModel.songs.isEmpty {
-                EmptyStateView(
-                    message: viewModel.isOfflineMode
-                    ? "Offline. Showing last saved results (if any)."
-                    : "Start typing to search for songs."
-                )
-                .padding(.top, 24)
-                .frame(maxWidth: .infinity, alignment: .center)
-            } else {
-                resultsList
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            if !viewModel.recentQueries.isEmpty {
+                recentQueriesView
             }
 
-            Spacer()    // 🔹 «приклеює» все до верху
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top) // додатково фіксує вирівнювання
-        .navigationTitle("TuneFinder")
-        .toolbar {
-            toolbarContent
-        }
-        .onAppear {
-            if viewModel.songs.isEmpty {
-                viewModel.loadCachedSongs(from: modelContext)
-            }
-            syncFavoriteIdsWithQuery()
-        }
-        .onChange(of: favoriteEntities) { _, _ in
-            // якщо SwiftData оновилася ззовні – підтягнути зміни в локальний стан
-            syncFavoriteIdsWithQuery()
-        }
-        .alert("Error", isPresented: $showErrorAlert) {
-            Button("OK", role: .cancel) {
-                viewModel.errorMessage = nil
-            }
-        } message: {
-            Text(viewModel.errorMessage ?? "Unknown error")
+            Toggle("Show only favorites", isOn: $showOnlyFavorites)
+                .padding(.horizontal)
+
+            content
         }
         .onChange(of: viewModel.errorMessage) { _, newValue in
             showErrorAlert = newValue != nil
         }
-        .refreshable {
-            await viewModel.search(using: modelContext)
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) {
+                showErrorAlert = false
+            }
+        } message: {
+            Text(viewModel.errorMessage ?? "Unknown error")
         }
     }
 
     // MARK: - Subviews
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            if viewModel.isOfflineMode {
-                Text("Offline mode: showing cached results")
-                    .font(.footnote)
-                    .foregroundStyle(.orange)
-            }
-
-            if let date = viewModel.lastUpdateDate {
-                Text("Last update: \(date.formatted(date: .abbreviated, time: .shortened))")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var searchField: some View {
+    private var searchBar: some View {
         HStack {
-            TextField("Search songs or artists", text: $viewModel.searchTerm)
+            TextField("Search songs or artists", text: $viewModel.query)
                 .textFieldStyle(.roundedBorder)
-                .submitLabel(.search)
                 .onSubmit {
-                    Task {
-                        await viewModel.search(using: modelContext)
-                    }
-                }
-                .onChange(of: viewModel.searchTerm) { _, newValue in
-                    let trimmed = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if trimmed.isEmpty {
-                        // коли поле пошуку очистили – прибираємо результати
-                        viewModel.songs = []
-                        viewModel.isOfflineMode = false
-                        viewModel.errorMessage = nil
-                    }
+                    viewModel.performSearch()
                 }
 
             Button {
-                Task {
-                    await viewModel.search(using: modelContext)
-                }
+                viewModel.performSearch()
             } label: {
                 Image(systemName: "magnifyingglass")
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(.borderedProminent)
+        }
+        .padding([.horizontal, .top])
+    }
+
+    private var recentQueriesView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(viewModel.recentQueries, id: \.self) { q in
+                    Button {
+                        viewModel.selectQueryFromHistory(q)
+                    } label: {
+                        Text(q)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Capsule()
+                                    .strokeBorder(.secondary, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal)
         }
     }
 
-    private var resultsList: some View {
-        let displayedSongs: [Song] = {
-            if showOnlyFavorites {
-                return viewModel.songs.filter { favoriteIds.contains($0.id) }
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading {
+            Spacer()
+            ProgressView("Searching...")
+            Spacer()
+        } else {
+            let songs = viewModel.filteredSongs(showOnlyFavorites: showOnlyFavorites)
+
+            if songs.isEmpty {
+                Spacer()
+                Text("Start typing a query to search for tracks.")
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                Spacer()
             } else {
-                return viewModel.songs
+                List {
+                    ForEach(songs) { song in
+                        let isPlaying = player.currentlyPlayingId == song.id
+
+                        NavigationLink {
+                            TrackDetailView(
+                                song: song,
+                                isFavorite: Binding(
+                                    get: { viewModel.isFavorite(song) },
+                                    set: { _ in viewModel.toggleFavorite(song) }
+                                ),
+                                player: player,
+                                onPlayTap: {
+                                    togglePlay(song)
+                                }
+                            )
+                        } label: {
+                            SongRowView(
+                                song: song,
+                                isFavorite: Binding(
+                                    get: { viewModel.isFavorite(song) },
+                                    set: { _ in viewModel.toggleFavorite(song) }
+                                ),
+                                isPlaying: isPlaying,
+                                onPlayTap: {
+                                    togglePlay(song)
+                                }
+                            )
+                        }
+                    }
+                }
+                .listStyle(.plain)
             }
-        }()
-
-        return ResultsListView(
-            songs: displayedSongs,
-            isFavorite: { song in
-                favoriteIds.contains(song.id)
-            },
-            toggleFavorite: { song in
-                toggleFavorite(song)
-            },
-            player: player
-        )
-    }
-
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            Toggle(isOn: $showOnlyFavorites) {
-                Image(systemName: "heart.fill")
-            }
-            .toggleStyle(.button)
-            .help("Show only favorite songs in search results")
         }
     }
 
-    // MARK: - Favorites (SwiftData + локальний стан)
-
-    private func syncFavoriteIdsWithQuery() {
-        favoriteIds = Set(favoriteEntities.map { $0.id })
-    }
-
-    private func toggleFavorite(_ song: Song) {
-        // 1. миттєво оновлюємо локальний стан для UI
-        if favoriteIds.contains(song.id) {
-            favoriteIds.remove(song.id)
+    private func togglePlay(_ song: Song) {
+        if player.currentlyPlayingId == song.id {
+            player.stop()
         } else {
-            favoriteIds.insert(song.id)
+            player.playPreview(for: song)
         }
-
-        // 2. синхронно оновлюємо SwiftData (реальне сховище)
-        let descriptor = FetchDescriptor<FavoriteSongEntity>(
-            predicate: #Predicate { $0.id == song.id }
-        )
-
-        if let entities = try? modelContext.fetch(descriptor),
-           let entity = entities.first {
-            // якщо вже в улюблених — прибираємо
-            modelContext.delete(entity)
-        } else {
-            // інакше додаємо
-            _ = FavoriteSongEntity(from: song)
-        }
-
-        try? modelContext.save()
     }
 }
