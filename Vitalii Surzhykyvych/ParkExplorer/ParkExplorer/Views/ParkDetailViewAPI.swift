@@ -11,18 +11,33 @@ import MapKit
 struct ParkDetailViewAPI: View {
 
     let park: ParkAPIModel
-
+    @Binding var favoriteParks: Set<String>
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
 
-                Text(park.fullName)
-                    .font(.largeTitle)
-                    .bold()
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(park.fullName)
+                            .font(.largeTitle)
+                            .bold()
 
-                Text(park.states)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                        Text(park.states)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    FavoriteButton(
+                        isFavorite: Binding(
+                            get: { favoriteParks.contains(park.id) },
+                            set: { isFav in
+                                if isFav { favoriteParks.insert(park.id) }
+                                else { favoriteParks.remove(park.id) }
+                            }
+                        )
+                    )
+                }
 
                 Text(park.description)
                     .font(.body)
