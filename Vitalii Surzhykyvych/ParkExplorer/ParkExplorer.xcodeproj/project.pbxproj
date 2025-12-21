@@ -6,8 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		7AC77F122EF8BD5A004FC317 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA42FA92EAED5BC00868519 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AA42FB02EAED5BC00868519;
+			remoteInfo = ParkExplorer;
+		};
+		7AC77F212EF8BD74004FC317 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA42FA92EAED5BC00868519 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AA42FB02EAED5BC00868519;
+			remoteInfo = ParkExplorer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		7AA42FB12EAED5BC00868519 /* ParkExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC77F0E2EF8BD5A004FC317 /* ParkExplorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkExplorerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC77F1B2EF8BD74004FC317 /* ParkExplorerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkExplorerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +35,34 @@
 			path = ParkExplorer;
 			sourceTree = "<group>";
 		};
+		7AC77F0F2EF8BD5A004FC317 /* ParkExplorerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ParkExplorerTests;
+			sourceTree = "<group>";
+		};
+		7AC77F1C2EF8BD74004FC317 /* ParkExplorerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ParkExplorerUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7AA42FAE2EAED5BC00868519 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC77F0B2EF8BD5A004FC317 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC77F182EF8BD74004FC317 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				7AA42FB32EAED5BC00868519 /* ParkExplorer */,
+				7AC77F0F2EF8BD5A004FC317 /* ParkExplorerTests */,
+				7AC77F1C2EF8BD74004FC317 /* ParkExplorerUITests */,
 				7AA42FB22EAED5BC00868519 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				7AA42FB12EAED5BC00868519 /* ParkExplorer.app */,
+				7AC77F0E2EF8BD5A004FC317 /* ParkExplorerTests.xctest */,
+				7AC77F1B2EF8BD74004FC317 /* ParkExplorerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +117,52 @@
 			productReference = 7AA42FB12EAED5BC00868519 /* ParkExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		7AC77F0D2EF8BD5A004FC317 /* ParkExplorerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AC77F162EF8BD5A004FC317 /* Build configuration list for PBXNativeTarget "ParkExplorerTests" */;
+			buildPhases = (
+				7AC77F0A2EF8BD5A004FC317 /* Sources */,
+				7AC77F0B2EF8BD5A004FC317 /* Frameworks */,
+				7AC77F0C2EF8BD5A004FC317 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AC77F132EF8BD5A004FC317 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7AC77F0F2EF8BD5A004FC317 /* ParkExplorerTests */,
+			);
+			name = ParkExplorerTests;
+			packageProductDependencies = (
+			);
+			productName = ParkExplorerTests;
+			productReference = 7AC77F0E2EF8BD5A004FC317 /* ParkExplorerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7AC77F1A2EF8BD74004FC317 /* ParkExplorerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AC77F232EF8BD74004FC317 /* Build configuration list for PBXNativeTarget "ParkExplorerUITests" */;
+			buildPhases = (
+				7AC77F172EF8BD74004FC317 /* Sources */,
+				7AC77F182EF8BD74004FC317 /* Frameworks */,
+				7AC77F192EF8BD74004FC317 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AC77F222EF8BD74004FC317 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7AC77F1C2EF8BD74004FC317 /* ParkExplorerUITests */,
+			);
+			name = ParkExplorerUITests;
+			packageProductDependencies = (
+			);
+			productName = ParkExplorerUITests;
+			productReference = 7AC77F1B2EF8BD74004FC317 /* ParkExplorerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +175,14 @@
 				TargetAttributes = {
 					7AA42FB02EAED5BC00868519 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					7AC77F0D2EF8BD5A004FC317 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 7AA42FB02EAED5BC00868519;
+					};
+					7AC77F1A2EF8BD74004FC317 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 7AA42FB02EAED5BC00868519;
 					};
 				};
 			};
@@ -100,12 +201,28 @@
 			projectRoot = "";
 			targets = (
 				7AA42FB02EAED5BC00868519 /* ParkExplorer */,
+				7AC77F0D2EF8BD5A004FC317 /* ParkExplorerTests */,
+				7AC77F1A2EF8BD74004FC317 /* ParkExplorerUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7AA42FAF2EAED5BC00868519 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC77F0C2EF8BD5A004FC317 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC77F192EF8BD74004FC317 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +239,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7AC77F0A2EF8BD5A004FC317 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AC77F172EF8BD74004FC317 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7AC77F132EF8BD5A004FC317 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7AA42FB02EAED5BC00868519 /* ParkExplorer */;
+			targetProxy = 7AC77F122EF8BD5A004FC317 /* PBXContainerItemProxy */;
+		};
+		7AC77F222EF8BD74004FC317 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7AA42FB02EAED5BC00868519 /* ParkExplorer */;
+			targetProxy = 7AC77F212EF8BD74004FC317 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7AA42FBA2EAED5D000868519 /* Debug */ = {
@@ -306,6 +450,84 @@
 			};
 			name = Release;
 		};
+		7AC77F142EF8BD5A004FC317 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vitaliksurzhykyvych.ParkExplorerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParkExplorer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParkExplorer";
+			};
+			name = Debug;
+		};
+		7AC77F152EF8BD5A004FC317 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vitaliksurzhykyvych.ParkExplorerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParkExplorer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParkExplorer";
+			};
+			name = Release;
+		};
+		7AC77F242EF8BD74004FC317 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vitaliksurzhykyvych.ParkExplorerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ParkExplorer;
+			};
+			name = Debug;
+		};
+		7AC77F252EF8BD74004FC317 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vitaliksurzhykyvych.ParkExplorerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ParkExplorer;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -323,6 +545,24 @@
 			buildConfigurations = (
 				7AA42FBD2EAED5D000868519 /* Debug */,
 				7AA42FBE2EAED5D000868519 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AC77F162EF8BD5A004FC317 /* Build configuration list for PBXNativeTarget "ParkExplorerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC77F142EF8BD5A004FC317 /* Debug */,
+				7AC77F152EF8BD5A004FC317 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AC77F232EF8BD74004FC317 /* Build configuration list for PBXNativeTarget "ParkExplorerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC77F242EF8BD74004FC317 /* Debug */,
+				7AC77F252EF8BD74004FC317 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
