@@ -7,65 +7,77 @@
 
 import SwiftUI
 import MapKit
+import SwiftData
 
 struct ContentView: View {
-    @State private var searchText = ""
-    @State private var parks: [Park] = [
-        Park(
-            name: "Yellowstone",
-            state: "Wyoming",
-            description: "Oldest national park in the U.S., known for geysers and wildlife.",
-            coordinate: .init(latitude: 44.6, longitude: -110.5)
-        ),
-        Park(
-            name: "Yosemite",
-            state: "California",
-            description: "Famous for giant sequoias, waterfalls, and El Capitan cliffs.",
-            coordinate: .init(latitude: 37.8651, longitude: -119.5383)
-        ),
-        Park(
-            name: "Grand Canyon",
-            state: "Arizona",
-            description: "Iconic canyon carved by the Colorado River.",
-            coordinate: .init(latitude: 36.1069, longitude: -112.1129)
-        )
-    ]
 
-    var filteredParks: [Binding<Park>] {
-        $parks.filter {
-            searchText.isEmpty ||
-            $0.wrappedValue.name.localizedCaseInsensitiveContains(searchText) ||
-            $0.wrappedValue.state.localizedCaseInsensitiveContains(searchText)
+    @Environment(\.modelContext) private var modelContext
+
+    @StateObject private var viewModel: ParkListViewModel
+
+    @State private var searchText = ""
+
+    init() {
+        _viewModel = StateObject(
+            wrappedValue: ParkListViewModel(
+                modelContext: PersistenceController.shared.container.mainContext
+            )
+        )
+    }
+
+    private var filteredParks: [ParkAPIModel] {
+        if searchText.isEmpty {
+            return viewModel.parks
+        } else {
+            return viewModel.parks.filter {
+                $0.fullName.localizedCaseInsensitiveContains(searchText) ||
+                $0.states.localizedCaseInsensitiveContains(searchText)
+            }
         }
     }
 
     var body: some View {
         NavigationStack {
-            List(filteredParks) { $park in
-                NavigationLink {
-                    ParkDetailView(park: $park)
-                } label: {
-                    ParkRowView(park: $park)
+            Group {
+                if viewModel.isLoading {
+                    ProgressView("Loading parks...")
+                } else if let error = viewModel.errorMessage {
+                    VStack(spacing: 12) {
+                        Text(error)
+                            .foregroundColor(.secondary)
+                        Button("Retry") {
+                            Task {
+                                await viewModel.loadParks()
+                            }
+                        }
+                    }
+                } else {
+                    List(filteredParks) { park in
+                        NavigationLink {
+                            ParkDetailViewAPI(park: park)
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(park.fullName)
+                                    .font(.headline)
+                                Text(park.states)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .refreshable {
+                        await viewModel.loadParks()
+                    }
                 }
             }
             .navigationTitle("National Parks")
-            .toolbar {
-                NavigationLink(destination: SettingsView()) {
-                    Image(systemName: "gear")
-                }
-            }
             .searchable(text: $searchText)
+            .task {
+                await viewModel.loadParks()
+            }
         }
     }
 }
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
 
 #Preview {
     ContentView()
