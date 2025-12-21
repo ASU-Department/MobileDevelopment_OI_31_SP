@@ -10,7 +10,7 @@ final class MovieViewModel {
     
     var favoriteIDs: Set<Int> = []
     
-    private let tmdbService = TMDBService()
+    internal var tmdbService: TMDBService = TMDBService()
     private let favoriteRepository: FavoriteRepositoryProtocol
     
     private let lastUpdateKey = "lastMoviesUpdate"
@@ -21,6 +21,7 @@ final class MovieViewModel {
             await loadFavorites()
         }
     }
+    
     
     func loadMovies(forceRefresh: Bool = false) async {
         isLoading = true
