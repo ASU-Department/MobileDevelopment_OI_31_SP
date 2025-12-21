@@ -33,6 +33,7 @@ struct CityListView: View {
             Text("Last update: \(viewModel.lastUpdate)")
                 .font(.footnote)
                 .foregroundColor(.secondary)
+                .accessibilityIdentifier("lastUpdateLabel")
             
             List(viewModel.sortedCities, id: \.id) { city in
                 Button {
@@ -40,7 +41,9 @@ struct CityListView: View {
                 } label: {
                     CityItemView(city: city)
                 }
+                .accessibilityIdentifier("CityItem_\(city.name)")
             }
+            .accessibilityIdentifier("cityList")
             .refreshable {
                 await viewModel.refreshCities()
             }
@@ -48,6 +51,7 @@ struct CityListView: View {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .accessibilityIdentifier("loadingOverlay")
                 }
             }
             .alert("Error occurred while fetching data", isPresented: Binding(
