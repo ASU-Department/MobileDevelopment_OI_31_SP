@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "C511522D-63EE-45CE-A177-D6214763B859",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ArtCurator.xcodeproj",
+      "identifier" : "26838C0A2EBB7E52002526F9",
+      "name" : "ArtCurator"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ArtCurator.xcodeproj",
+        "identifier" : "26838C1A2EBB8000002526F9",
+        "name" : "ArtCuratorTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ArtCurator.xcodeproj",
+        "identifier" : "26838C242EBB8001002526F9",
+        "name" : "ArtCuratorUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

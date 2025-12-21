@@ -7,22 +7,28 @@
 import SwiftUI
 
 struct SavedWorkoutsView: View {
-    @EnvironmentObject var viewModel: WorkoutViewModel
-    
+    @ObservedObject var viewModel: WorkoutViewModel
+    @EnvironmentObject private var coordinator: AppCoordinator
+
     var body: some View {
         List {
             ForEach(viewModel.workouts) { workout in
-                NavigationLink(destination: WorkoutDetailView(workout: workout)) {
+                Button {
+                    coordinator.openWorkoutDetail(workout)
+                } label: {
                     VStack(alignment: .leading) {
                         Text(workout.name).font(.headline)
                         Text("\(workout.exercises.count) exercise(s) · \(Int(workout.intensity * 100))%")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                     }
                 }
             }
-            .onDelete(perform: viewModel.deleteWorkout)
+            .onDelete { indexSet in
+                viewModel.deleteWorkout(at: indexSet)
+            }
         }
+        .accessibilityIdentifier("savedWorkoutsList")
         .navigationTitle("Saved Workouts")
         .toolbar { EditButton() }
     }
