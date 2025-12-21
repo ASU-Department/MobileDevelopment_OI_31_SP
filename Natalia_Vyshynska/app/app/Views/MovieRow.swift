@@ -33,6 +33,7 @@ struct MovieRow: View {
                     .foregroundColor(.red)
                     .font(.title2)
             }
+            .accessibilityIdentifier(viewModel.isFavorite(movie) ? "heartFillButton" : "heartButton")
         }
         .padding(.vertical, 4)
     }
