@@ -33,7 +33,10 @@ final class MovieDetailViewModel {
         Task {
             do {
                 try await favoriteRepository.toggleFavorite(for: movie.id)
-                isFavorite.toggle()
+                let newStatus = try await favoriteRepository.isFavorite(tmdbId: movie.id)
+                await MainActor.run {
+                    self.isFavorite = newStatus
+                }
             } catch {
                 print("Toggle favorite failed: \(error)")
             }

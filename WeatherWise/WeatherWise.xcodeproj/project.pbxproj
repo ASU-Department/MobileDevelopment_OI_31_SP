@@ -6,11 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		6FBBF8192EF2DACB00A53838 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6FCA8AB62ED2540900B714C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FCA8ABD2ED2540900B714C8;
+			remoteInfo = WeatherWise;
+		};
+		6FBBF8282EF2DB2000A53838 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6FCA8AB62ED2540900B714C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FCA8ABD2ED2540900B714C8;
+			remoteInfo = WeatherWise;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6F07180D2EF3558D00DF2101 /* WeatherWise.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WeatherWise.xctestplan; sourceTree = "<group>"; };
+		6FBBF8152EF2DACB00A53838 /* WeatherWiseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherWiseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FBBF8222EF2DB2000A53838 /* WeatherWiseTestsUI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherWiseTestsUI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FCA8ABE2ED2540900B714C8 /* WeatherWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6FBBF8162EF2DACB00A53838 /* WeatherWiseTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeatherWiseTests;
+			sourceTree = "<group>";
+		};
+		6FBBF8232EF2DB2000A53838 /* WeatherWiseTestsUI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeatherWiseTestsUI;
+			sourceTree = "<group>";
+		};
 		6FCA8AC02ED2540900B714C8 /* WeatherWise */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = WeatherWise;
@@ -19,6 +49,20 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6FBBF8122EF2DACB00A53838 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FBBF81F2EF2DB2000A53838 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6FCA8ABB2ED2540900B714C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -32,7 +76,10 @@
 		6FCA8AB52ED2540900B714C8 = {
 			isa = PBXGroup;
 			children = (
+				6F07180D2EF3558D00DF2101 /* WeatherWise.xctestplan */,
 				6FCA8AC02ED2540900B714C8 /* WeatherWise */,
+				6FBBF8162EF2DACB00A53838 /* WeatherWiseTests */,
+				6FBBF8232EF2DB2000A53838 /* WeatherWiseTestsUI */,
 				6FCA8ABF2ED2540900B714C8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				6FCA8ABE2ED2540900B714C8 /* WeatherWise.app */,
+				6FBBF8152EF2DACB00A53838 /* WeatherWiseTests.xctest */,
+				6FBBF8222EF2DB2000A53838 /* WeatherWiseTestsUI.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +97,52 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6FBBF8142EF2DACB00A53838 /* WeatherWiseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FBBF81D2EF2DACB00A53838 /* Build configuration list for PBXNativeTarget "WeatherWiseTests" */;
+			buildPhases = (
+				6FBBF8112EF2DACB00A53838 /* Sources */,
+				6FBBF8122EF2DACB00A53838 /* Frameworks */,
+				6FBBF8132EF2DACB00A53838 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FBBF81A2EF2DACB00A53838 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6FBBF8162EF2DACB00A53838 /* WeatherWiseTests */,
+			);
+			name = WeatherWiseTests;
+			packageProductDependencies = (
+			);
+			productName = WeatherWiseTests;
+			productReference = 6FBBF8152EF2DACB00A53838 /* WeatherWiseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6FBBF8212EF2DB2000A53838 /* WeatherWiseTestsUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FBBF82A2EF2DB2000A53838 /* Build configuration list for PBXNativeTarget "WeatherWiseTestsUI" */;
+			buildPhases = (
+				6FBBF81E2EF2DB2000A53838 /* Sources */,
+				6FBBF81F2EF2DB2000A53838 /* Frameworks */,
+				6FBBF8202EF2DB2000A53838 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FBBF8292EF2DB2000A53838 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6FBBF8232EF2DB2000A53838 /* WeatherWiseTestsUI */,
+			);
+			name = WeatherWiseTestsUI;
+			packageProductDependencies = (
+			);
+			productName = WeatherWiseTestsUI;
+			productReference = 6FBBF8222EF2DB2000A53838 /* WeatherWiseTestsUI.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		6FCA8ABD2ED2540900B714C8 /* WeatherWise */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6FCA8AC92ED2540C00B714C8 /* Build configuration list for PBXNativeTarget "WeatherWise" */;
@@ -80,6 +175,14 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					6FBBF8142EF2DACB00A53838 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 6FCA8ABD2ED2540900B714C8;
+					};
+					6FBBF8212EF2DB2000A53838 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 6FCA8ABD2ED2540900B714C8;
+					};
 					6FCA8ABD2ED2540900B714C8 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -100,11 +203,27 @@
 			projectRoot = "";
 			targets = (
 				6FCA8ABD2ED2540900B714C8 /* WeatherWise */,
+				6FBBF8142EF2DACB00A53838 /* WeatherWiseTests */,
+				6FBBF8212EF2DB2000A53838 /* WeatherWiseTestsUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6FBBF8132EF2DACB00A53838 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FBBF8202EF2DB2000A53838 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6FCA8ABC2ED2540900B714C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +234,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6FBBF8112EF2DACB00A53838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FBBF81E2EF2DB2000A53838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6FCA8ABA2ED2540900B714C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +257,102 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6FBBF81A2EF2DACB00A53838 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FCA8ABD2ED2540900B714C8 /* WeatherWise */;
+			targetProxy = 6FBBF8192EF2DACB00A53838 /* PBXContainerItemProxy */;
+		};
+		6FBBF8292EF2DB2000A53838 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FCA8ABD2ED2540900B714C8 /* WeatherWise */;
+			targetProxy = 6FBBF8282EF2DB2000A53838 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6FBBF81B2EF2DACB00A53838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HKKWPV28LU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vburdyk.WeatherWiseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherWise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeatherWise";
+			};
+			name = Debug;
+		};
+		6FBBF81C2EF2DACB00A53838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HKKWPV28LU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vburdyk.WeatherWiseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherWise.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeatherWise";
+			};
+			name = Release;
+		};
+		6FBBF82B2EF2DB2000A53838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HKKWPV28LU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vburdyk.WeatherWiseTestsUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WeatherWise;
+			};
+			name = Debug;
+		};
+		6FBBF82C2EF2DB2000A53838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HKKWPV28LU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vburdyk.WeatherWiseTestsUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WeatherWise;
+			};
+			name = Release;
+		};
 		6FCA8AC72ED2540C00B714C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -311,6 +539,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6FBBF81D2EF2DACB00A53838 /* Build configuration list for PBXNativeTarget "WeatherWiseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FBBF81B2EF2DACB00A53838 /* Debug */,
+				6FBBF81C2EF2DACB00A53838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FBBF82A2EF2DB2000A53838 /* Build configuration list for PBXNativeTarget "WeatherWiseTestsUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FBBF82B2EF2DB2000A53838 /* Debug */,
+				6FBBF82C2EF2DB2000A53838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6FCA8AB92ED2540900B714C8 /* Build configuration list for PBXProject "WeatherWise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

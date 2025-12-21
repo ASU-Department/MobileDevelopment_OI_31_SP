@@ -13,9 +13,9 @@ final class QuoteViewModel: ObservableObject {
     @Published var quoteText: String = "Loading quote..."
     @Published var isLoading: Bool = false
 
-    private let repository: QuoteRepository
+    private let repository: QuoteRepositoryProtocol
 
-    init(repository: QuoteRepository) {
+    init(repository: QuoteRepositoryProtocol) {
         self.repository = repository
     }
 

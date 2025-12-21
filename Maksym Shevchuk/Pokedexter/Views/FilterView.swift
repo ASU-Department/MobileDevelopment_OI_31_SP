@@ -10,6 +10,7 @@ struct FilterView: View {
         VStack {
             Toggle("Show Favorites Only", isOn: $showFavoritesOnly)
                 .padding(.horizontal)
+                .accessibilityIdentifier("filter_favorites_toggle")
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {

@@ -34,7 +34,9 @@ struct WeatherDetailView: View {
                 .font(.caption)
             
             Button("Завантажити погоду") {
-                viewModel.loadWeather(for: city, context: modelContext)
+                Task {
+                    await viewModel.loadWeather(for: city)
+                }
             }
             .padding()
             .buttonStyle(.borderedProminent)
@@ -64,4 +66,3 @@ struct WeatherDetailView: View {
         .navigationTitle("Карта міста")
     }
 }
-

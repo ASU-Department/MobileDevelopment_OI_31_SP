@@ -17,7 +17,7 @@ final class WeatherViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     
-    private let repository = WeatherRepository()
+    private let repository: WeatherRepositoryProtocol
     
     private let coordinatesByCity: [String: (Double, Double)] = [
         "Львів": (49.8397, 24.0297),
@@ -25,26 +25,22 @@ final class WeatherViewModel: ObservableObject {
         "Одеса": (46.4825, 30.7233)
     ]
     
-    func loadWeather(for city: String, context: ModelContext) {
+    init(repository: WeatherRepositoryProtocol = WeatherRepository()) {
+        self.repository = repository
+    }
+    
+    func loadWeather(for city: String) async {
         isLoading = true
         errorMessage = nil
         
-        let coordinates = coordinatesByCity[city] ?? (49.8397, 24.0297)
-        
-        Task {
-            let result = await repository.loadWeather(for: city,
-                                                      coordinates: coordinates,
-                                                      context: context)
+        do {
+            let result = try await repository.loadWeather(for: city)
+            temperature = result.temperature
+            wind = result.wind
             isLoading = false
-            
-            switch result {
-            case .success(let values):
-                temperature = values.0
-                wind = values.1
-                
-            case .failure(let error):
-                errorMessage = "Не вдалося завантажити погоду: \(error.localizedDescription)"
-            }
+        } catch {
+            errorMessage = "Не вдалося завантажити погоду: \(error.localizedDescription)"
+            isLoading = false
         }
     }
 }

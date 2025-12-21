@@ -17,12 +17,15 @@ struct AddHabitView: View {
             Form {
                 Section {
                     TextField("Name", text: $viewModel.name)
+                        .accessibilityIdentifier("addHabitNameField")
                     TextField("Description", text: $viewModel.desc)
+                        .accessibilityIdentifier("addHabitDescField")
                 }
 
                 if let error = viewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
+                        .accessibilityIdentifier("addHabitErrorText")
                 }
             }
             .navigationTitle("Add Habit")
@@ -34,6 +37,7 @@ struct AddHabitView: View {
                             dismiss()
                         }
                     }
+                    .accessibilityIdentifier("addHabitSaveButton")
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {

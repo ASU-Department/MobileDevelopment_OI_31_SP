@@ -10,19 +10,27 @@ import SwiftData
 
 @main
 struct TimeCapsuleApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    let container: ModelContainer
-    let actor: HistoryDataActor
     let repository: any TimeCapsuleRepositoryProtocol
+    let container: ModelContainer
+    
+    private let isUITesting = ProcessInfo.processInfo.arguments.contains("UI_TESTS")
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     init() {
         do {
-            container = try ModelContainer(for: HistoricalEvent.self)
-            actor = HistoryDataActor(modelContainer: container)
-            repository = TimeCapsuleRepository(actor: actor)
+            if isUITesting {
+                let config = ModelConfiguration(isStoredInMemoryOnly: true)
+                container = try ModelContainer(for: HistoricalEvent.self, configurations: config)
+                repository = UITestStubRepository()
+            } else {
+                container = try ModelContainer(for: HistoricalEvent.self)
+                let actor = HistoryDataActor(modelContainer: container)
+                repository = TimeCapsuleRepository(actor: actor)
+            }
         } catch {
-            fatalError("Failed to initialize ModelContainer: \(error)")
+            fatalError("Failed to initialize App: \(error)")
         }
     }
     
@@ -30,5 +38,6 @@ struct TimeCapsuleApp: App {
         WindowGroup {
             ContentView(repository: repository)
         }
+        .modelContainer(container)
     }
 }
