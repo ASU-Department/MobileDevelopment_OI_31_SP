@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @MainActor
-final class PersistenceStore {
+final class PersistenceStore : AnyPersistenceStore {
     static let shared = PersistenceStore()
 
     private let container: ModelContainer
@@ -83,4 +83,12 @@ final class PersistenceStore {
         let stars = (try? context.fetch(descriptor)) ?? []
         return Set(stars.map { $0.repoId })
     }
+}
+
+protocol AnyPersistenceStore {
+    func save(repositories: [Repository], developer: DeveloperProfile)
+    func fetchRepos() -> [CachedRepository]
+    func fetchDev() -> CachedUser?
+    func toggleStar(repoId: Int)
+    func fetchStarredRepoIds() -> Set<Int>
 }

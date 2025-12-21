@@ -14,12 +14,12 @@ final class RepoDetailViewModel: ObservableObject {
 
     let repository: Repository
     let developer: DeveloperProfile?
-    private let coordinator: AppCoordinator
+    private let coordinator: AppCoordinating
 
     init(
         repository: Repository,
         developer: DeveloperProfile?,
-        coordinator: AppCoordinator
+        coordinator: AppCoordinating
     ) {
         self.repository = repository
         self.developer = developer

@@ -40,6 +40,7 @@ struct RepositoryRow: View {
             .onTapGesture {
                 onOpenDetails()
             }
+            .accessibilityIdentifier("repoRowButton_\(repository.id)")
 
             Spacer()
             
@@ -50,6 +51,7 @@ struct RepositoryRow: View {
                     .padding(8)
             }
             .buttonStyle(.borderless)
+            .accessibilityIdentifier("starButton_\(repository.id)")
         }
         .padding(.vertical, 8)
     }

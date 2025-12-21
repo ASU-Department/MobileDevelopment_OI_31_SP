@@ -23,6 +23,6 @@ struct GitHubRepositoryDTO: Codable, Identifiable {
 
     struct OwnerDTO: Codable {
         let login: String
-        let avatarUrl: URL
+        let avatarUrl: URL?
     }
 }

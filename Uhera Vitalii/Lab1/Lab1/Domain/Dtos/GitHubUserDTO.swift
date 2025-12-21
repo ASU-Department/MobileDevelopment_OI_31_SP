@@ -11,7 +11,7 @@ import Foundation
 struct GitHubUserDTO: Codable, Identifiable {
     let id: Int
     let login: String
-    let avatarUrl: URL
+    let avatarUrl: URL?
     let name: String?
     let bio: String?
     let followers: Int

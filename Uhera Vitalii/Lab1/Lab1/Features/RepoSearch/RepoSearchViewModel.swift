@@ -12,7 +12,7 @@ import SwiftUI
 @MainActor
 final class RepoSearchViewModel: ObservableObject {
     private let repository: GitHubRepositoryProtocol
-    private let coordinator: AppCoordinator
+    private let coordinator: AppCoordinating
 
     @AppStorage("lastUsername")
     private var storedUsername = "octocat"
@@ -46,7 +46,7 @@ final class RepoSearchViewModel: ObservableObject {
 
     init(
         repository: GitHubRepositoryProtocol,
-        coordinator: AppCoordinator
+        coordinator: AppCoordinating
     ) {
         self.repository = repository
         self.coordinator = coordinator
