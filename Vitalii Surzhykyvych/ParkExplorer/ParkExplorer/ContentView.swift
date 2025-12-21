@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Lab1_ParkExplorer
+//  ParkExplorer
 //
 //  Created by Vitalik on 27.10.2025.
 //
