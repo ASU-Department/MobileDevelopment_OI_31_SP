@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		7BA2F9BB2EF30CC000F43D77 /* PBXContainerItemProxy */ = {
+		7BA2FA392EF377EF00F43D77 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BA2F9A52EF30CBF00F43D77 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7BA2F9AC2EF30CBF00F43D77;
 			remoteInfo = LabWork1;
 		};
-		7BA2F9C52EF30CC000F43D77 /* PBXContainerItemProxy */ = {
+		7BA2FA482EF3783600F43D77 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BA2F9A52EF30CBF00F43D77 /* Project object */;
 			proxyType = 1;
@@ -25,8 +25,9 @@
 
 /* Begin PBXFileReference section */
 		7BA2F9AD2EF30CBF00F43D77 /* LabWork1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabWork1.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BA2F9BA2EF30CC000F43D77 /* LabWork1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LabWork1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BA2F9C42EF30CC000F43D77 /* LabWork1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LabWork1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA2FA302EF375E800F43D77 /* LabWork1.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = LabWork1.xctestplan; sourceTree = "<group>"; };
+		7BA2FA352EF377EF00F43D77 /* LabWork1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LabWork1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA2FA422EF3783600F43D77 /* LabWork1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LabWork1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,12 +36,12 @@
 			path = LabWork1;
 			sourceTree = "<group>";
 		};
-		7BA2F9BD2EF30CC000F43D77 /* LabWork1Tests */ = {
+		7BA2FA362EF377EF00F43D77 /* LabWork1Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = LabWork1Tests;
 			sourceTree = "<group>";
 		};
-		7BA2F9C72EF30CC000F43D77 /* LabWork1UITests */ = {
+		7BA2FA432EF3783600F43D77 /* LabWork1UITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = LabWork1UITests;
 			sourceTree = "<group>";
@@ -55,14 +56,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9B72EF30CC000F43D77 /* Frameworks */ = {
+		7BA2FA322EF377EF00F43D77 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9C12EF30CC000F43D77 /* Frameworks */ = {
+		7BA2FA3F2EF3783600F43D77 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -75,9 +76,10 @@
 		7BA2F9A42EF30CBF00F43D77 = {
 			isa = PBXGroup;
 			children = (
+				7BA2FA302EF375E800F43D77 /* LabWork1.xctestplan */,
 				7BA2F9AF2EF30CBF00F43D77 /* LabWork1 */,
-				7BA2F9BD2EF30CC000F43D77 /* LabWork1Tests */,
-				7BA2F9C72EF30CC000F43D77 /* LabWork1UITests */,
+				7BA2FA362EF377EF00F43D77 /* LabWork1Tests */,
+				7BA2FA432EF3783600F43D77 /* LabWork1UITests */,
 				7BA2F9AE2EF30CBF00F43D77 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,8 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA2F9AD2EF30CBF00F43D77 /* LabWork1.app */,
-				7BA2F9BA2EF30CC000F43D77 /* LabWork1Tests.xctest */,
-				7BA2F9C42EF30CC000F43D77 /* LabWork1UITests.xctest */,
+				7BA2FA352EF377EF00F43D77 /* LabWork1Tests.xctest */,
+				7BA2FA422EF3783600F43D77 /* LabWork1UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,50 +119,50 @@
 			productReference = 7BA2F9AD2EF30CBF00F43D77 /* LabWork1.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7BA2F9B92EF30CC000F43D77 /* LabWork1Tests */ = {
+		7BA2FA342EF377EF00F43D77 /* LabWork1Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7BA2F9D12EF30CC000F43D77 /* Build configuration list for PBXNativeTarget "LabWork1Tests" */;
+			buildConfigurationList = 7BA2FA3B2EF377EF00F43D77 /* Build configuration list for PBXNativeTarget "LabWork1Tests" */;
 			buildPhases = (
-				7BA2F9B62EF30CC000F43D77 /* Sources */,
-				7BA2F9B72EF30CC000F43D77 /* Frameworks */,
-				7BA2F9B82EF30CC000F43D77 /* Resources */,
+				7BA2FA312EF377EF00F43D77 /* Sources */,
+				7BA2FA322EF377EF00F43D77 /* Frameworks */,
+				7BA2FA332EF377EF00F43D77 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7BA2F9BC2EF30CC000F43D77 /* PBXTargetDependency */,
+				7BA2FA3A2EF377EF00F43D77 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				7BA2F9BD2EF30CC000F43D77 /* LabWork1Tests */,
+				7BA2FA362EF377EF00F43D77 /* LabWork1Tests */,
 			);
 			name = LabWork1Tests;
 			packageProductDependencies = (
 			);
 			productName = LabWork1Tests;
-			productReference = 7BA2F9BA2EF30CC000F43D77 /* LabWork1Tests.xctest */;
+			productReference = 7BA2FA352EF377EF00F43D77 /* LabWork1Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7BA2F9C32EF30CC000F43D77 /* LabWork1UITests */ = {
+		7BA2FA412EF3783600F43D77 /* LabWork1UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7BA2F9D42EF30CC000F43D77 /* Build configuration list for PBXNativeTarget "LabWork1UITests" */;
+			buildConfigurationList = 7BA2FA4A2EF3783600F43D77 /* Build configuration list for PBXNativeTarget "LabWork1UITests" */;
 			buildPhases = (
-				7BA2F9C02EF30CC000F43D77 /* Sources */,
-				7BA2F9C12EF30CC000F43D77 /* Frameworks */,
-				7BA2F9C22EF30CC000F43D77 /* Resources */,
+				7BA2FA3E2EF3783600F43D77 /* Sources */,
+				7BA2FA3F2EF3783600F43D77 /* Frameworks */,
+				7BA2FA402EF3783600F43D77 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7BA2F9C62EF30CC000F43D77 /* PBXTargetDependency */,
+				7BA2FA492EF3783600F43D77 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				7BA2F9C72EF30CC000F43D77 /* LabWork1UITests */,
+				7BA2FA432EF3783600F43D77 /* LabWork1UITests */,
 			);
 			name = LabWork1UITests;
 			packageProductDependencies = (
 			);
 			productName = LabWork1UITests;
-			productReference = 7BA2F9C42EF30CC000F43D77 /* LabWork1UITests.xctest */;
+			productReference = 7BA2FA422EF3783600F43D77 /* LabWork1UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -176,11 +178,11 @@
 					7BA2F9AC2EF30CBF00F43D77 = {
 						CreatedOnToolsVersion = 26.2;
 					};
-					7BA2F9B92EF30CC000F43D77 = {
+					7BA2FA342EF377EF00F43D77 = {
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = 7BA2F9AC2EF30CBF00F43D77;
 					};
-					7BA2F9C32EF30CC000F43D77 = {
+					7BA2FA412EF3783600F43D77 = {
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = 7BA2F9AC2EF30CBF00F43D77;
 					};
@@ -201,8 +203,8 @@
 			projectRoot = "";
 			targets = (
 				7BA2F9AC2EF30CBF00F43D77 /* LabWork1 */,
-				7BA2F9B92EF30CC000F43D77 /* LabWork1Tests */,
-				7BA2F9C32EF30CC000F43D77 /* LabWork1UITests */,
+				7BA2FA342EF377EF00F43D77 /* LabWork1Tests */,
+				7BA2FA412EF3783600F43D77 /* LabWork1UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -215,14 +217,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9B82EF30CC000F43D77 /* Resources */ = {
+		7BA2FA332EF377EF00F43D77 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9C22EF30CC000F43D77 /* Resources */ = {
+		7BA2FA402EF3783600F43D77 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -239,14 +241,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9B62EF30CC000F43D77 /* Sources */ = {
+		7BA2FA312EF377EF00F43D77 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7BA2F9C02EF30CC000F43D77 /* Sources */ = {
+		7BA2FA3E2EF3783600F43D77 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,15 +258,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7BA2F9BC2EF30CC000F43D77 /* PBXTargetDependency */ = {
+		7BA2FA3A2EF377EF00F43D77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7BA2F9AC2EF30CBF00F43D77 /* LabWork1 */;
-			targetProxy = 7BA2F9BB2EF30CC000F43D77 /* PBXContainerItemProxy */;
+			targetProxy = 7BA2FA392EF377EF00F43D77 /* PBXContainerItemProxy */;
 		};
-		7BA2F9C62EF30CC000F43D77 /* PBXTargetDependency */ = {
+		7BA2FA492EF3783600F43D77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7BA2F9AC2EF30CBF00F43D77 /* LabWork1 */;
-			targetProxy = 7BA2F9C52EF30CC000F43D77 /* PBXContainerItemProxy */;
+			targetProxy = 7BA2FA482EF3783600F43D77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -450,14 +452,13 @@
 			};
 			name = Release;
 		};
-		7BA2F9D22EF30CC000F43D77 /* Debug */ = {
+		7BA2FA3C2EF377EF00F43D77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.student.LabWork1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,14 +472,13 @@
 			};
 			name = Debug;
 		};
-		7BA2F9D32EF30CC000F43D77 /* Release */ = {
+		7BA2FA3D2EF377EF00F43D77 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.student.LabWork1Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,7 +492,7 @@
 			};
 			name = Release;
 		};
-		7BA2F9D52EF30CC000F43D77 /* Debug */ = {
+		7BA2FA4B2EF3783600F43D77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -511,7 +511,7 @@
 			};
 			name = Debug;
 		};
-		7BA2F9D62EF30CC000F43D77 /* Release */ = {
+		7BA2FA4C2EF3783600F43D77 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -551,20 +551,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7BA2F9D12EF30CC000F43D77 /* Build configuration list for PBXNativeTarget "LabWork1Tests" */ = {
+		7BA2FA3B2EF377EF00F43D77 /* Build configuration list for PBXNativeTarget "LabWork1Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7BA2F9D22EF30CC000F43D77 /* Debug */,
-				7BA2F9D32EF30CC000F43D77 /* Release */,
+				7BA2FA3C2EF377EF00F43D77 /* Debug */,
+				7BA2FA3D2EF377EF00F43D77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7BA2F9D42EF30CC000F43D77 /* Build configuration list for PBXNativeTarget "LabWork1UITests" */ = {
+		7BA2FA4A2EF3783600F43D77 /* Build configuration list for PBXNativeTarget "LabWork1UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7BA2F9D52EF30CC000F43D77 /* Debug */,
-				7BA2F9D62EF30CC000F43D77 /* Release */,
+				7BA2FA4B2EF3783600F43D77 /* Debug */,
+				7BA2FA4C2EF3783600F43D77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

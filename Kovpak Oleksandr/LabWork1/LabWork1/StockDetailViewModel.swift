@@ -1,12 +1,7 @@
-//
-//  StockDetailViewModel.swift
-//  LabWork1
-
 import Foundation
 import SwiftUI
 import SwiftData
 import Combine
-
 
 @MainActor
 class StockDetailViewModel: ObservableObject {
@@ -16,18 +11,18 @@ class StockDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     let symbol: String
-    private let repository: StockRepository
+    private let repository: StockRepositoryProtocol // Протокол
     
-    init(symbol: String, modelContainer: ModelContainer) {
+    // Приймає репозиторій
+    init(symbol: String, repository: StockRepositoryProtocol) {
         self.symbol = symbol
-        self.repository = StockRepository(container: modelContainer)
+        self.repository = repository
     }
     
     func loadDetails() {
         isLoading = true
         Task {
             do {
-                // Викликаємо нову функцію репозиторія
                 let data = try await repository.fetchStockData(symbol: symbol)
                 self.currentPrice = data.price
                 self.priceHistory = data.history
