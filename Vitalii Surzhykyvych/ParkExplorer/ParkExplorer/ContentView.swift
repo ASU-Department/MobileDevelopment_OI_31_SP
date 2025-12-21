@@ -11,18 +11,15 @@ import SwiftData
 
 struct ContentView: View {
 
-    @Environment(\.modelContext) private var modelContext
-
     @StateObject private var viewModel: ParkListViewModel
-
     @State private var searchText = ""
 
     init() {
-        _viewModel = StateObject(
-            wrappedValue: ParkListViewModel(
-                modelContext: PersistenceController.shared.container.mainContext
-            )
-        )
+       let context = PersistenceController.shared.container.mainContext
+       let storage = ParkStorageActor(context: context)
+       let repository = ParkRepository(api: NPSService.shared, storage: storage)
+
+       _viewModel = StateObject(wrappedValue: ParkListViewModel(repository: repository))
     }
 
     private var filteredParks: [ParkAPIModel] {
@@ -46,9 +43,7 @@ struct ContentView: View {
                         Text(error)
                             .foregroundColor(.secondary)
                         Button("Retry") {
-                            Task {
-                                await loadParksAndUpdateLastUpdate()
-                            }
+                            Task { await viewModel.loadParks() }
                         }
                     }
                 } else {
@@ -65,24 +60,17 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .refreshable {
-                        await loadParksAndUpdateLastUpdate()
-                    }
+                    .refreshable { await viewModel.loadParks() }
                 }
             }
             .navigationTitle("National Parks")
             .searchable(text: $searchText)
-            .task {
-                await loadParksAndUpdateLastUpdate()
+            .toolbar {
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gear")
+                }
             }
-        }
-    }
-
-    private func loadParksAndUpdateLastUpdate() async {
-        await viewModel.loadParks()
-        if viewModel.errorMessage == nil {
-            // Зберігаємо дату останнього успішного оновлення
-            UserSettings.lastUpdate = Date()
+            .task { await viewModel.loadParks() }
         }
     }
 }
