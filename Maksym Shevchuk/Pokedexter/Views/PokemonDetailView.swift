@@ -8,7 +8,6 @@ struct PokemonDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Pokémon Image
                 AsyncImage(url: pokemon.imageURL) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)
@@ -30,20 +29,14 @@ struct PokemonDetailView: View {
                     
                     HStack {
                         VStack {
-                            Text("Height")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Text("\(pokemon.height) dm")
-                                .font(.headline)
+                            Text("Height").font(.caption).foregroundColor(.secondary)
+                            Text("\(pokemon.height) dm").font(.headline)
                         }
                         .frame(maxWidth: .infinity)
                         
                         VStack {
-                            Text("Weight")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Text("\(pokemon.weight) hg")
-                                .font(.headline)
+                            Text("Weight").font(.caption).foregroundColor(.secondary)
+                            Text("\(pokemon.weight) hg").font(.headline)
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -52,15 +45,10 @@ struct PokemonDetailView: View {
                     .cornerRadius(10)
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Abilities")
-                            .font(.headline)
-                            .padding(.bottom, 2)
-                        
+                        Text("Abilities").font(.headline)
                         ForEach(pokemon.abilities, id: \.self) { ability in
                             HStack {
-                                Image(systemName: "bolt.fill")
-                                    .foregroundColor(.yellow)
-                                    .font(.caption)
+                                Image(systemName: "bolt.fill").foregroundColor(.yellow)
                                 Text(ability)
                             }
                         }
@@ -70,9 +58,7 @@ struct PokemonDetailView: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
                     
-                    Button(action: {
-                        showSafari = true
-                    }) {
+                    Button(action: { showSafari = true }) {
                         HStack {
                             Image(systemName: "globe")
                             Text("Read more on Wiki")
@@ -89,7 +75,6 @@ struct PokemonDetailView: View {
             }
         }
         .navigationTitle(pokemon.name)
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -98,15 +83,13 @@ struct PokemonDetailView: View {
                     Image(systemName: pokemon.isFavorite ? "star.fill" : "star")
                         .foregroundColor(pokemon.isFavorite ? .yellow : .gray)
                 }
+                .accessibilityIdentifier("favorite_button")
             }
         }
         .sheet(isPresented: $showSafari) {
             if let url = URL(string: "https://pokemon.fandom.com/wiki/\(pokemon.name)") {
                 SafariView(url: url)
-            } else {
-                Text("Invalid URL")
             }
         }
     }
 }
-

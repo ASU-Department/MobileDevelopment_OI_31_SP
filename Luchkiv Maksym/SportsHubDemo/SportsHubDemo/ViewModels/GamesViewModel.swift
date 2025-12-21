@@ -19,13 +19,13 @@ final class GamesViewModel: ObservableObject {
     @Published var lastError: String?
     @Published var lastUpdateDate: Date?
 
-    private let repository: GamesRepositoryProtocol
+    private let repository: any GamesRepositoryProtocol
     private let favoritesStore: FavoriteStore
     private let settings: AppSettingsStore
     private var timer: AnyCancellable?
 
     init(
-        repository: GamesRepositoryProtocol,
+        repository: any GamesRepositoryProtocol,
         favoritesStore: FavoriteStore? = nil,
         settings: AppSettingsStore? = nil
     ) {
