@@ -40,7 +40,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-           NavigationView {
+           NavigationStack {
                List(filteredParks) { $park in
                    NavigationLink {
                        ParkDetailView(park: $park)
