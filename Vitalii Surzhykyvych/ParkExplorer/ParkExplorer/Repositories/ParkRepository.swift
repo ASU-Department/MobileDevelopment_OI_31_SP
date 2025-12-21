@@ -9,47 +9,25 @@ import SwiftData
 
 final class ParkRepository: ParkRepositoryProtocol {
 
-    private let modelContext: ModelContext
+    private let api: NPSService
+    private let storage: ParkStorageActor
 
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
+    init(api: NPSService, storage: ParkStorageActor) {
+        self.api = api
+        self.storage = storage
     }
 
     func fetchParks() async throws -> [ParkAPIModel] {
-        let apiParks = try await NPSService.shared.fetchParks()
-        await saveParks(apiParks)
-        return apiParks
+        let parks = try await api.fetchParks()
+        await storage.save(parks)
+        return parks
     }
 
-    func loadCachedParks() throws -> [ParkAPIModel] {
-        let descriptor = FetchDescriptor<ParkEntity>()
-        let entities = try modelContext.fetch(descriptor)
-        return entities.map { ParkAPIModel(
-            id: $0.id,
-            fullName: $0.name,
-            states: $0.state,
-            description: $0.descriptionText,
-            latitude: nil,
-            longitude: nil,
-            images: []
-        )}
+    func loadCachedParks() async throws -> [ParkAPIModel] {
+        return await storage.load()
     }
 
     func saveParks(_ parks: [ParkAPIModel]) async {
-        do {
-            let existing = try modelContext.fetch(FetchDescriptor<ParkEntity>())
-            for park in existing {
-                modelContext.delete(park)
-            }
-
-            for park in parks {
-                let entity = ParkEntity(from: park)
-                modelContext.insert(entity)
-            }
-
-            try modelContext.save()
-        } catch {
-            print("Failed to save parks: \(error)")
-        }
+        await storage.save(parks)
     }
 }

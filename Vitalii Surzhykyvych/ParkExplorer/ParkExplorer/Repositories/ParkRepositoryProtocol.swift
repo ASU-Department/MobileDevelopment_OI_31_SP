@@ -8,6 +8,6 @@
 
 protocol ParkRepositoryProtocol {
     func fetchParks() async throws -> [ParkAPIModel]
-    func loadCachedParks() throws -> [ParkAPIModel]
+    func loadCachedParks() async throws -> [ParkAPIModel]
     func saveParks(_ parks: [ParkAPIModel]) async
 }
