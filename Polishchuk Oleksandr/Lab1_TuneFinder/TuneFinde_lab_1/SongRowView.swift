@@ -3,9 +3,7 @@ import Combine
 
 struct SongRowView: View {
     let song: Song
-    // тепер справжній Binding – його значення приходить з вищого рівня (SwiftData)
     @Binding var isFavorite: Bool
-
     let isPlaying: Bool
     let onPlayTap: () -> Void
 
@@ -33,23 +31,25 @@ struct SongRowView: View {
 
             Spacer()
 
-            // play / pause
             Button(action: onPlayTap) {
                 Image(systemName: isPlaying ? "stop.circle" : "play.circle")
                     .font(.title3)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("playButton.\(song.id)")
 
-            // ♥ обране
             Button {
-                isFavorite.toggle()   // викликає setter Binding'a → SwiftData оновиться вище
+                isFavorite.toggle()
             } label: {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                     .foregroundStyle(isFavorite ? .red : .secondary)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("favoriteButton.\(song.id)")
         }
+        .accessibilityIdentifier("songRow.\(song.id)")
     }
 }
+
 
 

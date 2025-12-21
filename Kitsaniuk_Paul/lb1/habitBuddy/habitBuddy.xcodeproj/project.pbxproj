@@ -19,6 +19,12 @@
 		CE812F0A2EEEA4FA0074617E /* HabitStorageActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F092EEEA4FA0074617E /* HabitStorageActor.swift */; };
 		CE812F0C2EEEA5070074617E /* QuoteCacheActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F0B2EEEA5070074617E /* QuoteCacheActor.swift */; };
 		CE812F0E2EEEA5200074617E /* QuoteAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F0D2EEEA5200074617E /* QuoteAPIService.swift */; };
+		CE812F112EF19CDD0074617E /* MockHabitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F102EF19CDD0074617E /* MockHabitRepository.swift */; };
+		CE812F132EF19CED0074617E /* MockQuoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F122EF19CED0074617E /* MockQuoteRepository.swift */; };
+		CE812F162EF19DF90074617E /* AddHabitViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F152EF19DF90074617E /* AddHabitViewModelTests.swift */; };
+		CE812F182EF1A41E0074617E /* HabitListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F172EF1A41E0074617E /* HabitListViewModelTests.swift */; };
+		CE812F1A2EF1E75A0074617E /* QuoteViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F192EF1E75A0074617E /* QuoteViewModelTests.swift */; };
+		CE812F1F2EF1EBD50074617E /* HabitDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE812F1E2EF1EBD50074617E /* HabitDetailViewModelTests.swift */; };
 		CE88D9D42ED35758002E1220 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88D9D32ED35758002E1220 /* Habit.swift */; };
 		CEA89CA62EBA590E0079A579 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */; };
 		CEA89CA82EBA5D5F0079A579 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */; };
@@ -26,7 +32,6 @@
 		FDD486E32EA24BCF00238CA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486E22EA24BCF00238CA8 /* ContentView.swift */; };
 		FDD486E52EA24BE000238CA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD486E42EA24BE000238CA8 /* Assets.xcassets */; };
 		FDD486E82EA24BE000238CA8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD486E72EA24BE000238CA8 /* Preview Assets.xcassets */; };
-		FDD486F22EA24BE100238CA8 /* habitBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486F12EA24BE100238CA8 /* habitBuddyTests.swift */; };
 		FDD486FC2EA24BE100238CA8 /* habitBuddyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486FB2EA24BE100238CA8 /* habitBuddyUITests.swift */; };
 		FDD486FE2EA24BE100238CA8 /* habitBuddyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD486FD2EA24BE100238CA8 /* habitBuddyUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
@@ -61,6 +66,12 @@
 		CE812F092EEEA4FA0074617E /* HabitStorageActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitStorageActor.swift; sourceTree = "<group>"; };
 		CE812F0B2EEEA5070074617E /* QuoteCacheActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCacheActor.swift; sourceTree = "<group>"; };
 		CE812F0D2EEEA5200074617E /* QuoteAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteAPIService.swift; sourceTree = "<group>"; };
+		CE812F102EF19CDD0074617E /* MockHabitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHabitRepository.swift; sourceTree = "<group>"; };
+		CE812F122EF19CED0074617E /* MockQuoteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuoteRepository.swift; sourceTree = "<group>"; };
+		CE812F152EF19DF90074617E /* AddHabitViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitViewModelTests.swift; sourceTree = "<group>"; };
+		CE812F172EF1A41E0074617E /* HabitListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListViewModelTests.swift; sourceTree = "<group>"; };
+		CE812F192EF1E75A0074617E /* QuoteViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteViewModelTests.swift; sourceTree = "<group>"; };
+		CE812F1E2EF1EBD50074617E /* HabitDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailViewModelTests.swift; sourceTree = "<group>"; };
 		CE88D9D32ED35758002E1220 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		CEA89CA52EBA590E0079A579 /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		CEA89CA72EBA5D5F0079A579 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
@@ -70,7 +81,6 @@
 		FDD486E42EA24BE000238CA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDD486E72EA24BE000238CA8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FDD486ED2EA24BE100238CA8 /* habitBuddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = habitBuddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDD486F12EA24BE100238CA8 /* habitBuddyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitBuddyTests.swift; sourceTree = "<group>"; };
 		FDD486F72EA24BE100238CA8 /* habitBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = habitBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD486FB2EA24BE100238CA8 /* habitBuddyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitBuddyUITests.swift; sourceTree = "<group>"; };
 		FDD486FD2EA24BE100238CA8 /* habitBuddyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habitBuddyUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -159,6 +169,26 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		CE812F0F2EF19CCA0074617E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F102EF19CDD0074617E /* MockHabitRepository.swift */,
+				CE812F122EF19CED0074617E /* MockQuoteRepository.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		CE812F142EF19DE00074617E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F152EF19DF90074617E /* AddHabitViewModelTests.swift */,
+				CE812F172EF1A41E0074617E /* HabitListViewModelTests.swift */,
+				CE812F192EF1E75A0074617E /* QuoteViewModelTests.swift */,
+				CE812F1E2EF1EBD50074617E /* HabitDetailViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		FDD486D42EA24BCF00238CA8 = {
 			isa = PBXGroup;
 			children = (
@@ -206,7 +236,8 @@
 		FDD486F02EA24BE100238CA8 /* habitBuddyTests */ = {
 			isa = PBXGroup;
 			children = (
-				FDD486F12EA24BE100238CA8 /* habitBuddyTests.swift */,
+				CE812F142EF19DE00074617E /* ViewModels */,
+				CE812F0F2EF19CCA0074617E /* Mocks */,
 			);
 			path = habitBuddyTests;
 			sourceTree = "<group>";
@@ -374,7 +405,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDD486F22EA24BE100238CA8 /* habitBuddyTests.swift in Sources */,
+				CE812F182EF1A41E0074617E /* HabitListViewModelTests.swift in Sources */,
+				CE812F112EF19CDD0074617E /* MockHabitRepository.swift in Sources */,
+				CE812F1F2EF1EBD50074617E /* HabitDetailViewModelTests.swift in Sources */,
+				CE812F132EF19CED0074617E /* MockQuoteRepository.swift in Sources */,
+				CE812F1A2EF1E75A0074617E /* QuoteViewModelTests.swift in Sources */,
+				CE812F162EF19DF90074617E /* AddHabitViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

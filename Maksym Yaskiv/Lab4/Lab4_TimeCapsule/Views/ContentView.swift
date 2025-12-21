@@ -34,11 +34,13 @@ struct ContentView: View {
                     if viewModel.isLoading {
                         ProgressView("Loading history...")
                             .padding()
+                            .accessibilityIdentifier("loadingIndicator")
                     }
                     
                     List {
                         if viewModel.events.isEmpty && !viewModel.isLoading {
                             ContentUnavailableView("No events found", systemImage: "clock")
+                                .accessibilityIdentifier("emptyStateView")
                         }
                         
                         ForEach(viewModel.events) { event in
@@ -54,9 +56,11 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                            .accessibilityIdentifier("eventRow_\(event.year)")
                         }
                         .onDelete(perform: viewModel.deleteEvent)
                     }
+                    .accessibilityIdentifier("eventsList")
                     .refreshable {
                         await viewModel.loadData()
                     }
@@ -69,7 +73,10 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: SettingsView()) {
                             Image(systemName: "gear")
+                                .accessibilityIdentifier("settingsButton")
+                        
                         }
+                        .accessibilityIdentifier("settingsButton")
                     }
                 }
             }
