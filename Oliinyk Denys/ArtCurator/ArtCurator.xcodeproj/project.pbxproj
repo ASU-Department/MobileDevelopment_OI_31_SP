@@ -6,14 +6,44 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		26838C1F2EBB8000002526F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 26838C032EBB7E52002526F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26838C0A2EBB7E52002526F9;
+			remoteInfo = ArtCurator;
+		};
+		26838C292EBB8001002526F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 26838C032EBB7E52002526F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26838C0A2EBB7E52002526F9;
+			remoteInfo = ArtCurator;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		264AA3632EF2ABAB009E010E /* ArtCurator.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ArtCurator.xctestplan; sourceTree = "<group>"; };
 		26838C0B2EBB7E52002526F9 /* ArtCurator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtCurator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		26838C1B2EBB8000002526F9 /* ArtCuratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArtCuratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		26838C252EBB8001002526F9 /* ArtCuratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArtCuratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		26838C0D2EBB7E52002526F9 /* ArtCurator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ArtCurator;
+			sourceTree = "<group>";
+		};
+		26838C1C2EBB8000002526F9 /* ArtCuratorTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ArtCuratorTests;
+			sourceTree = "<group>";
+		};
+		26838C262EBB8001002526F9 /* ArtCuratorUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ArtCuratorUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,13 +56,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		26838C182EBB8000002526F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26838C222EBB8001002526F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		26838C022EBB7E52002526F9 = {
 			isa = PBXGroup;
 			children = (
+				264AA3632EF2ABAB009E010E /* ArtCurator.xctestplan */,
 				26838C0D2EBB7E52002526F9 /* ArtCurator */,
+				26838C1C2EBB8000002526F9 /* ArtCuratorTests */,
+				26838C262EBB8001002526F9 /* ArtCuratorUITests */,
 				26838C0C2EBB7E52002526F9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				26838C0B2EBB7E52002526F9 /* ArtCurator.app */,
+				26838C1B2EBB8000002526F9 /* ArtCuratorTests.xctest */,
+				26838C252EBB8001002526F9 /* ArtCuratorUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +119,52 @@
 			productReference = 26838C0B2EBB7E52002526F9 /* ArtCurator.app */;
 			productType = "com.apple.product-type.application";
 		};
+		26838C1A2EBB8000002526F9 /* ArtCuratorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26838C212EBB8000002526F9 /* Build configuration list for PBXNativeTarget "ArtCuratorTests" */;
+			buildPhases = (
+				26838C172EBB8000002526F9 /* Sources */,
+				26838C182EBB8000002526F9 /* Frameworks */,
+				26838C192EBB8000002526F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				26838C202EBB8000002526F9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				26838C1C2EBB8000002526F9 /* ArtCuratorTests */,
+			);
+			name = ArtCuratorTests;
+			packageProductDependencies = (
+			);
+			productName = ArtCuratorTests;
+			productReference = 26838C1B2EBB8000002526F9 /* ArtCuratorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		26838C242EBB8001002526F9 /* ArtCuratorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26838C2B2EBB8001002526F9 /* Build configuration list for PBXNativeTarget "ArtCuratorUITests" */;
+			buildPhases = (
+				26838C212EBB8001002526F9 /* Sources */,
+				26838C222EBB8001002526F9 /* Frameworks */,
+				26838C232EBB8001002526F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				26838C2A2EBB8001002526F9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				26838C262EBB8001002526F9 /* ArtCuratorUITests */,
+			);
+			name = ArtCuratorUITests;
+			packageProductDependencies = (
+			);
+			productName = ArtCuratorUITests;
+			productReference = 26838C252EBB8001002526F9 /* ArtCuratorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +177,14 @@
 				TargetAttributes = {
 					26838C0A2EBB7E52002526F9 = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					26838C1A2EBB8000002526F9 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 26838C0A2EBB7E52002526F9;
+					};
+					26838C242EBB8001002526F9 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 26838C0A2EBB7E52002526F9;
 					};
 				};
 			};
@@ -100,12 +203,28 @@
 			projectRoot = "";
 			targets = (
 				26838C0A2EBB7E52002526F9 /* ArtCurator */,
+				26838C1A2EBB8000002526F9 /* ArtCuratorTests */,
+				26838C242EBB8001002526F9 /* ArtCuratorUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		26838C092EBB7E52002526F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26838C192EBB8000002526F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26838C232EBB8001002526F9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +241,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		26838C172EBB8000002526F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26838C212EBB8001002526F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		26838C202EBB8000002526F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26838C0A2EBB7E52002526F9 /* ArtCurator */;
+			targetProxy = 26838C1F2EBB8000002526F9 /* PBXContainerItemProxy */;
+		};
+		26838C2A2EBB8001002526F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26838C0A2EBB7E52002526F9 /* ArtCurator */;
+			targetProxy = 26838C292EBB8001002526F9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		26838C142EBB7E54002526F9 /* Debug */ = {
@@ -306,6 +452,84 @@
 			};
 			name = Release;
 		};
+		26838C302EBB8000002526F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ua.lpnu.denysoliinyk.ArtCuratorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArtCurator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ArtCurator";
+			};
+			name = Debug;
+		};
+		26838C312EBB8000002526F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ua.lpnu.denysoliinyk.ArtCuratorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArtCurator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ArtCurator";
+			};
+			name = Release;
+		};
+		26838C322EBB8001002526F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ua.lpnu.denysoliinyk.ArtCuratorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ArtCurator;
+			};
+			name = Debug;
+		};
+		26838C332EBB8001002526F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ua.lpnu.denysoliinyk.ArtCuratorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ArtCurator;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -323,6 +547,24 @@
 			buildConfigurations = (
 				26838C172EBB7E54002526F9 /* Debug */,
 				26838C182EBB7E54002526F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26838C212EBB8000002526F9 /* Build configuration list for PBXNativeTarget "ArtCuratorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26838C302EBB8000002526F9 /* Debug */,
+				26838C312EBB8000002526F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26838C2B2EBB8001002526F9 /* Build configuration list for PBXNativeTarget "ArtCuratorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26838C322EBB8001002526F9 /* Debug */,
+				26838C332EBB8001002526F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

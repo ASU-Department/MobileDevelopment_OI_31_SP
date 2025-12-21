@@ -8,17 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		EA91BA9B2EBDE9700085019F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EA91BA9A2EBDE9660085019F /* .gitignore */; };
+		EAF404612EF1F6B30027F4D9 /* Tests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = EAF404602EF1F6B30027F4D9 /* Tests.xctestplan */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EAF4046A2EF1F7E30027F4D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAA857672EBC9686003E11EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAA8576E2EBC9686003E11EA;
+			remoteInfo = lab1;
+		};
+		EAF4047C2EF1F8150027F4D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAA857672EBC9686003E11EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAA8576E2EBC9686003E11EA;
+			remoteInfo = lab1;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		EA91BA9A2EBDE9660085019F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		EAA8576F2EBC9686003E11EA /* lab1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lab1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAF404602EF1F6B30027F4D9 /* Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tests.xctestplan; sourceTree = "<group>"; };
+		EAF404662EF1F7E30027F4D9 /* lab1TestsU.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lab1TestsU.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAF404762EF1F8150027F4D9 /* lab1TestsUi.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lab1TestsUi.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EAA857712EBC9686003E11EA /* lab1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = lab1;
+			sourceTree = "<group>";
+		};
+		EAF404672EF1F7E30027F4D9 /* lab1TestsU */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = lab1TestsU;
+			sourceTree = "<group>";
+		};
+		EAF404772EF1F8150027F4D9 /* lab1TestsUi */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = lab1TestsUi;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,14 +62,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EAF404632EF1F7E30027F4D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAF404732EF1F8150027F4D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		EAA857662EBC9686003E11EA = {
 			isa = PBXGroup;
 			children = (
+				EAF404602EF1F6B30027F4D9 /* Tests.xctestplan */,
 				EA91BA9A2EBDE9660085019F /* .gitignore */,
 				EAA857712EBC9686003E11EA /* lab1 */,
+				EAF404672EF1F7E30027F4D9 /* lab1TestsU */,
+				EAF404772EF1F8150027F4D9 /* lab1TestsUi */,
 				EAA857702EBC9686003E11EA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				EAA8576F2EBC9686003E11EA /* lab1.app */,
+				EAF404662EF1F7E30027F4D9 /* lab1TestsU.xctest */,
+				EAF404762EF1F8150027F4D9 /* lab1TestsUi.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +126,52 @@
 			productReference = EAA8576F2EBC9686003E11EA /* lab1.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EAF404652EF1F7E30027F4D9 /* lab1TestsU */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAF4046C2EF1F7E30027F4D9 /* Build configuration list for PBXNativeTarget "lab1TestsU" */;
+			buildPhases = (
+				EAF404622EF1F7E30027F4D9 /* Sources */,
+				EAF404632EF1F7E30027F4D9 /* Frameworks */,
+				EAF404642EF1F7E30027F4D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EAF4046B2EF1F7E30027F4D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EAF404672EF1F7E30027F4D9 /* lab1TestsU */,
+			);
+			name = lab1TestsU;
+			packageProductDependencies = (
+			);
+			productName = lab1TestsU;
+			productReference = EAF404662EF1F7E30027F4D9 /* lab1TestsU.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EAF404752EF1F8150027F4D9 /* lab1TestsUi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAF4047E2EF1F8150027F4D9 /* Build configuration list for PBXNativeTarget "lab1TestsUi" */;
+			buildPhases = (
+				EAF404722EF1F8150027F4D9 /* Sources */,
+				EAF404732EF1F8150027F4D9 /* Frameworks */,
+				EAF404742EF1F8150027F4D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EAF4047D2EF1F8150027F4D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EAF404772EF1F8150027F4D9 /* lab1TestsUi */,
+			);
+			name = lab1TestsUi;
+			packageProductDependencies = (
+			);
+			productName = lab1TestsUi;
+			productReference = EAF404762EF1F8150027F4D9 /* lab1TestsUi.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -88,6 +184,14 @@
 				TargetAttributes = {
 					EAA8576E2EBC9686003E11EA = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					EAF404652EF1F7E30027F4D9 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = EAA8576E2EBC9686003E11EA;
+					};
+					EAF404752EF1F8150027F4D9 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = EAA8576E2EBC9686003E11EA;
 					};
 				};
 			};
@@ -106,6 +210,8 @@
 			projectRoot = "";
 			targets = (
 				EAA8576E2EBC9686003E11EA /* lab1 */,
+				EAF404652EF1F7E30027F4D9 /* lab1TestsU */,
+				EAF404752EF1F8150027F4D9 /* lab1TestsUi */,
 			);
 		};
 /* End PBXProject section */
@@ -115,7 +221,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF404612EF1F6B30027F4D9 /* Tests.xctestplan in Resources */,
 				EA91BA9B2EBDE9700085019F /* .gitignore in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAF404642EF1F7E30027F4D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAF404742EF1F8150027F4D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +250,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EAF404622EF1F7E30027F4D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAF404722EF1F8150027F4D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EAF4046B2EF1F7E30027F4D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EAA8576E2EBC9686003E11EA /* lab1 */;
+			targetProxy = EAF4046A2EF1F7E30027F4D9 /* PBXContainerItemProxy */;
+		};
+		EAF4047D2EF1F8150027F4D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EAA8576E2EBC9686003E11EA /* lab1 */;
+			targetProxy = EAF4047C2EF1F8150027F4D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		EAA857782EBC968A003E11EA /* Debug */ = {
@@ -313,6 +461,84 @@
 			};
 			name = Release;
 		};
+		EAF4046D2EF1F7E30027F4D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = spelina.lab1TestsU;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lab1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/lab1";
+			};
+			name = Debug;
+		};
+		EAF4046E2EF1F7E30027F4D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = spelina.lab1TestsU;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lab1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/lab1";
+			};
+			name = Release;
+		};
+		EAF4047F2EF1F8150027F4D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = spelina.lab1TestsUi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = lab1;
+			};
+			name = Debug;
+		};
+		EAF404802EF1F8150027F4D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = spelina.lab1TestsUi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = lab1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -330,6 +556,24 @@
 			buildConfigurations = (
 				EAA8577B2EBC968A003E11EA /* Debug */,
 				EAA8577C2EBC968A003E11EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EAF4046C2EF1F7E30027F4D9 /* Build configuration list for PBXNativeTarget "lab1TestsU" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAF4046D2EF1F7E30027F4D9 /* Debug */,
+				EAF4046E2EF1F7E30027F4D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EAF4047E2EF1F8150027F4D9 /* Build configuration list for PBXNativeTarget "lab1TestsUi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAF4047F2EF1F8150027F4D9 /* Debug */,
+				EAF404802EF1F8150027F4D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

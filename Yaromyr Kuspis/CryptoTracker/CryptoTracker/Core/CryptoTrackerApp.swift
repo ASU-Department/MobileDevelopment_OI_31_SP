@@ -6,16 +6,30 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 @main
 struct CryptoTrackerApp: App {
-    let persistenceController = PersistenceController.shared
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
-            CryptoListView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            RootView(container: appDelegate.container)
         }
+        .modelContainer(for: Coin.self)
+    }
+}
+
+struct RootView: View {
+    let repository: CoinRepositoryProtocol
+    
+    init(container: ModelContainer) {
+        let actor = CoinPersistenceActor(modelContainer: container)
+        let service = CoinGeckoService()
+        self.repository = CoinRepository(service: service, actor: actor)
+    }
+    
+    var body: some View {
+        LaunchView(repository: repository)
     }
 }
