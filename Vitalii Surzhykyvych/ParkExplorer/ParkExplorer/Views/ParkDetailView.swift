@@ -25,18 +25,9 @@ struct ParkDetailView: View {
 
                 Text(park.description)
 
-                Map(position: .constant(
-                    MapCameraPosition.region(
-                        MKCoordinateRegion(
-                            center: park.coordinate,
-                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                        )
-                    )
-                )) {
-                    Marker(park.name, coordinate: park.coordinate)
-                }
-                .frame(height: 250)
-                .cornerRadius(12)
+                UIKitMapView(coordinate: park.coordinate)
+                    .frame(height: 250)
+                    .cornerRadius(12)
             }
             .padding()
         }
