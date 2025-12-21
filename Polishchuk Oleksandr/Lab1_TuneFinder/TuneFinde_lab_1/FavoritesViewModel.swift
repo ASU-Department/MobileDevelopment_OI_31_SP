@@ -10,21 +10,23 @@ final class FavoritesViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let repository: SongsRepositoryProtocol
+    private let autoLoadOnInit: Bool
 
-    init(repository: SongsRepositoryProtocol = TuneFinderRepository.shared) {
+    init(
+        repository: SongsRepositoryProtocol = TuneFinderRepository.shared,
+        autoLoadOnInit: Bool = true
+    ) {
         self.repository = repository
+        self.autoLoadOnInit = autoLoadOnInit
 
-        Task {
-            await load()
+        if autoLoadOnInit {
+            Task { await load() }
         }
     }
 
+    // MARK: - Sync wrappers for Views
     func reload() {
         Task { await load() }
-    }
-
-    func isFavorite(_ song: Song) -> Bool {
-        items.contains { $0.id == song.id }
     }
 
     func remove(_ song: Song) {
@@ -35,11 +37,11 @@ final class FavoritesViewModel: ObservableObject {
         Task { await clearAllAsync() }
     }
 
-    // MARK: - Private
-
-    private func load() async {
+    // MARK: - Async for Unit Tests
+    func load() async {
         isLoading = true
         errorMessage = nil
+        defer { isLoading = false }
 
         do {
             let favorites = try await repository.loadFavorites()
@@ -47,11 +49,9 @@ final class FavoritesViewModel: ObservableObject {
         } catch {
             errorMessage = "Failed to load favorites: \(error.localizedDescription)"
         }
-
-        isLoading = false
     }
 
-    private func removeAsync(_ song: Song) async {
+    func removeAsync(_ song: Song) async {
         do {
             try await repository.removeFromFavorites(song)
             await load()
@@ -60,12 +60,17 @@ final class FavoritesViewModel: ObservableObject {
         }
     }
 
-    private func clearAllAsync() async {
+    func clearAllAsync() async {
         do {
             try await repository.clearFavorites()
             items = []
         } catch {
             errorMessage = "Failed to clear favorites: \(error.localizedDescription)"
         }
+    }
+
+    // MARK: - Pure logic
+    func isFavorite(_ song: Song) -> Bool {
+        items.contains { $0.id == song.id }
     }
 }

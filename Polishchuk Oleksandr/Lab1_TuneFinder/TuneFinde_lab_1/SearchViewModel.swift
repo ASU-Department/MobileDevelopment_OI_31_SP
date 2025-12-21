@@ -6,80 +6,68 @@ import Combine
 final class SearchViewModel: ObservableObject {
 
     // MARK: - Public state
-
     @Published var query: String = ""
     @Published private(set) var songs: [Song] = []
     @Published private(set) var favoriteIds: Set<Int> = []
-
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-
-    /// Історія останніх пошукових запитів (оновлюється з actor'а)
     @Published private(set) var recentQueries: [String] = []
 
     // MARK: - Private
-
     private let repository: SongsRepositoryProtocol
     private let historyActor: SearchHistoryActor
+    private let autoLoadOnInit: Bool
 
     // MARK: - Init
-
     init(
         repository: SongsRepositoryProtocol = TuneFinderRepository.shared,
-        historyActor: SearchHistoryActor = SearchHistoryActor()
+        historyActor: SearchHistoryActor = SearchHistoryActor(),
+        autoLoadOnInit: Bool = true
     ) {
         self.repository = repository
         self.historyActor = historyActor
+        self.autoLoadOnInit = autoLoadOnInit
 
-        Task {
-            await reloadFavorites()
-            await loadHistory()
+        if autoLoadOnInit {
+            Task {
+                await reloadFavorites()
+                await loadHistory()
+            }
         }
     }
 
-    // MARK: - API для View
-
+    // MARK: - API (sync wrappers for Views)
     func performSearch() {
-        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else {
-            songs = []
-            return
-        }
-
-        Task {
-            // оновлюємо історію ПЕРЕД реальним пошуком
-            await historyActor.add(trimmed)
-            await loadHistory()
-            await search(term: trimmed)
-        }
-    }
-
-    func filteredSongs(showOnlyFavorites: Bool) -> [Song] {
-        guard showOnlyFavorites else { return songs }
-        return songs.filter { favoriteIds.contains($0.id) }
-    }
-
-    func isFavorite(_ song: Song) -> Bool {
-        favoriteIds.contains(song.id)
+        Task { await performSearchAsync() }
     }
 
     func toggleFavorite(_ song: Song) {
-        Task {
-            await toggleFavoriteAsync(song)
-        }
+        Task { await toggleFavoriteAsync(song) }
     }
 
-    // Викликається з кнопки на тегах історії
     func selectQueryFromHistory(_ value: String) {
         query = value
         performSearch()
     }
 
-    // MARK: - Private async helpers
+    // MARK: - API (async for Unit Tests)
+    func performSearchAsync() async {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            songs = []
+            errorMessage = nil
+            return
+        }
 
-    private func search(term: String) async {
+        await historyActor.add(trimmed)
+        await loadHistory()
+        await search(term: trimmed)
+    }
+
+    func search(term: String) async {
         isLoading = true
         errorMessage = nil
+        defer { isLoading = false }
 
         do {
             let result = try await repository.searchSongs(term: term)
@@ -87,11 +75,10 @@ final class SearchViewModel: ObservableObject {
         } catch {
             errorMessage = "Failed to search: \(error.localizedDescription)"
         }
-
-        isLoading = false
     }
 
-    private func toggleFavoriteAsync(_ song: Song) async {
+    func toggleFavoriteAsync(_ song: Song) async {
+        errorMessage = nil
         do {
             if favoriteIds.contains(song.id) {
                 try await repository.removeFromFavorites(song)
@@ -104,7 +91,7 @@ final class SearchViewModel: ObservableObject {
         }
     }
 
-    private func reloadFavorites() async {
+    func reloadFavorites() async {
         do {
             let favorites = try await repository.loadFavorites()
             favoriteIds = Set(favorites.map { $0.id })
@@ -113,8 +100,18 @@ final class SearchViewModel: ObservableObject {
         }
     }
 
-    private func loadHistory() async {
-        let history = await historyActor.all()
-        recentQueries = history
+    func loadHistory() async {
+        recentQueries = await historyActor.all()
+    }
+
+    // MARK: - Pure logic helpers (easy to test)
+    func filteredSongs(showOnlyFavorites: Bool) -> [Song] {
+        guard showOnlyFavorites else { return songs }
+        return songs.filter { favoriteIds.contains($0.id) }
+    }
+
+    func isFavorite(_ song: Song) -> Bool {
+        favoriteIds.contains(song.id)
     }
 }
+

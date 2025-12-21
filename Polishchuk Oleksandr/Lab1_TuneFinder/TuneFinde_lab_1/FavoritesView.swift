@@ -3,10 +3,8 @@ import SwiftUI
 struct FavoritesView: View {
     @StateObject private var viewModel: FavoritesViewModel
     @StateObject private var player: AudioPlayerManager
-
     @State private var showErrorAlert = false
 
-    // DI: ViewModel приходить з координатора
     init(
         viewModel: FavoritesViewModel,
         player: AudioPlayerManager = AudioPlayerManager()
@@ -25,6 +23,7 @@ struct FavoritesView: View {
                             viewModel.clearAll()
                             player.stop()
                         }
+                        .accessibilityIdentifier("clearAllFavoritesButton")
                     }
                 }
             }
@@ -32,9 +31,7 @@ struct FavoritesView: View {
                 showErrorAlert = newValue != nil
             }
             .alert("Error", isPresented: $showErrorAlert) {
-                Button("OK", role: .cancel) {
-                    showErrorAlert = false
-                }
+                Button("OK", role: .cancel) { showErrorAlert = false }
             } message: {
                 Text(viewModel.errorMessage ?? "Unknown error")
             }
@@ -44,9 +41,7 @@ struct FavoritesView: View {
     private var content: some View {
         if viewModel.isLoading {
             ProgressView("Loading favorites...")
-                .frame(maxWidth: .infinity,
-                       maxHeight: .infinity,
-                       alignment: .center)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         } else if viewModel.items.isEmpty {
             VStack(spacing: 12) {
                 Text("No favorites yet")
@@ -57,6 +52,7 @@ struct FavoritesView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .accessibilityIdentifier("favoritesEmptyState")
         } else {
             List {
                 ForEach(viewModel.items) { song in
@@ -67,18 +63,14 @@ struct FavoritesView: View {
                             song: song,
                             isFavorite: .constant(true),
                             player: player,
-                            onPlayTap: {
-                                togglePlay(song)
-                            }
+                            onPlayTap: { togglePlay(song) }
                         )
                     } label: {
                         SongRowView(
                             song: song,
                             isFavorite: .constant(true),
                             isPlaying: isPlaying,
-                            onPlayTap: {
-                                togglePlay(song)
-                            }
+                            onPlayTap: { togglePlay(song) }
                         )
                     }
                 }
@@ -89,8 +81,10 @@ struct FavoritesView: View {
                 }
             }
             .listStyle(.plain)
+            .accessibilityIdentifier("favoritesList")
         }
     }
+
     private func togglePlay(_ song: Song) {
         if player.currentlyPlayingId == song.id {
             player.stop()

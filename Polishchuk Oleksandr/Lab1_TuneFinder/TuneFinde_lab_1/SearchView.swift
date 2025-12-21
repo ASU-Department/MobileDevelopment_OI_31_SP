@@ -28,6 +28,7 @@ struct SearchView: View {
 
             Toggle("Show only favorites", isOn: $showOnlyFavorites)
                 .padding(.horizontal)
+                .accessibilityIdentifier("showOnlyFavoritesToggle")
 
             content
         }
@@ -52,6 +53,7 @@ struct SearchView: View {
                 .onSubmit {
                     viewModel.performSearch()
                 }
+                .accessibilityIdentifier("searchTextField")
 
             Button {
                 viewModel.performSearch()
@@ -59,6 +61,7 @@ struct SearchView: View {
                 Image(systemName: "magnifyingglass")
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityIdentifier("searchButton")
         }
         .padding([.horizontal, .top])
     }
@@ -79,6 +82,7 @@ struct SearchView: View {
                             )
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("historyChip.\(q)")
                 }
             }
             .padding(.horizontal)
@@ -90,6 +94,7 @@ struct SearchView: View {
         if viewModel.isLoading {
             Spacer()
             ProgressView("Searching...")
+                .accessibilityIdentifier("searchLoading")
             Spacer()
         } else {
             let songs = viewModel.filteredSongs(showOnlyFavorites: showOnlyFavorites)
@@ -100,6 +105,7 @@ struct SearchView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding()
+                    .accessibilityIdentifier("searchEmptyState")
                 Spacer()
             } else {
                 List {
@@ -131,9 +137,11 @@ struct SearchView: View {
                                 }
                             )
                         }
+                        .accessibilityIdentifier("songRow.\(song.id)")
                     }
                 }
                 .listStyle(.plain)
+                .accessibilityIdentifier("searchResultsList")
             }
         }
     }
