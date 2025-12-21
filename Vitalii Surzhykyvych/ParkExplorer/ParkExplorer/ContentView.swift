@@ -27,9 +27,9 @@ struct ContentView: View {
 
     private var filteredParks: [ParkAPIModel] {
         if searchText.isEmpty {
-            return viewModel.parks
+            viewModel.parks
         } else {
-            return viewModel.parks.filter {
+            viewModel.parks.filter {
                 $0.fullName.localizedCaseInsensitiveContains(searchText) ||
                 $0.states.localizedCaseInsensitiveContains(searchText)
             }
@@ -47,7 +47,7 @@ struct ContentView: View {
                             .foregroundColor(.secondary)
                         Button("Retry") {
                             Task {
-                                await viewModel.loadParks()
+                                await loadParksAndUpdateLastUpdate()
                             }
                         }
                     }
@@ -66,15 +66,23 @@ struct ContentView: View {
                         }
                     }
                     .refreshable {
-                        await viewModel.loadParks()
+                        await loadParksAndUpdateLastUpdate()
                     }
                 }
             }
             .navigationTitle("National Parks")
             .searchable(text: $searchText)
             .task {
-                await viewModel.loadParks()
+                await loadParksAndUpdateLastUpdate()
             }
+        }
+    }
+
+    private func loadParksAndUpdateLastUpdate() async {
+        await viewModel.loadParks()
+        if viewModel.errorMessage == nil {
+            // Зберігаємо дату останнього успішного оновлення
+            UserSettings.lastUpdate = Date()
         }
     }
 }
