@@ -40,24 +40,25 @@ struct ContentView: View {
     }
 
     var body: some View {
-           NavigationStack {
-               List(filteredParks) { $park in
-                   NavigationLink {
-                       ParkDetailView(park: $park)
-                   } label: {
-                       ParkRowView(park: $park)
-                   }
-               }
-               .navigationTitle("National Parks")
-               .toolbar {
-                   NavigationLink(destination: SettingsView()) {
-                       Image(systemName: "gear")
-                   }
-               }
-               .searchable(text: $searchText)
-           }
-       }
+        NavigationStack {
+            List(filteredParks) { $park in
+                NavigationLink {
+                    ParkDetailView(park: $park)
+                } label: {
+                    ParkRowView(park: $park)
+                }
+            }
+            .navigationTitle("National Parks")
+            .toolbar {
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gear")
+                }
+            }
+            .searchable(text: $searchText)
+        }
+    }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
