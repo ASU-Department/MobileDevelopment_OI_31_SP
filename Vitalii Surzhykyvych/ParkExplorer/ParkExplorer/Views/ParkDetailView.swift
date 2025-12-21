@@ -42,12 +42,19 @@ struct ParkDetailView: View {
                 Button("Add Park Photo") {
                     showPicker = true
                 }
-                .sheet(isPresented: $showPicker) {
-                    ImagePicker(image: $image)
-                }
-                .padding(.top, 8)
             }
             .padding()
+        }
+        .onAppear {
+            image = ImageStorage.loadImage(for: park.id)
+        }
+        .sheet(isPresented: $showPicker) {
+            ImagePicker(image: $image)
+                .onDisappear {
+                    if let image = image {
+                        ImageStorage.saveImage(image, for: park.id)
+                    }
+                }
         }
         .navigationTitle(park.state)
         .navigationBarTitleDisplayMode(.inline)
