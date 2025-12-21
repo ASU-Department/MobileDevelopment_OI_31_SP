@@ -45,6 +45,7 @@ struct HabitDetailView: View {
         Form {
             Section(header: Text("Habit Info")) {
                 TextField("Name", text: $viewModel.name)
+                    .accessibilityIdentifier("detailNameField")
                 TextEditor(text: $viewModel.desc)
                     .frame(height: 100)
             }
@@ -55,6 +56,7 @@ struct HabitDetailView: View {
                     value: $viewModel.streak,
                     in: 0...999
                 )
+                .accessibilityIdentifier("detailStreakStepper")
 
                 VStack(alignment: .leading) {
                     Text("Importance: \(Int(viewModel.importance))%")
