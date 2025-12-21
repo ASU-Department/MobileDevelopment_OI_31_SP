@@ -1,36 +1,42 @@
-//
-//  LabWork1Tests.swift
-//  LabWork1Tests
-//
-//  Created by Анна Лихоконь on 17.12.2025.
-//
-
 import XCTest
 @testable import LabWork1
 
-final class LabWork1Tests: XCTestCase {
+@MainActor
+final class StockListMainTests: XCTestCase {
+
+    var viewModel: StockListViewModel!
+    var mockRepo: MockStockRepository!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        // Створюємо свіжий мок перед кожним тестом
+        mockRepo = MockStockRepository()
+        viewModel = StockListViewModel(repository: mockRepo)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+     
+        mockRepo = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    // Тест 1: Перевірка додавання тікера
+    func testAddTicker() {
+        let initialCount = viewModel.tickers.count
+        viewModel.addTicker("NVDA")
+        
+        XCTAssertEqual(viewModel.tickers.count, initialCount + 1)
+        XCTAssertTrue(viewModel.tickers.contains("NVDA"))
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    // Тест 2: Завантаження даних (успішне)
+    func testLoadDataSuccess() async {
+        mockRepo.addStockStub(symbol: "AAPL")
+        
+        viewModel.loadData()
+        
+        // Чекаємо трохи, бо це асинхронно
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        XCTAssertFalse(viewModel.stocks.isEmpty)
+        XCTAssertEqual(viewModel.stocks.first?.symbol, "AAPL")
     }
-
 }

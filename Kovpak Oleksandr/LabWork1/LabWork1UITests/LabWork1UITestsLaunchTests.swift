@@ -2,7 +2,7 @@
 //  LabWork1UITestsLaunchTests.swift
 //  LabWork1UITests
 //
-//  Created by Анна Лихоконь on 17.12.2025.
+//  Created by Анна Лихоконь on 18.12.2025.
 //
 
 import XCTest

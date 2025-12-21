@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "D636D4B5-391F-4E6E-B220-5B4D9F9BC0FE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:LabWork1.xcodeproj",
+        "identifier" : "7BA2FA342EF377EF00F43D77",
+        "name" : "LabWork1Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:LabWork1.xcodeproj",
+        "identifier" : "7BA2FA412EF3783600F43D77",
+        "name" : "LabWork1UITests"
+      }
+    }
+  ],
+  "version" : 1
+}
