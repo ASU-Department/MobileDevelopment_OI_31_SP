@@ -3,14 +3,23 @@ import SwiftData
 
 @main
 struct LabWork1App: App {
-    // Підключаємо AppDelegate 
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    // Створюємо контейнер SwiftData вручну
+    let container: ModelContainer
+    
+    init() {
+        do {
+            container = try ModelContainer(for: StockItem.self)
+        } catch {
+            fatalError("Failed to create ModelContainer")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            // Передаємо контейнер прямо в ContentView
+            ContentView(modelContext: container)
         }
-        // Активуємо SwiftData для моделі StockItem
-        .modelContainer(for: StockItem.self)
     }
 }

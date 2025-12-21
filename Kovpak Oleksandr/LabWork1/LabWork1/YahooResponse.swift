@@ -1,14 +1,5 @@
-//
-//  YahooResponse.swift
-//  LabWork1
-//
-//  Created by Анна Лихоконь on 17.12.2025.
-//
-
-import Foundation
 import Foundation
 
-// Структура відповіді від Yahoo (щоб Codable міг це прочитати)
 struct YahooResponse: Codable {
     let chart: ChartData
 }
@@ -19,9 +10,19 @@ struct ChartData: Codable {
 
 struct StockResult: Codable {
     let meta: StockMeta
+    let timestamp: [TimeInterval]?
+    let indicators: Indicators
 }
 
 struct StockMeta: Codable {
     let symbol: String
     let regularMarketPrice: Double
+}
+
+struct Indicators: Codable {
+    let quote: [Quote]
+}
+
+struct Quote: Codable {
+    let close: [Double?]
 }
