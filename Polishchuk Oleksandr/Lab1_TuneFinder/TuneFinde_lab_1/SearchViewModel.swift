@@ -1,75 +1,120 @@
 import Foundation
-import SwiftData
+import SwiftUI
 import Combine
 
 @MainActor
 final class SearchViewModel: ObservableObject {
-    @Published var searchTerm: String = ""
-    @Published var songs: [Song] = []
+
+    // MARK: - Public state
+
+    @Published var query: String = ""
+    @Published private(set) var songs: [Song] = []
+    @Published private(set) var favoriteIds: Set<Int> = []
+
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    @Published var isOfflineMode: Bool = false
 
-    private let service: ITunesService
+    /// Історія останніх пошукових запитів (оновлюється з actor'а)
+    @Published private(set) var recentQueries: [String] = []
 
-    init(service: ITunesService = ITunesService()) {
-        self.service = service
-    }
+    // MARK: - Private
 
-    func loadCachedSongs(from context: ModelContext) {
-        let descriptor = FetchDescriptor<SongEntity>(
-            sortBy: [SortDescriptor(\.savedAt, order: .reverse)]
-        )
+    private let repository: SongsRepositoryProtocol
+    private let historyActor: SearchHistoryActor
 
-        if let cached = try? context.fetch(descriptor) {
-            self.songs = cached.map { $0.toSong() }
-            self.isOfflineMode = !cached.isEmpty
+    // MARK: - Init
+
+    init(
+        repository: SongsRepositoryProtocol = TuneFinderRepository.shared,
+        historyActor: SearchHistoryActor = SearchHistoryActor()
+    ) {
+        self.repository = repository
+        self.historyActor = historyActor
+
+        Task {
+            await reloadFavorites()
+            await loadHistory()
         }
     }
 
-    func search(using context: ModelContext) async {
-        guard !searchTerm.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+    // MARK: - API для View
 
+    func performSearch() {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            songs = []
+            return
+        }
+
+        Task {
+            // оновлюємо історію ПЕРЕД реальним пошуком
+            await historyActor.add(trimmed)
+            await loadHistory()
+            await search(term: trimmed)
+        }
+    }
+
+    func filteredSongs(showOnlyFavorites: Bool) -> [Song] {
+        guard showOnlyFavorites else { return songs }
+        return songs.filter { favoriteIds.contains($0.id) }
+    }
+
+    func isFavorite(_ song: Song) -> Bool {
+        favoriteIds.contains(song.id)
+    }
+
+    func toggleFavorite(_ song: Song) {
+        Task {
+            await toggleFavoriteAsync(song)
+        }
+    }
+
+    // Викликається з кнопки на тегах історії
+    func selectQueryFromHistory(_ value: String) {
+        query = value
+        performSearch()
+    }
+
+    // MARK: - Private async helpers
+
+    private func search(term: String) async {
         isLoading = true
         errorMessage = nil
-        isOfflineMode = false
 
         do {
-            let remoteSongs = try await service.searchSongs(term: searchTerm)
-            self.songs = remoteSongs
-
-            // Очистити старий кеш
-            let descriptor = FetchDescriptor<SongEntity>()
-            if let old = try? context.fetch(descriptor) {
-                for entity in old {
-                    context.delete(entity)
-                }
-            }
-
-            // Зберегти новий кеш результатів
-            for song in remoteSongs {
-                _ = SongEntity(from: song)
-            }
-
-            try? context.save()
-
-            // Зберігаємо час останнього оновлення в UserDefaults
-            UserDefaults.standard.set(
-                Date().timeIntervalSince1970,
-                forKey: "lastUpdateTimestamp"
-            )
+            let result = try await repository.searchSongs(term: term)
+            songs = result
         } catch {
-            // Якщо мережа впала — показуємо кеш
-            self.errorMessage = (error as? ITunesError)?.localizedDescription ?? error.localizedDescription
-            self.loadCachedSongs(from: context)
+            errorMessage = "Failed to search: \(error.localizedDescription)"
         }
 
         isLoading = false
     }
 
-    var lastUpdateDate: Date? {
-        let ts = UserDefaults.standard.double(forKey: "lastUpdateTimestamp")
-        guard ts > 0 else { return nil }
-        return Date(timeIntervalSince1970: ts)
+    private func toggleFavoriteAsync(_ song: Song) async {
+        do {
+            if favoriteIds.contains(song.id) {
+                try await repository.removeFromFavorites(song)
+            } else {
+                try await repository.addToFavorites(song)
+            }
+            await reloadFavorites()
+        } catch {
+            errorMessage = "Failed to update favorites: \(error.localizedDescription)"
+        }
+    }
+
+    private func reloadFavorites() async {
+        do {
+            let favorites = try await repository.loadFavorites()
+            favoriteIds = Set(favorites.map { $0.id })
+        } catch {
+            errorMessage = "Failed to load favorites: \(error.localizedDescription)"
+        }
+    }
+
+    private func loadHistory() async {
+        let history = await historyActor.all()
+        recentQueries = history
     }
 }

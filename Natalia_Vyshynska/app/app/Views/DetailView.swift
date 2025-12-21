@@ -32,13 +32,10 @@ struct DetailView: View {
                 Button(viewModel.isFavorite ? "В обраних" : "Додати в обране") {
                     viewModel.toggleFavorite()
                 }
-                .buttonStyle(.borderedProminent)
-                .padding(.horizontal)
-                
-                Spacer()
+                .accessibilityIdentifier(viewModel.isFavorite ? "В обраних" : "Додати в обране")
             }
+            .navigationTitle(viewModel.title)
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle(viewModel.title)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
