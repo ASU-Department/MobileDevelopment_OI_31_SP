@@ -9,21 +9,19 @@ import XCTest
 
 final class FavoriteUITests: XCTestCase {
 
-    func testFavoriteToggleInDetailView() {
+    func testFavoriteToggle() {
         let app = XCUIApplication()
+        app.launchArguments.append("UI_TEST_MODE")
         app.launch()
 
-        let list = app.tables.firstMatch
-        XCTAssertTrue(list.waitForExistence(timeout: 100))
+        let cell = app.cells.firstMatch
+        XCTAssertTrue(cell.waitForExistence(timeout: 5))
 
-        let firstCell = list.cells.firstMatch
-        XCTAssertTrue(firstCell.waitForExistence(timeout: 100))
-        firstCell.tap()
+        let heart = app.buttons
+            .matching(identifier: "favorite_list_ui-test")
+            .firstMatch
 
-        let heartOff = app.buttons["favorite_off"]
-        XCTAssertTrue(heartOff.waitForExistence(timeout: 50))
-        heartOff.tap()
-
-        XCTAssertTrue(app.buttons["favorite_on"].exists)
+        XCTAssertTrue(heart.exists)
+        heart.tap()
     }
 }

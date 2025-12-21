@@ -9,16 +9,17 @@ import SwiftUI
 
 struct FavoriteButton: View {
     @Binding var isFavorite: Bool
+    let identifier: String
 
     var body: some View {
-        Button(action: { isFavorite.toggle() }) {
+        Button {
+            isFavorite.toggle()
+        } label: {
             Image(systemName: isFavorite ? "heart.fill" : "heart")
                 .foregroundColor(isFavorite ? .red : .gray)
                 .imageScale(.large)
         }
         .buttonStyle(.plain)
-        .accessibilityIdentifier(
-            isFavorite ? "favorite_on" : "favorite_off"
-        )
+        .accessibilityIdentifier(identifier)
     }
 }

@@ -16,20 +16,44 @@ struct ContentView: View {
     @State private var favoriteParks: Set<String> = []
 
     init() {
-        let context = PersistenceController.shared.container.mainContext
-        let storage = ParkStorageActor(context: context)
-        let repository = ParkRepository(api: NPSService.shared, storage: storage)
+        let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TEST_MODE")
 
-        _viewModel = StateObject(
-            wrappedValue: ParkListViewModel(repository: repository)
-        )
+        if isUITest {
+            let mockRepository = ParkRepositoryMock()
+            mockRepository.parksToReturn = [
+                ParkAPIModel(
+                    id: "ui-test",
+                    fullName: "UI Test Park",
+                    states: "CA",
+                    description: "Test park for UI tests",
+                    latitude: nil,
+                    longitude: nil,
+                    images: []
+                )
+            ]
+
+            _viewModel = StateObject(
+                wrappedValue: ParkListViewModel(repository: mockRepository)
+            )
+        } else {
+            let context = PersistenceController.shared.container.mainContext
+            let storage = ParkStorageActor(context: context)
+            let repository = ParkRepository(
+                api: NPSService.shared,
+                storage: storage
+            )
+
+            _viewModel = StateObject(
+                wrappedValue: ParkListViewModel(repository: repository)
+            )
+        }
     }
 
     private var filteredParks: [ParkAPIModel] {
         if searchText.isEmpty {
-            return viewModel.parks
+            viewModel.parks
         } else {
-            return viewModel.parks.filter {
+            viewModel.parks.filter {
                 $0.fullName.localizedCaseInsensitiveContains(searchText) ||
                 $0.states.localizedCaseInsensitiveContains(searchText)
             }
@@ -45,6 +69,7 @@ struct ContentView: View {
                     VStack(spacing: 12) {
                         Text(error)
                             .foregroundColor(.secondary)
+
                         Button("Retry") {
                             Task {
                                 await viewModel.loadParks()
@@ -67,19 +92,25 @@ struct ContentView: View {
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
+                                
                                 Spacer()
+                                
                                 FavoriteButton(
                                     isFavorite: Binding(
                                         get: { favoriteParks.contains(park.id) },
                                         set: { isFav in
-                                            if isFav { favoriteParks.insert(park.id) }
-                                            else { favoriteParks.remove(park.id) }
+                                            if isFav {
+                                                favoriteParks.insert(park.id)
+                                            } else {
+                                                favoriteParks.remove(park.id)
+                                            }
                                         }
-                                    )
+                                    ),
+                                    identifier: "favorite_list_\(park.id)"
                                 )
                             }
                         }
-                    }
+                    }  
                     .refreshable {
                         await viewModel.loadParks()
                     }
