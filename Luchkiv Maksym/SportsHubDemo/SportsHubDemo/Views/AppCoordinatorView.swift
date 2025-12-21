@@ -11,8 +11,8 @@ import SwiftData
 struct AppCoordinatorView: View {
     @StateObject private var coordinator: AppCoordinator
     
-    init(container: ModelContainer) {
-        _coordinator = StateObject(wrappedValue: AppCoordinator(container: container))
+    init(container: ModelContainer, repository: (any GamesRepositoryProtocol)? = nil) {
+        _coordinator = StateObject(wrappedValue: AppCoordinator(container: container, repository: repository))
     }
 
     var body: some View {
@@ -40,4 +40,3 @@ struct AppCoordinatorView: View {
     AppCoordinatorView(container: PreviewContainer.shared)
         .modelContainer(PreviewContainer.shared)
 }
-

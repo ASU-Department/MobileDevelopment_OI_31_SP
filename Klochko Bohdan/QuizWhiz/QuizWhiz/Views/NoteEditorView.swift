@@ -72,31 +72,3 @@ struct NoteEditorView: View {
     }
 }
 
-#Preview {
-    let container: ModelContainer = {
-        let schema = Schema([PersistedQuestion.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
-        do {
-            return try ModelContainer(for: schema, configurations: [config])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-    let coordinator = AppCoordinator(modelContainer: container)
-    return NoteEditorView(
-        question: Question(
-            category: "Science",
-            type: "multiple",
-            difficulty: "medium",
-            question: "What is the chemical symbol for water?",
-            correctAnswer: "H2O",
-            incorrectAnswers: ["CO2", "NaCl", "O2"],
-            isFavorite: false,
-            userNote: nil
-        ),
-        coordinator: coordinator
-    ) { updatedQuestion in
-        print("Note saved: \(updatedQuestion.userNote ?? "nil")")
-    }
-}
-

@@ -29,6 +29,85 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398ACD32EF286DF00C1CDD5"
+               BuildableName = "FavoritesViewModel_XCTest.xctest"
+               BlueprintName = "FavoritesViewModel_XCTest"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398ACE02EF286FB00C1CDD5"
+               BuildableName = "SearchViewModel_SwiftTesting.xctest"
+               BlueprintName = "SearchViewModel_SwiftTesting"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398ACED2EF2871300C1CDD5"
+               BuildableName = "Actors_SwiftTesting.xctest"
+               BlueprintName = "Actors_SwiftTesting"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398ACFA2EF2872D00C1CDD5"
+               BuildableName = "SearchFlow_UITests.xctest"
+               BlueprintName = "SearchFlow_UITests"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398AD092EF2874600C1CDD5"
+               BuildableName = "FavoritesFlow_UITests.xctest"
+               BlueprintName = "FavoritesFlow_UITests"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398AD182EF2882E00C1CDD5"
+               BuildableName = "TunerFinderUnit_Tests.xctest"
+               BlueprintName = "TunerFinderUnit_Tests"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9398AD2B2EF288C200C1CDD5"
+               BuildableName = "TunerFinderUI_Tests.xctest"
+               BlueprintName = "TunerFinderUI_Tests"
+               ReferencedContainer = "container:TuneFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

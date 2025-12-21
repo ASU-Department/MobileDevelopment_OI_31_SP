@@ -2,16 +2,17 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.favoriteRepository) private var favoriteRepository
+    @Environment(\.favoriteRepository) private var favoriteRepository: FavoriteRepositoryProtocol?
     @State private var viewModel: MovieViewModel? = nil
+    
     var body: some View {
-            NavigationStack {
-                Group {
-                    if let viewModel = viewModel {
-                        if viewModel.isLoading && viewModel.movies.isEmpty {
-                            ProgressView("Завантажуємо фільми...")
-                                .scaleEffect(1.5)
-                        } else if let error = viewModel.errorMessage {
+        NavigationStack {
+            Group {
+                if let repository = favoriteRepository, let viewModel = viewModel {
+                    if viewModel.isLoading && viewModel.movies.isEmpty {
+                        ProgressView("Завантажуємо фільми...")
+                            .scaleEffect(1.5)
+                    } else if let error = viewModel.errorMessage {
                         VStack(spacing: 20) {
                             Image(systemName: "wifi.slash")
                                 .font(.system(size: 70))
@@ -26,7 +27,7 @@ struct ContentView: View {
                             NavigationLink {
                                 DetailView(
                                     movie: movie,
-                                    favoriteRepository: favoriteRepository)
+                                    favoriteRepository: repository)
                             } label: {
                                 MovieRow(movie: movie, viewModel: viewModel)
                             }
@@ -36,13 +37,13 @@ struct ContentView: View {
                         }
                     }
                 } else {
-                    ProgressView()
+                    ProgressView("Завантаження...")
                 }
             }
             .navigationTitle("CineGuide")
             .task {
-                if viewModel == nil{
-                    viewModel = MovieViewModel(favoriteRepository: favoriteRepository)
+                if viewModel == nil, let repository = favoriteRepository {
+                    viewModel = MovieViewModel(favoriteRepository: repository)
                     await viewModel?.loadMovies()
                 }
             }

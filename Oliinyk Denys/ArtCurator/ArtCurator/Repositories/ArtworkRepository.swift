@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 protocol ArtworkRepositoryProtocol {
     func searchArtworks(query: String) async throws -> [Int]
     func fetchArtworkDetail(objectID: Int) async throws -> Artwork?
@@ -16,6 +17,7 @@ protocol ArtworkRepositoryProtocol {
     func updateFavorite(artworkId: Int, isFavorite: Bool) async throws
 }
 
+@MainActor
 class ArtworkRepository: ArtworkRepositoryProtocol {
     private let baseApiURL = "https://collectionapi.metmuseum.org/public/collection/v1"
     private let databaseActor: ArtworkDatabaseActor
