@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		7AA42FB12EAED5BC00868519 /* Lab1_ParkExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab1_ParkExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AA42FB12EAED5BC00868519 /* ParkExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7AA42FB32EAED5BC00868519 /* Lab1_ParkExplorer */ = {
+		7AA42FB32EAED5BC00868519 /* ParkExplorer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Lab1_ParkExplorer;
+			path = ParkExplorer;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		7AA42FA82EAED5BC00868519 = {
 			isa = PBXGroup;
 			children = (
-				7AA42FB32EAED5BC00868519 /* Lab1_ParkExplorer */,
+				7AA42FB32EAED5BC00868519 /* ParkExplorer */,
 				7AA42FB22EAED5BC00868519 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		7AA42FB22EAED5BC00868519 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7AA42FB12EAED5BC00868519 /* Lab1_ParkExplorer.app */,
+				7AA42FB12EAED5BC00868519 /* ParkExplorer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7AA42FB02EAED5BC00868519 /* Lab1_ParkExplorer */ = {
+		7AA42FB02EAED5BC00868519 /* ParkExplorer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7AA42FBC2EAED5D000868519 /* Build configuration list for PBXNativeTarget "Lab1_ParkExplorer" */;
+			buildConfigurationList = 7AA42FBC2EAED5D000868519 /* Build configuration list for PBXNativeTarget "ParkExplorer" */;
 			buildPhases = (
 				7AA42FAD2EAED5BC00868519 /* Sources */,
 				7AA42FAE2EAED5BC00868519 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				7AA42FB32EAED5BC00868519 /* Lab1_ParkExplorer */,
+				7AA42FB32EAED5BC00868519 /* ParkExplorer */,
 			);
-			name = Lab1_ParkExplorer;
+			name = ParkExplorer;
 			packageProductDependencies = (
 			);
-			productName = Lab1_ParkExplorer;
-			productReference = 7AA42FB12EAED5BC00868519 /* Lab1_ParkExplorer.app */;
+			productName = ParkExplorer;
+			productReference = 7AA42FB12EAED5BC00868519 /* ParkExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7AA42FAC2EAED5BC00868519 /* Build configuration list for PBXProject "Lab1_ParkExplorer" */;
+			buildConfigurationList = 7AA42FAC2EAED5BC00868519 /* Build configuration list for PBXProject "ParkExplorer" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7AA42FB02EAED5BC00868519 /* Lab1_ParkExplorer */,
+				7AA42FB02EAED5BC00868519 /* ParkExplorer */,
 			);
 		};
 /* End PBXProject section */
@@ -309,7 +309,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7AA42FAC2EAED5BC00868519 /* Build configuration list for PBXProject "Lab1_ParkExplorer" */ = {
+		7AA42FAC2EAED5BC00868519 /* Build configuration list for PBXProject "ParkExplorer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7AA42FBA2EAED5D000868519 /* Debug */,
@@ -318,7 +318,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7AA42FBC2EAED5D000868519 /* Build configuration list for PBXNativeTarget "Lab1_ParkExplorer" */ = {
+		7AA42FBC2EAED5D000868519 /* Build configuration list for PBXNativeTarget "ParkExplorer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7AA42FBD2EAED5D000868519 /* Debug */,

@@ -1,6 +1,6 @@
 //
-//  Lab1_ParkExplorerApp.swift
-//  Lab1_ParkExplorer
+//  ParkExplorerApp.swift
+//  ParkExplorer
 //
 //  Created by Vitalik on 27.10.2025.
 //
@@ -8,7 +8,9 @@
 import SwiftUI
 
 @main
-struct Lab1_ParkExplorerApp: App {
+struct ParkExplorerApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
