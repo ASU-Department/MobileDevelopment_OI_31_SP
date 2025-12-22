@@ -33,17 +33,19 @@ struct ParkDetailViewAPI: View {
                             .foregroundColor(.secondary)
                     }
                     Spacer()
-                    FavoriteButton(isFavorite: Binding(
-                        get: { viewModel.isFavorite },
-                        set: { newValue in
-                            viewModel.isFavorite = newValue
-                            if newValue {
-                                favoriteParks.insert(viewModel.park.id)
-                            } else {
-                                favoriteParks.remove(viewModel.park.id)
+                    FavoriteButton(
+                        isFavorite: Binding(
+                            get: { favoriteParks.contains(viewModel.park.id) },
+                            set: { isFav in
+                                if isFav {
+                                    favoriteParks.insert(viewModel.park.id)
+                                } else {
+                                    favoriteParks.remove(viewModel.park.id)
+                                }
                             }
-                        }
-                    ))
+                        ),
+                        identifier: "favorite_detail_\(viewModel.park.id)"
+                    )
                 }
 
                 Text(viewModel.park.description)
