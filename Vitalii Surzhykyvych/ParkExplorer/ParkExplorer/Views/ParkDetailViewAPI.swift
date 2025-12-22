@@ -10,40 +10,52 @@ import MapKit
 
 struct ParkDetailViewAPI: View {
 
-    let park: ParkAPIModel
+    @StateObject private var viewModel: ParkDetailViewModel
+    @Binding var favoriteParks: Set<String>
+
+    init(park: ParkAPIModel, favoriteParks: Binding<Set<String>>) {
+        self._favoriteParks = favoriteParks
+        _viewModel = StateObject(wrappedValue: ParkDetailViewModel(park: park, favoriteParks: favoriteParks.wrappedValue))
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
 
-                Text(park.fullName)
-                    .font(.largeTitle)
-                    .bold()
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(viewModel.park.fullName)
+                            .font(.largeTitle)
+                            .bold()
 
-                Text(park.states)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                Text(park.description)
-                    .font(.body)
-
-                if
-                    let lat = park.latitude,
-                    let lon = park.longitude,
-                    let latitude = Double(lat),
-                    let longitude = Double(lon)
-                {
-                    UIKitMapView(
-                        coordinate: CLLocationCoordinate2D(
-                            latitude: latitude,
-                            longitude: longitude
-                        )
-                    )
-                    .frame(height: 250)
-                    .cornerRadius(12)
+                        Text(viewModel.park.states)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    FavoriteButton(isFavorite: Binding(
+                        get: { viewModel.isFavorite },
+                        set: { newValue in
+                            viewModel.isFavorite = newValue
+                            if newValue {
+                                favoriteParks.insert(viewModel.park.id)
+                            } else {
+                                favoriteParks.remove(viewModel.park.id)
+                            }
+                        }
+                    ))
                 }
 
-                if let imageUrl = park.images.first?.url {
+                Text(viewModel.park.description)
+                    .font(.body)
+
+                if let coordinate = viewModel.coordinate {
+                    UIKitMapView(coordinate: coordinate)
+                        .frame(height: 250)
+                        .cornerRadius(12)
+                }
+
+                if let imageUrl = viewModel.park.images.first?.url {
                     AsyncImage(url: URL(string: imageUrl)) { phase in
                         switch phase {
                         case .empty:

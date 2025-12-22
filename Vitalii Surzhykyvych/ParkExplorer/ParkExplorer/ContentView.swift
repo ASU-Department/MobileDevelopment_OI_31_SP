@@ -11,25 +11,25 @@ import SwiftData
 
 struct ContentView: View {
 
-    @Environment(\.modelContext) private var modelContext
-
     @StateObject private var viewModel: ParkListViewModel
-
     @State private var searchText = ""
+    @State private var favoriteParks: Set<String> = []
 
     init() {
+        let context = PersistenceController.shared.container.mainContext
+        let storage = ParkStorageActor(context: context)
+        let repository = ParkRepository(api: NPSService.shared, storage: storage)
+
         _viewModel = StateObject(
-            wrappedValue: ParkListViewModel(
-                modelContext: PersistenceController.shared.container.mainContext
-            )
+            wrappedValue: ParkListViewModel(repository: repository)
         )
     }
 
     private var filteredParks: [ParkAPIModel] {
         if searchText.isEmpty {
-            viewModel.parks
+            return viewModel.parks
         } else {
-            viewModel.parks.filter {
+            return viewModel.parks.filter {
                 $0.fullName.localizedCaseInsensitiveContains(searchText) ||
                 $0.states.localizedCaseInsensitiveContains(searchText)
             }
@@ -47,42 +47,56 @@ struct ContentView: View {
                             .foregroundColor(.secondary)
                         Button("Retry") {
                             Task {
-                                await loadParksAndUpdateLastUpdate()
+                                await viewModel.loadParks()
                             }
                         }
                     }
                 } else {
                     List(filteredParks) { park in
                         NavigationLink {
-                            ParkDetailViewAPI(park: park)
+                            ParkDetailViewAPI(
+                                park: park,
+                                favoriteParks: $favoriteParks
+                            )
                         } label: {
-                            VStack(alignment: .leading) {
-                                Text(park.fullName)
-                                    .font(.headline)
-                                Text(park.states)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(park.fullName)
+                                        .font(.headline)
+                                    Text(park.states)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                FavoriteButton(
+                                    isFavorite: Binding(
+                                        get: { favoriteParks.contains(park.id) },
+                                        set: { isFav in
+                                            if isFav { favoriteParks.insert(park.id) }
+                                            else { favoriteParks.remove(park.id) }
+                                        }
+                                    )
+                                )
                             }
                         }
                     }
                     .refreshable {
-                        await loadParksAndUpdateLastUpdate()
+                        await viewModel.loadParks()
                     }
                 }
             }
             .navigationTitle("National Parks")
             .searchable(text: $searchText)
-            .task {
-                await loadParksAndUpdateLastUpdate()
+            .toolbar {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Image(systemName: "gear")
+                }
             }
-        }
-    }
-
-    private func loadParksAndUpdateLastUpdate() async {
-        await viewModel.loadParks()
-        if viewModel.errorMessage == nil {
-            // Зберігаємо дату останнього успішного оновлення
-            UserSettings.lastUpdate = Date()
+            .task {
+                await viewModel.loadParks()
+            }
         }
     }
 }
